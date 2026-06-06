@@ -130,33 +130,127 @@ function cercleFromZone(placesInZone) {
    ------------------------------------------------------------ */
 
 /* ------------------------------------------------------------
-   Carte — mini-plan Google Maps (embed sans clé, par nom de ville),
-   affiché en tête du drawer.
+   Carte — vraie carte interactive Leaflet/OpenStreetMap, en tête du
+   drawer. Un marqueur par lieu à visiter (couleur de la ville), popup
+   au clic. Coordonnées WGS84 (correctes sur tuiles OSM), indexées par
+   `ville` puis par `nom` exact du lieu dans data.js.
    ------------------------------------------------------------ */
 
-const MAP_QUERIES = {
-    Chengdu: "Chengdu, Sichuan, China",
-    Chongqing: "Chongqing, China",
-    Zhangjiajie: "Zhangjiajie, Hunan, China",
-    Pékin: "Beijing, China",
+const PLACE_COORDS = {
+    Chengdu: {
+        "Panda Base": [30.7386, 104.1419],
+        "People's Park": [30.6595, 104.0549],
+        "Wenshu Yuan Monastery": [30.6813, 104.079],
+        "Kuanzhai Alley": [30.6678, 104.048],
+        "Daci Temple": [30.6559, 104.0806],
+        "Anshun Bridge": [30.6442, 104.0834],
+        "Jiuyanqiao Bar Street": [30.639, 104.089],
+        "Spectacle Traditionnel": [30.668, 104.047],
+        "Yulin District": [30.6264, 104.0581],
+        "Eastern Suburb Memory": [30.6711, 104.1206],
+        "Quartier Tech": [30.6557, 104.0806],
+        "Luodai Ancient Town": [30.6417, 104.325],
+        "Mount Qingcheng": [30.9105, 103.5578],
+    },
+    Chongqing: {
+        Hongyadong: [29.565, 106.58],
+        "Liziba Station": [29.55083, 106.53528],
+        "Xiao Pi Cha Guan (Jiaotong)": [29.5005, 106.5095],
+        "Jiefangbei & WFC": [29.5628, 106.5772],
+        "Yangtze Cableway": [29.5588, 106.5828],
+        "Spectacle Chongqing 1949": [29.579, 106.454],
+        Shibati: [29.5535, 106.572],
+        "Mountain City Alley": [29.552, 106.5685],
+        Ciqikou: [29.5812, 106.4497],
+        Kuixinglou: [29.5614, 106.5781],
+        "Quartier Tech": [29.5635, 106.578],
+        "Minxin Jiayuan Night Market": [29.636, 106.532],
+        "Spots Dystopiques": [29.562, 106.588],
+    },
+    Zhangjiajie: {
+        "Tianmen Shan": [29.04988, 110.47889],
+        "Parc Avatar (Wulingyuan)": [29.333, 110.5],
+        "Pont de Verre (Grand Canyon)": [29.3987, 110.6982],
+        "Rivière Golden Whip": [29.32, 110.43],
+    },
+    Pékin: {
+        "Cité Interdite": [39.9163, 116.3972],
+        "Grande Muraille (Mutianyu)": [40.4319, 116.5704],
+        Hutongs: [39.9368, 116.403],
+        "Canard Laqué": [39.8997, 116.3958],
+        "Temple du Ciel": [39.8822, 116.4066],
+        "Quartier moderne Sanlitun": [39.9337, 116.4549],
+        "Parc Jingshan": [39.9281, 116.3906],
+    },
 };
 
 function renderMap(city) {
-    const query = MAP_QUERIES[city.ville] || `${city.ville}, China`;
-    const src = `https://maps.google.com/maps?q=${encodeURIComponent(
-        query,
-    )}&z=11&hl=fr&output=embed`;
     return `
     <div class="panel-map">
-      <iframe
-        class="panel-map-frame"
-        title="Carte de ${escapeHtml(city.ville)}"
-        src="${src}"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen
-      ></iframe>
+      <div
+        class="panel-map-canvas"
+        id="cityMapCanvas"
+        role="img"
+        aria-label="Carte de ${escapeHtml(city.ville)} et de ses lieux à visiter"
+      ></div>
     </div>`;
+}
+
+/**
+ * Initialise la carte Leaflet après injection du HTML. Place un marqueur
+ * coloré par lieu disposant de coordonnées, puis cadre la vue sur
+ * l'ensemble. Retourne l'instance de carte (à détruire au prochain rendu).
+ */
+function initCityMap(city, container) {
+    if (typeof L === "undefined") return null;
+    const el = container.querySelector("#cityMapCanvas");
+    if (!el) return null;
+
+    const coords = PLACE_COORDS[city.ville] || {};
+    const map = L.map(el, {
+        scrollWheelZoom: false,
+        zoomControl: true,
+    });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    const points = [];
+    city.masterListe.forEach((p) => {
+        const c = coords[p.nom];
+        if (!c) return;
+        points.push(c);
+        const marker = L.circleMarker(c, {
+            radius: 7,
+            color: "#ffffff",
+            weight: 2,
+            fillColor: city.couleur,
+            fillOpacity: 0.95,
+        }).addTo(map);
+        const star = p.incontournable ? "★ " : "";
+        marker.bindPopup(
+            `<strong>${star}${escapeHtml(p.nom)}</strong><br>` +
+                `<span style="font-family:var(--font-cn);">${escapeHtml(p.pinyin)}</span>`,
+        );
+        marker.bindTooltip(escapeHtml(p.nom), { direction: "top" });
+    });
+
+    if (points.length > 1) {
+        map.fitBounds(points, { padding: [28, 28], maxZoom: 14 });
+    } else if (points.length === 1) {
+        map.setView(points[0], 13);
+    } else {
+        map.setView([35, 105], 4);
+    }
+
+    // Le drawer s'ouvre via une transition ; on recalcule la taille une
+    // fois l'animation lancée pour éviter une carte à moitié grise.
+    setTimeout(() => map.invalidateSize(), 250);
+
+    return map;
 }
 
 function renderHeader(city, currentTab, order) {
@@ -322,10 +416,23 @@ export function mountPanel({ panel, host, onClose }) {
         order: 0,
         tab: "planning",
         onlyIncontournables: false,
+        map: null,
     };
 
     function render() {
         if (!state.city) return;
+
+        // Détruit la carte précédente avant de remplacer le DOM (sinon
+        // Leaflet conserve des écouteurs sur un conteneur orphelin).
+        if (state.map) {
+            try {
+                state.map.remove();
+            } catch (_) {
+                /* conteneur déjà retiré */
+            }
+            state.map = null;
+        }
+
         const body =
             state.tab === "planning"
                 ? renderPlanning(state.city)
@@ -335,7 +442,8 @@ export function mountPanel({ panel, host, onClose }) {
             renderHeader(state.city, state.tab, state.order) +
             `<div class="panel-content">${body}</div>`;
 
-        // Hydrate les vignettes après injection HTML
+        // Carte interactive + hydratation des vignettes après injection
+        state.map = initCityMap(state.city, host);
         hydrateThumbs(host);
     }
 
