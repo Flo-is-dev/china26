@@ -1,0 +1,1203 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sinarum — Chine, douze jours dans l'Empire du Milieu</title>
+        <link rel="icon" href="data:," />
+
+        <!-- Fonts éditoriales : Playfair Display (titres), Lora (corps),
+             Inter (labels/sans), Ma Shan Zheng (pinyin). -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Ma+Shan+Zheng&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="css/base.css" />
+        <link rel="stylesheet" href="css/layout.css" />
+        <link rel="stylesheet" href="css/panel.css" />
+        <link rel="stylesheet" href="css/thumbs.css" />
+    </head>
+    <body>
+        <!-- ====== Loader ====== -->
+        <div class="loading" id="loading">
+            <div class="loading-compass" aria-hidden="true"></div>
+            <div class="loading-text">Sinarum</div>
+            <div class="loading-sub">Chargement de la carte</div>
+        </div>
+
+        <!-- ====== Masthead — barre éditoriale ====== -->
+        <header class="masthead">
+            <div class="masthead-inner">
+                <a href="#" class="masthead-brand">
+                    Sinarum<em>· Carnet de Voyage</em>
+                </a>
+                <div class="masthead-meta">
+                    <span>Édition · Mai 2026</span>
+                    <span class="dot" aria-hidden="true"></span>
+                    <span>N° 1</span>
+                    <span class="dot" aria-hidden="true"></span>
+                    <span>Reportage</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ====== Article principal ====== -->
+        <article class="article">
+            <!-- Colonne gauche : texte éditorial -->
+            <div class="article-text">
+                <div class="rubric">Reportage · Asie</div>
+
+                <h1 class="headline">
+                    Douze jours dans <em>l'Empire</em> du Milieu
+                </h1>
+
+                <p class="standfirst">
+                    Du Sichuan brumeux aux ruelles verticales de Chongqing, des
+                    pics d'Avatar du Hunan jusqu'aux remparts impériaux de Pékin
+                    — chronique d'un voyage entre patrimoine millénaire et
+                    démesure contemporaine.
+                </p>
+
+                <div class="byline">
+                    <strong>Par Florent Gironde</strong>
+                    <span class="byline-sep">·</span>
+                    <span>26 juillet — 6 août 2026</span>
+                    <span class="byline-sep">·</span>
+                    <span>12 min de lecture</span>
+                </div>
+
+                <!-- Intro : carte + premier paragraphe en deux colonnes -->
+                <div class="intro-row">
+                    <figure class="hero-figure">
+                        <img
+                            src="css/Gemini_Generated_Image_nrimamnrimamnrim.webp"
+                            alt="Chine — Circuit Atlas des Merveilles (12 jours) : carte illustrée reliant Chengdu, Chongqing, Zhangjiajie et Pékin."
+                            loading="eager"
+                        />
+                        <figcaption class="hero-caption">
+                            Fig. 1 — Chine · Circuit Atlas des Merveilles
+                            <span class="hero-caption-sep">·</span>
+                            Carte illustrée du voyage, douze jours, quatre
+                            villes.
+                        </figcaption>
+                    </figure>
+
+                    <div class="article-body">
+                        <p>
+                            On ne pénètre pas la Chine, on y est précipité.
+                            Quatre villes, douze jours, deux mille quatre cents
+                            kilomètres de rails et d'arcs aériens : un
+                            itinéraire qui tient moins du circuit organisé que
+                            d'une lecture verticale du pays. Chengdu pour la
+                            lenteur des salons de thé, Chongqing pour le vertige
+                            cyberpunk, Zhangjiajie pour ses pics de grès qui
+                            défient la perspective, Pékin pour clore le voyage
+                            par l'Histoire, mille ans condensés sur une cour
+                            pavée.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Onglets : Itinéraire / Nourriture -->
+                <div
+                    class="tabs"
+                    role="tablist"
+                    aria-label="Sections du carnet"
+                >
+                    <button
+                        class="tab is-active"
+                        role="tab"
+                        type="button"
+                        id="tab-itineraire"
+                        aria-controls="panel-itineraire"
+                        aria-selected="true"
+                        data-tab="itineraire"
+                    >
+                        <span class="tab-label">L'itinéraire</span>
+                        <span class="tab-count">4 étapes</span>
+                    </button>
+                    <button
+                        class="tab"
+                        role="tab"
+                        type="button"
+                        id="tab-nourriture"
+                        aria-controls="panel-nourriture"
+                        aria-selected="false"
+                        tabindex="-1"
+                        data-tab="nourriture"
+                    >
+                        <span class="tab-label">Nourriture</span>
+                        <span class="tab-count">22 plats · 14 ★</span>
+                    </button>
+                    <button
+                        class="tab"
+                        role="tab"
+                        type="button"
+                        id="tab-transport"
+                        aria-controls="panel-transport"
+                        aria-selected="false"
+                        tabindex="-1"
+                        data-tab="transport"
+                    >
+                        <span class="tab-label">Moyens de transport</span>
+                        <span class="tab-count">4 modes</span>
+                    </button>
+                    <button
+                        class="tab"
+                        role="tab"
+                        type="button"
+                        id="tab-conseils"
+                        aria-controls="panel-conseils"
+                        aria-selected="false"
+                        tabindex="-1"
+                        data-tab="conseils"
+                    >
+                        <span class="tab-label">Conseils</span>
+                        <span class="tab-count">8 essentiels</span>
+                    </button>
+                </div>
+
+                <!-- Panneau : Itinéraire -->
+                <section
+                    class="tab-panel is-active"
+                    id="panel-itineraire"
+                    role="tabpanel"
+                    aria-labelledby="tab-itineraire"
+                    data-tab-panel="itineraire"
+                >
+                    <nav class="legend" aria-label="Étapes du voyage">
+                        <div class="legend-item" data-city="Chengdu">
+                            <span class="thumb legend-thumb">
+                                <img
+                                    data-wiki="Chengdu"
+                                    alt="Chengdu"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <span class="legend-overlay">
+                                <span class="legend-num">01</span>
+                                <span class="legend-body">
+                                    <span class="legend-name">
+                                        <span
+                                            class="dot"
+                                            style="background: #2ecc71"
+                                        ></span>
+                                        Chengdu
+                                    </span>
+                                    <span class="legend-meta"
+                                        >Sichuan · 26–28 juil. · Pandas,
+                                        théiers</span
+                                    >
+                                </span>
+                                <span class="legend-arrow" aria-hidden="true"
+                                    >→</span
+                                >
+                            </span>
+                        </div>
+                        <div class="legend-item" data-city="Chongqing">
+                            <span class="thumb legend-thumb">
+                                <img
+                                    data-wiki="Chongqing"
+                                    alt="Chongqing"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <span class="legend-overlay">
+                                <span class="legend-num">02</span>
+                                <span class="legend-body">
+                                    <span class="legend-name">
+                                        <span
+                                            class="dot"
+                                            style="background: #e74c3c"
+                                        ></span>
+                                        Chongqing
+                                    </span>
+                                    <span class="legend-meta"
+                                        >Yangzi · 29–30 juil. · Métropole
+                                        verticale</span
+                                    >
+                                </span>
+                                <span class="legend-arrow" aria-hidden="true"
+                                    >→</span
+                                >
+                            </span>
+                        </div>
+                        <div class="legend-item" data-city="Zhangjiajie">
+                            <span class="thumb legend-thumb">
+                                <img
+                                    data-wiki="Zhangjiajie"
+                                    alt="Zhangjiajie"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <span class="legend-overlay">
+                                <span class="legend-num">03</span>
+                                <span class="legend-body">
+                                    <span class="legend-name">
+                                        <span
+                                            class="dot"
+                                            style="background: #3498db"
+                                        ></span>
+                                        Zhangjiajie
+                                    </span>
+                                    <span class="legend-meta"
+                                        >Hunan · 31 juil.–2 août · Pics de
+                                        grès</span
+                                    >
+                                </span>
+                                <span class="legend-arrow" aria-hidden="true"
+                                    >→</span
+                                >
+                            </span>
+                        </div>
+                        <div class="legend-item" data-city="Pékin">
+                            <span class="thumb legend-thumb">
+                                <img
+                                    data-wiki="Hall_of_Supreme_Harmony"
+                                    alt="Pékin — Cité Interdite"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <span class="legend-overlay">
+                                <span class="legend-num">04</span>
+                                <span class="legend-body">
+                                    <span class="legend-name">
+                                        <span
+                                            class="dot"
+                                            style="background: #f1c40f"
+                                        ></span>
+                                        Pékin
+                                    </span>
+                                    <span class="legend-meta"
+                                        >Hebei · 3–6 août · Cité Interdite,
+                                        Muraille</span
+                                    >
+                                </span>
+                                <span class="legend-arrow" aria-hidden="true"
+                                    >→</span
+                                >
+                            </span>
+                        </div>
+                    </nav>
+
+                    <p class="colophon">
+                        Cliquez une étape pour ouvrir le carnet détaillé
+                    </p>
+
+                    <!-- Drawer ville : apparaît à la place de la grille des 4 villes -->
+                    <aside
+                        class="panel"
+                        id="panel"
+                        role="dialog"
+                        aria-hidden="true"
+                        aria-label="Détail de l'étape"
+                    >
+                        <div id="panelInner"></div>
+                    </aside>
+                </section>
+
+                <!-- Panneau : Nourriture -->
+                <section
+                    class="tab-panel"
+                    id="panel-nourriture"
+                    role="tabpanel"
+                    aria-labelledby="tab-nourriture"
+                    data-tab-panel="nourriture"
+                    hidden
+                >
+                    <p class="food-intro">
+                        <span class="food-region is-trip food-region-inline"
+                            >Ville</span
+                        >
+                        indique où on est censé le manger sur l'itinéraire ;
+                        <br />
+                        <span
+                            class="food-star food-star-inline"
+                            aria-hidden="true"
+                            >★</span
+                        >
+                        signale mes sélections personnelles.
+                    </p>
+
+                    <!-- I. À CHENGDU -->
+                    <h3 class="food-section-label">
+                        <span class="food-section-num">I.</span>
+                        À Chengdu
+                        <em class="food-section-meta"
+                            >— le temple de l'épice</em
+                        >
+                    </h3>
+                    <ul class="food-grid" aria-label="Plats à Chengdu">
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Hot_pot"
+                                    alt="Sichuan Hot Pot"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Chengdu</span>
+                                <h3 class="food-name">Sichuan Hot Pot</h3>
+                                <span class="food-pinyin"
+                                    >四川火锅 · Sìchuān huǒguō</span
+                                >
+                                <p class="food-desc">
+                                    L'expérience ultime : un bouillon pimenté
+                                    (ou moitié-moitié) où l'on cuit soi-même
+                                    viandes, abats et légumes.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Mapo_tofu"
+                                    alt="Mapo tofu"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Chengdu</span>
+                                <h3 class="food-name">Mapo tofu</h3>
+                                <span class="food-pinyin"
+                                    >麻婆豆腐 · Mápó dòufu</span
+                                >
+                                <p class="food-desc">
+                                    Tofu tendre dans une sauce pimentée et
+                                    poivrée au bœuf haché — le classique absolu
+                                    du <em>mála</em>.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Twice_cooked_pork"
+                                    alt="Porc double-cuit"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Chengdu</span>
+                                <h3 class="food-name">Porc double-cuit</h3>
+                                <span class="food-pinyin"
+                                    >回锅肉 · Huíguōròu</span
+                                >
+                                <p class="food-desc">
+                                    Tranches de poitrine de porc sautées deux
+                                    fois avec poireau chinois et pâte de soja
+                                    fermentée.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Kung_Pao_chicken"
+                                    alt="Poulet Kung Pao"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Chengdu</span>
+                                <h3 class="food-name">Poulet Kung Pao</h3>
+                                <span class="food-pinyin"
+                                    >宫保鸡丁 · Gōngbǎo jīdīng</span
+                                >
+                                <p class="food-desc">
+                                    Dés de poulet sautés avec cacahuètes et
+                                    piments séchés — équilibre parfait du sucré,
+                                    salé, vinaigré, piquant.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card">
+                            <span class="thumb food-thumb">
+                                <img
+                                    data-wiki="Dan_dan_noodles"
+                                    alt="Nouilles Dan Dan"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Chengdu</span>
+                                <h3 class="food-name">Nouilles Dan Dan</h3>
+                                <span class="food-pinyin"
+                                    >担担面 · Dàndàn miàn</span
+                                >
+                                <p class="food-desc">
+                                    Nouilles au sésame, porc haché épicé et
+                                    huile de piment, à mélanger vivement.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- II. À CHONGQING -->
+                    <h3 class="food-section-label">
+                        <span class="food-section-num">II.</span>
+                        À Chongqing
+                        <em class="food-section-meta"
+                            >— le feu et la street food</em
+                        >
+                    </h3>
+                    <ul class="food-grid" aria-label="Plats à Chongqing">
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Chongqing_noodles"
+                                    alt="Chongqing Xiaomian"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip"
+                                    >Chongqing</span
+                                >
+                                <h3 class="food-name">Chongqing Xiaomian</h3>
+                                <span class="food-pinyin">小面 · Xiǎomiàn</span>
+                                <p class="food-desc">
+                                    Nouilles de blé dans un bouillon riche et
+                                    très épicé — souvent dégustées au
+                                    petit-déjeuner.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Mao_xue_wang"
+                                    alt="Mao Xue Wang"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip"
+                                    >Chongqing</span
+                                >
+                                <h3 class="food-name">Mao Xue Wang</h3>
+                                <span class="food-pinyin"
+                                    >毛血旺 · Máoxuèwàng</span
+                                >
+                                <p class="food-desc">
+                                    Ragoût de sang de canard caillé, tripes et
+                                    légumes dans un bouillon rouge intense —
+                                    pour les aventuriers.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Chinese_street_food"
+                                    alt="Street food de Chongqing"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip"
+                                    >Chongqing</span
+                                >
+                                <h3 class="food-name">
+                                    Street food · Minxin Jiayuan
+                                </h3>
+                                <span class="food-pinyin">烧烤 · Shāokǎo</span>
+                                <p class="food-desc">
+                                    Brochettes grillées <em>shaokao</em>,
+                                    galettes farcies à la viande et tofu puant —
+                                    la nuit gourmande du marché de Minxin
+                                    Jiayuan.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- III. À ZHANGJIAJIE -->
+                    <h3 class="food-section-label">
+                        <span class="food-section-num">III.</span>
+                        À Zhangjiajie
+                        <em class="food-section-meta"
+                            >— la cuisine de montagne</em
+                        >
+                    </h3>
+                    <ul class="food-grid" aria-label="Plats à Zhangjiajie">
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Tujia_people"
+                                    alt="San Xia Guo — cuisine Tujia"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip"
+                                    >Zhangjiajie</span
+                                >
+                                <h3 class="food-name">San Xia Guo</h3>
+                                <span class="food-pinyin"
+                                    >三下锅 · Sānxiàguō</span
+                                >
+                                <p class="food-desc">
+                                    Plat traditionnel de l'ethnie Tujia : ragoût
+                                    combinant porc, tripes et bœuf, mijoté avec
+                                    des légumes de montagne.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Hunan_cuisine"
+                                    alt="Poulet aux herbes de montagne"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip"
+                                    >Zhangjiajie</span
+                                >
+                                <h3 class="food-name">
+                                    Poulet aux herbes de montagne
+                                </h3>
+                                <span class="food-pinyin"
+                                    >山珍鸡汤 · Shānzhēn jītāng</span
+                                >
+                                <p class="food-desc">
+                                    Soupe de poulet fermier infusée aux racines
+                                    et plantes du Wulingyuan — saine et
+                                    parfumée, idéale après une randonnée.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- IV. À PÉKIN -->
+                    <h3 class="food-section-label">
+                        <span class="food-section-num">IV.</span>
+                        À Pékin
+                        <em class="food-section-meta"
+                            >— la cuisine impériale</em
+                        >
+                    </h3>
+                    <ul class="food-grid" aria-label="Plats à Pékin">
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Peking_duck"
+                                    alt="Canard laqué de Pékin"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Pékin</span>
+                                <h3 class="food-name">Canard laqué</h3>
+                                <span class="food-pinyin"
+                                    >北京烤鸭 · Běijīng kǎoyā</span
+                                >
+                                <p class="food-desc">
+                                    Peau croustillante saupoudrée de sucre,
+                                    chair fondante enroulée dans de fines crêpes
+                                    avec oignon vert et sauce hoisin.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Jiaozi"
+                                    alt="Jiaozi — raviolis chinois"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Pékin</span>
+                                <h3 class="food-name">Jiaozi</h3>
+                                <span class="food-pinyin">饺子 · Jiǎozi</span>
+                                <p class="food-desc">
+                                    Les fameux raviolis chinois en croissant,
+                                    garnis de porc et ciboulette — à Pékin, on
+                                    les préfère bouillis ou à la vapeur.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card is-personal">
+                            <span class="thumb food-thumb">
+                                <span
+                                    class="food-star"
+                                    aria-label="Sélection personnelle"
+                                    title="Sélection personnelle"
+                                    >★</span
+                                >
+                                <img
+                                    data-wiki="Zhajiangmian"
+                                    alt="Zha Jiang Mian"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Pékin</span>
+                                <h3 class="food-name">Zha Jiang Mian</h3>
+                                <span class="food-pinyin"
+                                    >炸酱面 · Zhájiàngmiàn</span
+                                >
+                                <p class="food-desc">
+                                    Nouilles épaisses nappées d'une sauce sombre
+                                    au porc haché et soja fermenté, juliennes de
+                                    concombre — l'âme de Pékin.
+                                </p>
+                            </div>
+                        </li>
+                        <li class="food-card">
+                            <span class="thumb food-thumb">
+                                <img
+                                    data-wiki="Jianbing"
+                                    alt="Jianbing"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="food-body">
+                                <span class="food-region is-trip">Pékin</span>
+                                <h3 class="food-name">Jianbing</h3>
+                                <span class="food-pinyin">煎饼 · Jiānbing</span>
+                                <p class="food-desc">
+                                    Crêpe de blé sur plaque chaude, œuf, sauce
+                                    hoisin, coriandre — le petit-déj' des rues.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- V. HORS ITINÉRAIRE — section "bonus", visuellement distincte -->
+                    <div class="food-bonus">
+                        <span class="food-bonus-tag" aria-hidden="true"
+                            >Bonus</span
+                        >
+                        <h3 class="food-section-label is-bonus">
+                            <span class="food-section-num">V.</span>
+                            Autres classiques
+                            <em class="food-section-meta">— hors itinéraire</em>
+                        </h3>
+                        <ul
+                            class="food-grid is-bonus"
+                            aria-label="Autres classiques chinois"
+                        >
+                            <li class="food-card is-personal">
+                                <span class="thumb food-thumb">
+                                    <span
+                                        class="food-star"
+                                        aria-label="Sélection personnelle"
+                                        title="Sélection personnelle"
+                                        >★</span
+                                    >
+                                    <img
+                                        data-wiki="Reganmian"
+                                        alt="Re Gan Mian — nouilles sèches de Wuhan"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Wuhan</span>
+                                    <h3 class="food-name">Re Gan Mian</h3>
+                                    <span class="food-pinyin"
+                                        >热干面 · Règānmiàn</span
+                                    >
+                                    <p class="food-desc">
+                                        Nouilles épaisses au sésame, sauce de
+                                        soja vinaigrée et oignon vert — le
+                                        petit-déjeuner emblématique de Wuhan.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card is-personal">
+                                <span class="thumb food-thumb">
+                                    <span
+                                        class="food-star"
+                                        aria-label="Sélection personnelle"
+                                        title="Sélection personnelle"
+                                        >★</span
+                                    >
+                                    <img
+                                        data-wiki="Lu_rou_fan"
+                                        alt="Lu Rou Fan — riz au porc braisé"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Wuhan</span>
+                                    <h3 class="food-name">Lu Rou Fan</h3>
+                                    <span class="food-pinyin"
+                                        >卤肉饭 · Lǔròu fàn</span
+                                    >
+                                    <p class="food-desc">
+                                        Riz blanc nappé d'une sauce onctueuse de
+                                        porc gras mijoté longuement dans la
+                                        soja-anis étoilé — réconfort en bol.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Xiaolongbao"
+                                        alt="Xiaolongbao"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Shanghai</span>
+                                    <h3 class="food-name">Xiaolongbao</h3>
+                                    <span class="food-pinyin"
+                                        >小笼包 · Xiǎolóngbāo</span
+                                    >
+                                    <p class="food-desc">
+                                        Raviolis vapeur à la pâte fine, garnis
+                                        de porc et d'un bouillon brûlant.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Dim_sum"
+                                        alt="Dim sum"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Canton</span>
+                                    <h3 class="food-name">Dim sum</h3>
+                                    <span class="food-pinyin"
+                                        >點心 · Diǎnxīn</span
+                                    >
+                                    <p class="food-desc">
+                                        Petites bouchées vapeur ou frites,
+                                        servies en cascade le matin avec du thé.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Yangzhou_fried_rice"
+                                        alt="Riz cantonais"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Jiangsu</span>
+                                    <h3 class="food-name">Riz de Yangzhou</h3>
+                                    <span class="food-pinyin"
+                                        >扬州炒饭 · Yángzhōu chǎofàn</span
+                                    >
+                                    <p class="food-desc">
+                                        Le « riz cantonais » d'origine : œuf,
+                                        jambon, crevettes, petits pois, parfumé
+                                        au wok.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Baozi"
+                                        alt="Baozi"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Nord</span>
+                                    <h3 class="food-name">Baozi</h3>
+                                    <span class="food-pinyin"
+                                        >包子 · Bāozi</span
+                                    >
+                                    <p class="food-desc">
+                                        Brioches vapeur moelleuses, fourrées au
+                                        porc, aux légumes ou à la pâte de
+                                        haricot rouge.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Sweet_and_sour_pork"
+                                        alt="Porc aigre-doux"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Canton</span>
+                                    <h3 class="food-name">Porc aigre-doux</h3>
+                                    <span class="food-pinyin"
+                                        >咕嚕肉 · Gūlū ròu</span
+                                    >
+                                    <p class="food-desc">
+                                        Morceaux de porc frits enrobés d'une
+                                        sauce rubis vinaigre-sucre-ananas.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="food-card">
+                                <span class="thumb food-thumb">
+                                    <img
+                                        data-wiki="Wonton"
+                                        alt="Wonton"
+                                        loading="lazy"
+                                    />
+                                </span>
+                                <div class="food-body">
+                                    <span class="food-region">Canton</span>
+                                    <h3 class="food-name">Wonton</h3>
+                                    <span class="food-pinyin"
+                                        >餛飩 · Húntún</span
+                                    >
+                                    <p class="food-desc">
+                                        Raviolis fins en bouillon clair, garnis
+                                        de crevettes ou de porc — réconfort
+                                        instantané.
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.food-bonus -->
+                </section>
+
+                <!-- Panneau : Moyens de transport -->
+                <section
+                    class="tab-panel"
+                    id="panel-transport"
+                    role="tabpanel"
+                    aria-labelledby="tab-transport"
+                    data-tab-panel="transport"
+                    hidden
+                >
+                    <p class="food-intro">
+                        Quatre engins, quatre tempos. De la longue marche
+                        atmosphérique au glissement feutré du Fuxing, voici
+                        comment se déplace ce voyage.
+                    </p>
+
+                    <ul class="transport-grid" aria-label="Moyens de transport">
+                        <li class="transport-card">
+                            <span class="thumb transport-thumb">
+                                <img
+                                    data-wiki="Air_China"
+                                    alt="Air China — Boeing 777 en livrée internationale"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="transport-body">
+                                <span class="transport-tag is-intl">Long-courrier</span>
+                                <h3 class="transport-name">Avion international · Air China</h3>
+                                <span class="transport-pinyin">中国国际航空 · Zhōngguó Guójì Hángkōng</span>
+                                <ul class="transport-stats">
+                                    <li><strong>Vitesse</strong> <span>≈ 900 km/h</span></li>
+                                    <li><strong>Durée</strong> <span>11 h Paris–Pékin (vol direct)</span></li>
+                                    <li><strong>Flotte</strong> <span>Boeing 777-300ER · A350-900 · 787-9</span></li>
+                                </ul>
+                                <p class="transport-desc">
+                                    Compagnie nationale chinoise, membre Star
+                                    Alliance. Vol direct Paris-CDG → Pékin
+                                    Capital. Décalage horaire : +6 h l'été,
+                                    +7 h l'hiver. Pas d'escale technique.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="transport-card">
+                            <span class="thumb transport-thumb">
+                                <img
+                                    data-wiki="Comac_C919"
+                                    alt="Avion court-courrier — vols intérieurs Chine"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="transport-body">
+                                <span class="transport-tag is-domestic">Court-courrier</span>
+                                <h3 class="transport-name">Avion national</h3>
+                                <span class="transport-pinyin">国内航班 · Guónèi hángbān</span>
+                                <ul class="transport-stats">
+                                    <li><strong>Vitesse</strong> <span>≈ 800 km/h</span></li>
+                                    <li><strong>Durée</strong> <span>2–3 h entre métropoles</span></li>
+                                    <li><strong>Tarifs</strong> <span>~ 60–180 € selon saison</span></li>
+                                </ul>
+                                <p class="transport-desc">
+                                    Réseau dense (China Eastern, China Southern,
+                                    Hainan, Spring, Sichuan Airlines). Retards
+                                    fréquents — préférer le rail si possible
+                                    sous 1 500 km.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="transport-card">
+                            <span class="thumb transport-thumb">
+                                <img
+                                    data-wiki="CRH3"
+                                    alt="TGV chinois — rame Fuxing / CRH"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="transport-body">
+                                <span class="transport-tag is-hsr">Haute vitesse</span>
+                                <h3 class="transport-name">TGV chinois · Fuxing</h3>
+                                <span class="transport-pinyin">复兴号 · Fùxīng hào</span>
+                                <ul class="transport-stats">
+                                    <li><strong>Vitesse</strong> <span>350 km/h</span></li>
+                                    <li><strong>Réseau</strong> <span>45 000 km — le plus grand au monde</span></li>
+                                    <li><strong>Classes</strong> <span>Business · Première · Seconde</span></li>
+                                </ul>
+                                <p class="transport-desc">
+                                    Les lignes G et D (« gāosù »). Confort
+                                    aérien, ponctualité de banque suisse,
+                                    sécurité aéroport. Réservation via
+                                    12306 ou Trip.com.
+                                </p>
+                            </div>
+                        </li>
+
+                        <li class="transport-card">
+                            <span class="thumb transport-thumb">
+                                <img
+                                    data-wiki="Lhasa_Express"
+                                    alt="Train Z21/22 Beijing-Lhasa — rame K/Z classique"
+                                    loading="lazy"
+                                />
+                            </span>
+                            <div class="transport-body">
+                                <span class="transport-tag is-classic">Classique</span>
+                                <h3 class="transport-name">Train standard · K / Z</h3>
+                                <span class="transport-pinyin">普速列车 · Pǔsù lièchē</span>
+                                <ul class="transport-stats">
+                                    <li><strong>Vitesse</strong> <span>120–160 km/h</span></li>
+                                    <li><strong>Couchage</strong> <span>« Hard sleeper » 硬卧 / « Soft sleeper » 软卧</span></li>
+                                    <li><strong>Idéal</strong> <span>longues distances nocturnes, petits budgets</span></li>
+                                </ul>
+                                <p class="transport-desc">
+                                    Lignes K (rapide) et Z (direct nuit). L'âme
+                                    du voyage chinois — couloirs animés,
+                                    thermos d'eau chaude, nouilles instantanées
+                                    et conversations imprévues.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Panneau : Conseils -->
+                <section
+                    class="tab-panel"
+                    id="panel-conseils"
+                    role="tabpanel"
+                    aria-labelledby="tab-conseils"
+                    data-tab-panel="conseils"
+                    hidden
+                >
+                    <p class="food-intro">
+                        Huit essentiels à connaître avant l'embarquement —
+                        visa, paiements, applis, vêtements, ponctualité de
+                        l'imprévu. La Chine se prépare ; elle se mérite.
+                    </p>
+
+                    <div class="tips-grid">
+                        <article class="tip-card">
+                            <span class="tip-num">I.</span>
+                            <h3 class="tip-title">Visa &amp; passeport</h3>
+                            <p class="tip-text">
+                                Visa touristique <strong>L</strong> obligatoire
+                                pour les Français (15 jours sans visa depuis 2024
+                                pour court séjour, à vérifier au moment du départ).
+                                Passeport valide 6 mois après le retour, deux
+                                pages vierges. Demande à l'<strong>ambassade ou
+                                CVASC</strong>, 4–7 jours ouvrés.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">II.</span>
+                            <h3 class="tip-title">Paiements — l'écosystème Alipay / WeChat</h3>
+                            <p class="tip-text">
+                                La Chine est <em>cashless</em> : tout passe par
+                                QR code. Installer <strong>Alipay</strong> ET
+                                <strong>WeChat Pay</strong> avant le départ,
+                                lier sa carte Visa/MC. Prévoir 500 € en
+                                <strong>yuans cash</strong> de secours — utile
+                                aux taxis ruraux et petits commerçants.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">III.</span>
+                            <h3 class="tip-title">Internet &amp; VPN</h3>
+                            <p class="tip-text">
+                                Google, WhatsApp, Instagram, Facebook, Netflix,
+                                <em>The New York Times</em> — tous bloqués par
+                                le <strong>Great Firewall</strong>. Installer un
+                                <strong>VPN avant l'arrivée</strong> (Astrill,
+                                ExpressVPN, NordVPN). Sinon : carte eSIM
+                                internationale qui by-pass le pare-feu.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">IV.</span>
+                            <h3 class="tip-title">Applis indispensables</h3>
+                            <p class="tip-text">
+                                <strong>Trip.com</strong> (trains, hôtels en
+                                anglais), <strong>DiDi</strong> (le Uber local),
+                                <strong>Amap</strong> ou <strong>Baidu Maps</strong>
+                                (Google Maps ne fonctionne pas),
+                                <strong>Pleco</strong> (dictionnaire chinois),
+                                <strong>Google Translate</strong> en mode hors-ligne
+                                avec pack chinois téléchargé.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">V.</span>
+                            <h3 class="tip-title">Réservations critiques</h3>
+                            <p class="tip-text">
+                                <strong>Cité Interdite</strong> : 7 jours avant
+                                à minuit (heure de Pékin) sur le mini-app
+                                WeChat — billets épuisés en 30 secondes.
+                                <strong>Trains G</strong> : à réserver 14 jours
+                                à l'avance pour les hautes saisons (Golden Week,
+                                Nouvel An). <strong>Pandas à Chengdu</strong> :
+                                pré-réservation obligatoire la veille au soir.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">VI.</span>
+                            <h3 class="tip-title">Vêtements &amp; saison</h3>
+                            <p class="tip-text">
+                                Été (juillet–août) : <strong>chaud et humide</strong>
+                                (32–38 °C à Chongqing). Vêtements légers,
+                                techniques séchage rapide. Poncho pliable
+                                (pluies tropicales soudaines). Chaussures de
+                                marche fermées pour Zhangjiajie. Une pièce
+                                couvrante (épaules) pour temples et palais.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">VII.</span>
+                            <h3 class="tip-title">Santé &amp; eau</h3>
+                            <p class="tip-text">
+                                <strong>Eau du robinet non potable</strong> :
+                                bouteilles ou gourde filtrante. Vaccins à jour
+                                (DTP, hépatite A/B, ROR). Trousse :
+                                anti-diarrhéique, paracétamol, désinfectant
+                                main, masque (pollution Pékin en été modérée
+                                mais réelle). Assurance voyage indispensable
+                                — soins privés très chers.
+                            </p>
+                        </article>
+
+                        <article class="tip-card">
+                            <span class="tip-num">VIII.</span>
+                            <h3 class="tip-title">Culture &amp; étiquette</h3>
+                            <p class="tip-text">
+                                Le marchandage est attendu sur les marchés
+                                (commencer à 30 % du prix annoncé).
+                                <strong>Pas de pourboire</strong> au restaurant.
+                                Photo : demander avant pour les portraits.
+                                Files d'attente parfois inexistantes — se faire
+                                doubler n'a rien d'agressif. Sourire et patience
+                                sont vos meilleures armes diplomatiques.
+                            </p>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <!-- ====== Lightbox (zoom de la carte hero) ====== -->
+        <div
+            class="lightbox"
+            id="lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true"
+            aria-label="Image agrandie"
+        >
+            <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
+            <img class="lightbox-img" alt="" />
+        </div>
+
+        <!-- ====== Scripts ====== -->
+        <script type="module" src="js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,147 @@
+/* ============================================================
+   base.css — Reset, design tokens éditoriaux, typo, scrollbar, loader
+   Inspirations : New York Times, Le Monde — papier clair, encre noire,
+   accent rouge éditorial, hiérarchie typographique forte.
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    /* Palette papier / encre / accent éditorial */
+    --paper: #faf8f3;
+    --paper-warm: #f2eee3;
+    --paper-tint: #ece6d6;
+
+    --ink: #121212;
+    --ink-soft: #3c3c3c;
+    --ink-meta: #767676;
+    --ink-faint: #a8a39a;
+
+    --rule: #1a1a1a;
+    --rule-soft: #d8d4ca;
+
+    --accent: #b8252c; /* rouge éditorial type Le Monde / NYT */
+    --accent-deep: #8c1a20;
+    --accent-warm: #d3a86a;
+
+    /* Typo */
+    --font-display:
+        "Playfair Display", "Times New Roman", Georgia, serif; /* titres */
+    --font-serif: "Lora", Georgia, "Times New Roman", serif; /* corps */
+    --font-sans:
+        "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; /* labels */
+    --font-cn: "Ma Shan Zheng", serif; /* pinyin / accents chinois */
+}
+
+html,
+body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Liens éditoriaux par défaut */
+a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-soft);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s;
+}
+a:hover {
+    text-decoration-color: var(--accent);
+}
+
+/* Hairline horizontale réutilisable */
+.rule {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 0;
+}
+.rule-thin {
+    border-top: 1px solid var(--rule-soft);
+}
+
+/* ============================================================
+   Loader plein écran (cohérent avec le papier)
+   ============================================================ */
+.loading {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.6s;
+    gap: 0.8rem;
+}
+
+.loading-text {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0;
+}
+
+.loading-sub {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--ink-meta);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.loading-compass {
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 2px solid var(--rule-soft);
+    border-top-color: var(--ink);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ============================================================
+   Scrollbar discrète
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--paper-warm);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--ink-faint);
+    border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--ink-meta);
+}

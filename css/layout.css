@@ -1,0 +1,1050 @@
+/* ============================================================
+   layout.css — Masthead, article hero (texte | globe), légende villes
+   Mise en page éditoriale type quotidien : filets noirs, hiérarchie typo,
+   espace généreux, pas d'ornement décoratif.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Masthead — barre supérieure type "kiosque"
+   ------------------------------------------------------------ */
+.masthead {
+    border-bottom: 3px double var(--rule);
+    background: var(--paper);
+    position: relative;
+    z-index: 50;
+}
+.masthead-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.7rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+.masthead-brand {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.05rem;
+    color: var(--ink);
+    letter-spacing: 0;
+    text-decoration: none;
+}
+.masthead-brand em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+    margin-left: 0.4rem;
+}
+.masthead-meta {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    color: var(--ink-meta);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.masthead-meta .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ink-faint);
+    border-radius: 50%;
+}
+
+/* ------------------------------------------------------------
+   Article — colonne unique centrée façon "blog 2010" (max-width 1200px).
+   Le globe interactif a été retiré : la page scrolle naturellement.
+   ------------------------------------------------------------ */
+.article {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.4rem 2.4rem 4rem;
+    background: var(--paper);
+}
+
+.article-text {
+    background: transparent;
+}
+
+/* ------- Intro : carte + premier paragraphe en deux colonnes ------- */
+.intro-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+    margin: 0.6rem 0 1.8rem;
+}
+.intro-row .hero-figure {
+    margin: 0;
+    max-width: none;
+}
+.intro-row .article-body {
+    margin: 0;
+}
+.intro-row .article-body p {
+    margin: 0;
+    max-width: none;
+}
+
+@media (max-width: 800px) {
+    .intro-row {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+}
+
+/* ------- Hero : carte illustrée du circuit (encart compact, centré) ------- */
+.hero-figure {
+    margin: 0.6rem auto 1.8rem;
+    max-width: 620px;
+    position: relative;
+}
+.hero-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    box-shadow: 0 12px 26px -18px rgba(18, 18, 18, 0.4);
+    cursor: zoom-in;
+    transition: box-shadow 0.25s ease;
+}
+.hero-figure img:hover {
+    box-shadow: 0 14px 30px -16px rgba(18, 18, 18, 0.55);
+}
+
+/* ------- Lightbox : zoom plein écran de la carte ------- */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 18, 18, 0.88);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    cursor: zoom-out;
+}
+.lightbox.open {
+    display: flex;
+    animation: lightboxFade 0.22s ease;
+}
+@keyframes lightboxFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.lightbox-img {
+    max-width: min(96vw, 1600px);
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border: 1px solid var(--paper-warm);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+    cursor: default;
+    animation: lightboxZoom 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes lightboxZoom {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.lightbox-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 42px;
+    height: 42px;
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(250, 248, 243, 0.4);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+.lightbox-close:hover {
+    background: var(--ink);
+    border-color: var(--paper);
+}
+.hero-caption {
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    color: var(--ink-meta);
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-top: 0.55rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--rule-soft);
+    text-align: center;
+    line-height: 1.4;
+}
+.hero-caption-sep {
+    margin: 0 0.45rem;
+    color: var(--ink-faint);
+}
+
+@media (max-width: 700px) {
+    .hero-figure {
+        max-width: 100%;
+    }
+}
+
+/* Petit "rubric" type NYT/Le Monde (Reportage · Asie) */
+.rubric {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1.2rem;
+}
+.rubric::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--accent);
+    display: inline-block;
+}
+
+/* Titre principal — gros serif éditorial */
+.headline {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2rem, 3.6vw, 3.1rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 1.1rem;
+}
+.headline em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+/* Chapeau (standfirst) */
+.standfirst {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 1.2rem;
+    max-width: 56ch;
+}
+
+/* Signature / dateline */
+.byline {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--ink-meta);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1.6rem;
+}
+.byline strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+.byline-sep {
+    margin: 0 0.55rem;
+    color: var(--ink-faint);
+}
+
+/* Corps d'article */
+.article-body p {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    max-width: 60ch;
+}
+.article-body p:first-of-type::first-letter {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 3.1rem;
+    line-height: 0.95;
+    float: left;
+    padding: 0.35rem 0.55rem 0 0;
+    color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   Onglets de l'article — Itinéraire / Nourriture / Transport / Conseils.
+   Design "bouton-onglet" : encadré papier + flèche ↓ pour bien
+   signaler qu'on peut cliquer. Sélecteurs préfixés `.article-text >`
+   pour ne pas conflit avec les tabs internes du drawer (panel.css).
+   ------------------------------------------------------------ */
+.article-text > .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.5rem;
+    margin: 1.8rem 0 1.4rem;
+    padding-bottom: 0;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+}
+.article-text > .tabs > .tab {
+    appearance: none;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    border-bottom: none;
+    padding: 0.7rem 1.1rem 0.75rem;
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+    bottom: -2px;
+}
+.article-text > .tabs > .tab::after {
+    content: "›";
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.1rem;
+    line-height: 0.8;
+    color: var(--ink-faint);
+    transform: translateY(-1px);
+    transition:
+        color 0.18s ease,
+        transform 0.18s ease;
+}
+.article-text > .tabs > .tab:hover {
+    background: var(--paper);
+    color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px -6px rgba(18, 18, 18, 0.3);
+}
+.article-text > .tabs > .tab:hover::after {
+    color: var(--accent);
+    transform: translateY(-1px) translateX(2px);
+}
+.article-text > .tabs > .tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+.article-text > .tabs > .tab .tab-count {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.74rem;
+    color: var(--ink-meta);
+}
+.article-text > .tabs > .tab.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+    transform: translateY(0);
+    box-shadow: 0 -2px 0 0 var(--ink);
+}
+.article-text > .tabs > .tab.is-active .tab-count {
+    color: rgba(250, 248, 243, 0.7);
+}
+.article-text > .tabs > .tab.is-active::after {
+    color: var(--accent-warm);
+    transform: translateY(-1px) rotate(90deg);
+}
+
+.tab-panel {
+    display: none;
+    animation: tabFade 0.25s ease;
+}
+.tab-panel.is-active {
+    display: block;
+}
+@keyframes tabFade {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ------------------------------------------------------------
+   Nourriture — grille de plats chinois
+   ------------------------------------------------------------ */
+.food-intro {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+    max-width: 56ch;
+}
+
+.food-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+}
+
+.food-card {
+    display: grid;
+    grid-template-rows: 130px 1fr;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.food-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(18, 18, 18, 0.35);
+}
+
+.food-thumb {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    display: block;
+    line-height: 0;
+}
+.food-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 50%;
+}
+
+.food-body {
+    padding: 0.75rem 0.9rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Sous-sections "I. À Chengdu", "II. À Chongqing", etc. */
+.food-section-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    margin: 1.8rem 0 0.9rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--rule-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+}
+.food-section-label:first-of-type {
+    margin-top: 0.6rem;
+}
+.food-section-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--accent);
+    letter-spacing: 0;
+    line-height: 1;
+}
+.food-section-meta {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink-meta);
+    font-size: 0.85rem;
+}
+
+/* Badge ville sur chaque carte.
+   - défaut : encart neutre (hors itinéraire)
+   - .is-trip : encart rouge éditorial = à manger sur l'itinéraire */
+.food-region {
+    font-family: var(--font-sans);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--ink-meta);
+    align-self: flex-start;
+    padding: 0.22rem 0.5rem;
+    border: 1px solid var(--rule-soft);
+    background: var(--paper);
+    line-height: 1.1;
+}
+.food-region.is-trip {
+    color: var(--paper);
+    background: var(--accent);
+    border-color: var(--accent-deep);
+}
+
+/* Variante "inline" pour mention dans le paragraphe d'intro */
+.food-region-inline {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.58rem;
+    transform: translateY(-1px);
+    display: inline-block;
+}
+
+/* Étoile : sélection personnelle.
+   Pastille sombre en haut à droite de la vignette. */
+.food-thumb {
+    position: relative; /* contexte d'ancrage pour .food-star */
+}
+.food-star {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 3;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: rgba(18, 18, 18, 0.88);
+    color: var(--accent-warm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(250, 248, 243, 0.18);
+    pointer-events: none;
+}
+.food-star-inline {
+    position: static;
+    width: 1.2rem;
+    height: 1.2rem;
+    font-size: 0.68rem;
+    box-shadow: none;
+    transform: translateY(2px);
+}
+
+/* Liseré sobre sur les cartes marquées comme sélection perso */
+.food-card.is-personal {
+    border-color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   Onglet "Moyens de transport" — fiches techniques 2 colonnes.
+   Image à gauche, tableau de stats à droite façon guide voyage.
+   ------------------------------------------------------------ */
+.transport-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+}
+.transport-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 180px 1fr;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.transport-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -10px rgba(18, 18, 18, 0.35);
+}
+.transport-thumb {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    display: block;
+    line-height: 0;
+}
+.transport-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 50%;
+}
+.transport-body {
+    padding: 1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.transport-tag {
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    padding: 0.22rem 0.5rem;
+    border: 1px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.1;
+}
+.transport-tag.is-intl {
+    background: var(--accent);
+    border-color: var(--accent-deep);
+    color: var(--paper);
+}
+.transport-tag.is-domestic {
+    background: var(--accent-warm);
+    border-color: var(--ink);
+    color: var(--ink);
+}
+.transport-tag.is-hsr {
+    background: var(--ink);
+    color: var(--paper);
+}
+.transport-name {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 0.05rem 0 0.1rem;
+}
+.transport-pinyin {
+    font-family: var(--font-cn);
+    font-size: 0.92rem;
+    color: var(--ink-meta);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.35rem;
+}
+.transport-stats {
+    list-style: none;
+    margin: 0.3rem 0 0.6rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--paper);
+    border-left: 3px solid var(--accent);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    display: grid;
+    gap: 0.15rem;
+}
+.transport-stats li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: baseline;
+}
+.transport-stats strong {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 0.62rem;
+    color: var(--ink);
+    flex-shrink: 0;
+}
+.transport-stats span {
+    text-align: right;
+    color: var(--ink-soft);
+}
+.transport-desc {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+}
+.transport-desc em {
+    font-style: italic;
+    color: var(--ink);
+}
+
+/* ------------------------------------------------------------
+   Onglet "Conseils" — fiches numérotées (atlas pratique).
+   ------------------------------------------------------------ */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    counter-reset: tip-counter;
+}
+.tip-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 1.1rem 1.2rem 1.2rem;
+    position: relative;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+.tip-card:hover {
+    transform: translateY(-1px);
+    border-color: var(--ink);
+    box-shadow: 0 6px 14px -8px rgba(18, 18, 18, 0.3);
+}
+.tip-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.45rem;
+    letter-spacing: 0.04em;
+}
+.tip-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--rule-soft);
+}
+.tip-text {
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0;
+}
+.tip-text strong {
+    color: var(--ink);
+    font-weight: 700;
+}
+.tip-text em {
+    font-style: italic;
+    color: var(--ink);
+}
+
+@media (max-width: 800px) {
+    .transport-grid,
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ------------------------------------------------------------
+   Section bonus — "Autres classiques (hors itinéraire)".
+   Encadré papier teinté + tag "Bonus" doré pour signaler le statut
+   secondaire (non lié à l'itinéraire du voyage).
+   ------------------------------------------------------------ */
+.food-bonus {
+    margin-top: 1.8rem;
+    padding: 1rem 1.1rem 1.2rem;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0,
+            transparent 14px,
+            rgba(211, 168, 106, 0.05) 14px,
+            rgba(211, 168, 106, 0.05) 15px
+        ),
+        rgba(211, 168, 106, 0.07);
+    border: 1px dashed var(--accent-warm);
+    position: relative;
+}
+
+/* Tag "Bonus" en haut à droite */
+.food-bonus-tag {
+    position: absolute;
+    top: -10px;
+    right: 1rem;
+    background: var(--accent-warm);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    padding: 0.22rem 0.55rem;
+    border: 1px solid var(--ink);
+    line-height: 1.1;
+}
+
+/* Le titre V. dans la zone bonus passe en doré + sans bordure
+   (l'encadré porte déjà la séparation visuelle) */
+.food-section-label.is-bonus {
+    margin-top: 0.2rem;
+    border-bottom-color: rgba(211, 168, 106, 0.4);
+}
+.food-section-label.is-bonus .food-section-num {
+    color: var(--accent-warm);
+}
+
+/* Cartes bonus : fond papier (au lieu de paper-warm) pour ressortir
+   sur la teinte dorée de l'encadré, opacité légèrement réduite. */
+.food-grid.is-bonus .food-card {
+    background: var(--paper);
+    opacity: 0.92;
+}
+.food-grid.is-bonus .food-card:hover {
+    opacity: 1;
+}
+
+.food-name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 0.05rem 0 0.15rem;
+}
+
+.food-pinyin {
+    font-family: var(--font-cn);
+    font-size: 0.82rem;
+    color: var(--ink-meta);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+}
+
+.food-desc {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+}
+.food-desc em {
+    font-style: italic;
+    color: var(--ink);
+}
+
+/* ------- Section : étapes du voyage ------- */
+.section-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin: 1.6rem 0 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.section-label .count {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    color: var(--ink-meta);
+    letter-spacing: 0;
+}
+
+.legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+/* Chaque étape : carte 16/9 avec image de la ville en plein cadre,
+   et tout le texte (numéro, nom, meta, flèche) en overlay sur un
+   gradient sombre pour la lisibilité. */
+.legend-item {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 5;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    background: var(--paper-warm);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.legend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(18, 18, 18, 0.35);
+}
+
+/* L'image remplit toute la carte ; on annule les contraintes de
+   `.thumb-*` (ce serait inline 44×44) en surchargeant ici. */
+.legend-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    line-height: 0;
+}
+.legend-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+}
+
+/* Overlay typographique : gradient sombre + grille num | corps | flèche. */
+.legend-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: end;
+    gap: 0.9rem;
+    padding: 0.9rem 1rem 0.85rem;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.45) 50%,
+        rgba(0, 0, 0, 0.05) 90%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    color: var(--paper);
+    z-index: 2;
+}
+
+.legend-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--paper);
+    line-height: 0.95;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+    align-self: end;
+}
+.legend-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+.legend-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.1;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+.legend-name .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.legend-meta {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    color: rgba(250, 248, 243, 0.88);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+.legend-arrow {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--paper);
+    line-height: 1;
+    align-self: end;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+    transition:
+        transform 0.2s,
+        color 0.2s;
+}
+.legend-item:hover .legend-arrow {
+    color: var(--accent-warm);
+    transform: translateX(4px);
+}
+
+/* ------- Mention de bas de colonne ------- */
+.colophon {
+    margin-top: 1.6rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    color: var(--ink-meta);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .masthead-inner {
+        padding: 0.6rem 1rem;
+    }
+    .masthead-brand {
+        font-size: 0.95rem;
+    }
+    .masthead-meta {
+        font-size: 0.62rem;
+        gap: 0.6rem;
+    }
+    .article {
+        padding: 1.6rem 1.2rem 3rem;
+    }
+    .headline {
+        font-size: clamp(1.7rem, 7vw, 2.2rem);
+    }
+    .standfirst {
+        font-size: 1rem;
+    }
+    .food-grid {
+        grid-template-columns: 1fr;
+    }
+    .tab {
+        margin-right: 1.1rem;
+        font-size: 0.68rem;
+        letter-spacing: 1.8px;
+    }
+    .tab .tab-count {
+        font-size: 0.7rem;
+    }
+}

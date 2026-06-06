@@ -1,0 +1,725 @@
+/* ============================================================
+   panel.css — Drawer "ville" éditorial qui glisse depuis la droite
+   Style "encart papier" : fond crème, titres serif, filets noirs,
+   pas de gradient ni d'effet décoratif.
+   ============================================================ */
+
+/* Le panel s'affiche À LA PLACE de la grille des 4 villes, dans le flux du
+   tab-panel Itinéraire. Caché par défaut, visible quand la classe `.open`
+   est ajoutée. Animation : fondu + léger glissement depuis la droite. */
+.panel {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    box-shadow: 0 14px 32px -18px rgba(18, 18, 18, 0.35);
+    overflow: hidden;
+    position: relative;
+}
+.panel.open {
+    display: flex;
+    animation: panelSlideIn 0.42s cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+@keyframes panelSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Quand le drawer est ouvert, on cache la grille des étapes + le colophon
+   pour qu'il prenne leur place. La classe `is-detail` est posée par main.js
+   sur le tab-panel Itinéraire à l'ouverture / fermeture. */
+.tab-panel.is-detail .legend,
+.tab-panel.is-detail .colophon {
+    display: none;
+}
+
+/* `#panelInner` est l'unique enfant de `.panel`. Sans flex explicite, ses
+   enfants (header / tabs / content) ne participent pas à la même chaîne
+   flex que le panel → `.panel-content` n'a pas de hauteur contrainte et
+   son `overflow: auto` ne déclenche jamais de scroll. On en fait un
+   conteneur flex column qui prend toute la hauteur disponible. */
+#panelInner {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
+.panel-header {
+    padding: 1.1rem 2rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Filet d'accent coloré (rouge ou couleur ville) en haut du drawer */
+.panel-color-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+}
+
+/* Header minimal : rubric + pinyin sur une seule ligne séparés par un point. */
+.panel-headline {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    min-width: 0;
+    padding-right: 2.5rem; /* laisse la place au bouton close */
+}
+.panel-rubric {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+.panel-headline-sep {
+    font-family: var(--font-display);
+    color: var(--ink-faint);
+    font-size: 0.9rem;
+    line-height: 1;
+}
+.panel-pinyin {
+    font-family: var(--font-cn);
+    color: var(--ink);
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    min-width: 0;
+}
+
+.panel-close {
+    position: absolute;
+    top: 1.1rem;
+    right: 1.1rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--ink);
+    transition:
+        background 0.2s,
+        color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+.panel-close:hover {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+/* ------------------------------------------------------------
+   Tabs — labels sans serif, soulignement net
+   ------------------------------------------------------------ */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    flex-shrink: 0;
+}
+.tab {
+    flex: 1;
+    padding: 0.95rem 0.5rem;
+    background: none;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--ink-meta);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    margin-bottom: -1px;
+}
+.tab:hover {
+    color: var(--ink);
+}
+.tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   Contenu — pousse la hauteur du panel, la page scrolle naturellement
+   ------------------------------------------------------------ */
+.panel-content {
+    padding: 1.5rem 2rem 2.5rem;
+    color: var(--ink);
+    font-family: var(--font-serif);
+}
+
+/* ------------------------------------------------------------
+   Onglet planning : day-card style chronologie
+   ------------------------------------------------------------ */
+.day-card {
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.4rem;
+}
+.day-card + .day-card {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.6rem;
+}
+
+.day-title {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+}
+.day-date {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--ink-meta);
+    letter-spacing: 0;
+    text-transform: none;
+    padding-left: 0.7rem;
+    border-left: 1px solid var(--rule-soft);
+}
+.day-subtitle {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.9rem;
+}
+
+.day-place {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.day-place:last-child {
+    border-bottom: none;
+}
+.day-place:hover {
+    background: var(--paper-warm);
+}
+
+.day-place-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.25;
+}
+.place-star {
+    color: var(--accent);
+    margin-right: 0.25rem;
+    font-size: 0.85em;
+    vertical-align: 0.05em;
+}
+.day-place-pinyin {
+    font-family: var(--font-cn);
+    color: var(--ink-meta);
+    font-size: 0.9rem;
+    margin-top: 0.05rem;
+}
+/* Description repliée à 2 lignes par défaut. Le combo
+   `display: -webkit-box` + `-webkit-line-clamp` + `pre-line` fonctionne :
+   pre-line crée les lignes via les \n, line-clamp en cache le surplus. */
+.day-place-tip {
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-top: 0.5rem;
+    line-height: 1.55;
+    padding-left: 0.9rem;
+    border-left: 2px solid var(--ink);
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+}
+.day-place.expanded .day-place-tip {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
+}
+
+/* Indicateur « voir plus / voir moins ». */
+.day-place-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    user-select: none;
+}
+.day-place-toggle::before {
+    content: "▸";
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 0.85rem;
+    line-height: 0;
+}
+.day-place.expanded .day-place-toggle::before {
+    transform: rotate(90deg);
+}
+.day-place-toggle .toggle-more {
+    display: inline;
+}
+.day-place-toggle .toggle-less {
+    display: none;
+}
+.day-place.expanded .day-place-toggle .toggle-more {
+    display: none;
+}
+.day-place.expanded .day-place-toggle .toggle-less {
+    display: inline;
+}
+
+/* ------------------------------------------------------------
+   Onglet master : filtre + cartes lieu
+   ------------------------------------------------------------ */
+.filter-bar {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.4rem;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--rule);
+}
+.filter-btn {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: all 0.2s;
+}
+.filter-btn:hover {
+    background: var(--paper-warm);
+}
+.filter-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+.place-count {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--ink-meta);
+    margin-left: auto;
+}
+
+/* Code couleur par cercle de distance — du proche au lointain.
+   Réutilisé par .zone-group, .zone-cercle, .day-place, .place-card. */
+:root {
+    --cercle-1: #2ecc71; /* vert : Centre */
+    --cercle-2: #d3a86a; /* gold : Proche */
+    --cercle-3: #e67e22; /* orange : Excursion demi-journée */
+    --cercle-4: #c0392b; /* rouge : Excursion journée */
+}
+[data-cercle="1"] {
+    --cercle-color: var(--cercle-1);
+}
+[data-cercle="2"] {
+    --cercle-color: var(--cercle-2);
+}
+[data-cercle="3"] {
+    --cercle-color: var(--cercle-3);
+}
+[data-cercle="4"] {
+    --cercle-color: var(--cercle-4);
+}
+
+/* Grille 3 colonnes : le titre de zone s'étend sur toute la largeur,
+   les place-card se rangent à 3 par ligne. Une carte "expanded" voit son
+   tip s'ouvrir et pousse sa rangée — comportement grid normal. */
+.zone-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.8rem;
+    align-items: start;
+}
+.zone-group > .zone-title {
+    grid-column: 1 / -1;
+}
+
+/* Bandeau de zone : barre colorée à gauche + radar SVG + nom de la zone.
+   La couleur est lue depuis --cercle-color (défini par data-cercle).
+   La carte de zone se distingue d'un coup d'œil entre Centre / Journée. */
+.zone-title {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.45rem 0.65rem;
+    border-left: 4px solid var(--cercle-color, var(--rule));
+    background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--cercle-color, var(--rule)) 14%, transparent) 0%,
+        transparent 80%
+    );
+    border-bottom: 1px solid var(--rule-soft);
+}
+.zone-cercle {
+    color: var(--cercle-color, var(--ink));
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.zone-name {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Carte de lieu : image 16/7 plein cadre + texte en overlay,
+   même langage visuel que `.legend-item` du sommaire. */
+.place-card {
+    position: relative;
+    margin-bottom: 0;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    background: var(--paper-warm);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.place-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(18, 18, 18, 0.35);
+}
+.place-card.expanded {
+    border-color: var(--ink);
+    box-shadow: 0 8px 18px -8px rgba(18, 18, 18, 0.35);
+}
+
+.place-thumb {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    border: none;
+    background: var(--paper-warm);
+}
+.place-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+}
+
+/* Overlay : note en haut à droite, infos lieu en bas à gauche. */
+.place-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0.7rem 0.9rem 0.85rem;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.4) 55%,
+        rgba(0, 0, 0, 0.05) 90%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    color: var(--paper);
+}
+
+.place-rating {
+    align-self: flex-end;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--paper);
+    font-size: 1rem;
+    line-height: 1;
+    background: rgba(18, 18, 18, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.25rem 0.55rem;
+    backdrop-filter: blur(2px);
+}
+
+/* Tags SVG : barre de pictogrammes thématiques (UNESCO, tradition,
+   modern, nature, food, ...). Style par défaut = encre sur papier
+   (vue planning sur fond clair). Override pour le fond sombre de
+   `.place-overlay` plus bas. */
+.place-tags {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    pointer-events: none;
+    flex-wrap: wrap;
+    vertical-align: middle;
+}
+.place-tag {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    background: var(--paper-warm);
+    border: 1px solid var(--rule-soft);
+    border-radius: 3px;
+}
+.place-tag svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* Vue master : cluster rating + tags ancré en haut à droite. */
+.place-overlay-top {
+    align-self: flex-end;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+}
+.place-overlay .place-tags {
+    justify-content: flex-end;
+}
+.place-overlay .place-tag {
+    color: var(--paper);
+    background: rgba(18, 18, 18, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(2px);
+}
+
+/* Couleurs d'accent par tag emblématique — appliquées uniformément. */
+.place-tag[data-tag="unesco"] {
+    color: var(--accent-warm);
+    border-color: var(--accent-warm);
+}
+.place-overlay .place-tag[data-tag="unesco"] {
+    color: var(--accent-warm);
+    border-color: rgba(211, 168, 106, 0.55);
+}
+.place-overlay .place-tag[data-tag="nature"] {
+    color: #8fd19e;
+}
+.place-overlay .place-tag[data-tag="night"] {
+    color: #c5b3ff;
+}
+.place-overlay .place-tag[data-tag="food"] {
+    color: #ffd8a8;
+}
+
+/* Vue planning : la barre de tags se cale à droite du nom de jour. */
+.day-place-name {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+.day-place-name .place-tags {
+    margin-left: auto;
+}
+.place-rating small {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.58rem;
+    color: rgba(250, 248, 243, 0.75);
+    letter-spacing: 0.5px;
+    margin-left: 1px;
+}
+
+.place-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+.place-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--paper);
+    line-height: 1.2;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+.place-pinyin {
+    font-family: var(--font-cn);
+    color: rgba(250, 248, 243, 0.9);
+    font-size: 0.92rem;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+}
+.place-meta {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    color: rgba(250, 248, 243, 0.85);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+    margin-top: 0.15rem;
+}
+
+/* Description détaillée — révélée au clic, sous l'image. */
+.place-tip {
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    color: var(--ink);
+    line-height: 1.6;
+    font-style: italic;
+    padding: 0.95rem 1rem 1.05rem;
+    background: var(--paper);
+    border-top: 1px solid var(--rule-soft);
+    display: none;
+    white-space: pre-line;
+}
+.place-card.expanded .place-tip {
+    display: block;
+}
+
+/* ------------------------------------------------------------
+   Bloc logistique — encart "À savoir"
+   ------------------------------------------------------------ */
+.logistics {
+    margin-top: 1.8rem;
+    padding: 1.3rem 1.4rem 1.2rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    position: relative;
+}
+.logistics::before {
+    content: "À savoir";
+    position: absolute;
+    top: -0.65rem;
+    left: 1rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+}
+.logistics h3 {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    color: var(--ink);
+}
+.logistics ul {
+    list-style: none;
+}
+.logistics li {
+    padding: 0.4rem 0 0.4rem 1.4rem;
+    font-family: var(--font-serif);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    position: relative;
+    color: var(--ink);
+    border-bottom: 1px dotted var(--rule-soft);
+}
+.logistics li:last-child {
+    border-bottom: none;
+}
+.logistics li::before {
+    content: counter(logistics-counter, decimal-leading-zero);
+    counter-increment: logistics-counter;
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+.logistics ul {
+    counter-reset: logistics-counter;
+}
+
+@media (max-width: 900px) {
+    .zone-group {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .panel {
+        /* Sur mobile, `.article` est une colonne unique → le panel
+           occupe la pleine largeur naturellement, slide identique. */
+        border-right: none;
+        border-bottom: 3px double var(--rule);
+        box-shadow: 0 14px 30px -10px rgba(18, 18, 18, 0.22);
+    }
+    .panel-header {
+        padding: 0.95rem 1.4rem 0.85rem;
+    }
+    .panel-pinyin {
+        font-size: 1rem;
+    }
+    .panel-rubric {
+        font-size: 0.62rem;
+        letter-spacing: 2px;
+    }
+    .panel-content {
+        padding: 1.2rem 1.4rem 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .zone-group {
+        grid-template-columns: 1fr;
+    }
+}

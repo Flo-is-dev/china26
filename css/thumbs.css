@@ -1,0 +1,105 @@
+/* ============================================================
+   thumbs.css — Vignettes images (Wikipedia / Commons)
+   Wrapper `.thumb` (span) + `<img>` interne.
+   - Trois tailles : sm (40), md (60), hero (full × 200).
+   - Placeholder gris tant que l'image n'est pas résolue.
+   - Fade-in à l'arrivée de la ressource (`.is-loaded`).
+   - Style "fallback" si l'API ne retourne rien.
+   ============================================================ */
+
+.thumb {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+.thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
+
+.thumb img.is-loaded {
+    opacity: 1;
+}
+
+/* Hachuré discret pendant le chargement */
+.thumb::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent 0,
+        transparent 6px,
+        rgba(18, 18, 18, 0.04) 6px,
+        rgba(18, 18, 18, 0.04) 7px
+    );
+    pointer-events: none;
+}
+
+.thumb.is-fallback::before,
+.thumb img.is-loaded ~ ::before {
+    /* on garde le pattern au cas où mais l'image couvre */
+}
+
+.thumb.is-fallback {
+    background: var(--paper-warm);
+}
+
+/* ------- Tailles ------- */
+.thumb-sm {
+    width: 44px;
+    height: 44px;
+}
+
+.thumb-md {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+}
+
+.thumb-hero {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 1.1rem;
+    border: 1px solid var(--rule);
+}
+.thumb-hero img {
+    object-position: center 35%;
+}
+
+/* ------- Adaptation des conteneurs ------- */
+
+/* Day-place : layout horizontal vignette + texte */
+.day-place {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+.day-place-body {
+    min-width: 0;
+}
+
+/* Place-card : vignette à gauche du bloc info */
+.place-header {
+    align-items: stretch;
+}
+.place-header .thumb-md {
+    align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+    .thumb-hero {
+        height: 140px;
+    }
+}
