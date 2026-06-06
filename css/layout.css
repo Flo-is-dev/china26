@@ -857,6 +857,117 @@
     color: var(--ink);
 }
 
+/* ------------------------------------------------------------
+   Musique — playlist YouTube, ville par ville
+   ------------------------------------------------------------ */
+.music-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 0 0 0.6rem;
+    padding: 0;
+}
+
+.music-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+.music-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(18, 18, 18, 0.35);
+}
+
+.music-link {
+    display: grid;
+    grid-template-columns: 122px 1fr;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.music-thumb {
+    position: relative;
+    border-right: 1px solid var(--rule);
+    background: var(--ink);
+    line-height: 0;
+    overflow: hidden;
+}
+.music-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.92;
+    transition:
+        transform 0.3s ease,
+        opacity 0.25s ease;
+}
+.music-card:hover .music-thumb img {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+/* Pastille « play » rouge YouTube par-dessus la vignette */
+.music-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    background: rgba(184, 37, 44, 0.92);
+    color: var(--paper);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding-left: 0.15rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(250, 248, 243, 0.25);
+    transition: transform 0.2s ease;
+}
+.music-card:hover .music-play {
+    transform: translate(-50%, -50%) scale(1.12);
+}
+
+.music-body {
+    padding: 0.7rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    min-width: 0;
+}
+.music-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: var(--ink);
+}
+.music-artist {
+    font-family: var(--font-sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+.music-note {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--ink-meta);
+    margin-top: 0.1rem;
+}
+
 /* ------- Section : étapes du voyage ------- */
 .section-label {
     font-family: var(--font-sans);
@@ -1037,6 +1148,9 @@
         font-size: 1rem;
     }
     .food-grid {
+        grid-template-columns: 1fr;
+    }
+    .music-grid {
         grid-template-columns: 1fr;
     }
     .tab {

@@ -129,8 +129,39 @@ function cercleFromZone(placesInZone) {
    Renderers — fonctions pures (état → HTML)
    ------------------------------------------------------------ */
 
+/* ------------------------------------------------------------
+   Carte — mini-plan Google Maps (embed sans clé, par nom de ville),
+   affiché en tête du drawer.
+   ------------------------------------------------------------ */
+
+const MAP_QUERIES = {
+    Chengdu: "Chengdu, Sichuan, China",
+    Chongqing: "Chongqing, China",
+    Zhangjiajie: "Zhangjiajie, Hunan, China",
+    Pékin: "Beijing, China",
+};
+
+function renderMap(city) {
+    const query = MAP_QUERIES[city.ville] || `${city.ville}, China`;
+    const src = `https://maps.google.com/maps?q=${encodeURIComponent(
+        query,
+    )}&z=11&hl=fr&output=embed`;
+    return `
+    <div class="panel-map">
+      <iframe
+        class="panel-map-frame"
+        title="Carte de ${escapeHtml(city.ville)}"
+        src="${src}"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+      ></iframe>
+    </div>`;
+}
+
 function renderHeader(city, currentTab, order) {
     return `
+    ${renderMap(city)}
     <div class="panel-header">
       <div class="panel-color-bar" style="background: ${city.couleur};"></div>
       <button class="panel-close" data-action="close" aria-label="Fermer">×</button>
