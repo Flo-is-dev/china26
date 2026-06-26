@@ -20,7 +20,7 @@ export const tripData = {
     tripInfo: {
         title: "Chine : Un Voyage à travers l'Histoire et la Modernité",
         duration: "12 Jours",
-        cities: ["Chengdu", "Chongqing", "Zhangjiajie", "Pékin"],
+        cities: ["Chengdu", "Zhangjiajie", "Chongqing", "Pékin"],
     },
     itineraireData: [
         {
@@ -328,11 +328,80 @@ export const tripData = {
                         "Le pèlerinage à pied : 1 200 marches qui transforment vos mollets en bois dur.",
                     wikiTitle: "Mount_Qingcheng",
                 },
+                {
+                    id: 14,
+                    nom: "Tianfu Greenway (e-bike)",
+                    pinyin: "天府绿道 - Tiānfǔ Lǜdào",
+                    zone: "Cercle II (Proche)",
+                    cercle: 2,
+                    temps: "20-25 min (Métro L4 Shiling)",
+                    note: 9,
+                    incontournable: true,
+                    tags: ["nature", "modern", "view"],
+                    conseil:
+                        "La plus longue voie verte urbaine du monde — un superlatif que Chengdu porte sans transpirer.\n" +
+                        "Métro ligne 4 jusqu'à la station Shiling, puis on rejoint le départ à Jincheng Park.\n" +
+                        "Comptez une portion de 15 à 20 km en partant du parc, lacs et ponts compris.\n" +
+                        "Vélos électriques partagés Hellobike, déverrouillés au QR code, environ 1,5 yuan les 30 minutes.\n" +
+                        "Configurez Alipay et la mini-app Hellobike AVANT de venir — sur place, le réseau ne vous attendra pas.\n" +
+                        "À faire tôt : 7h30-10h, avant que la chaleur de juillet ne transforme la balade en sauna roulant.\n" +
+                        "La lumière du matin sur les lacs vaut largement le réveil aux aurores.\n" +
+                        "Joggeurs disciplinés, ponts photogéniques et retraités en tai-chi composent le décor par défaut.\n" +
+                        "Budget dérisoire : quelques yuans pour des heures de pédalage assisté, le moteur fait le reste.\n" +
+                        "Le vélo électrique vous double les retraités à pied — eux font du tai-chi, vous faites semblant de mériter le moteur.",
+                    wikiTitle: "Chengdu",
+                },
+                {
+                    id: 15,
+                    nom: "Massage des pieds Tujia",
+                    pinyin: "土家足疗 - Tǔjiā Zúliáo",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "5-10 min (centre)",
+                    note: 8,
+                    incontournable: false,
+                    tags: ["tradition"],
+                    conseil:
+                        "Le moment où vos pieds vous demandent officiellement leur indépendance.\n" +
+                        "Réflexologie de tradition Tujia, à dégainer quand les jambes ont rendu l'âme.\n" +
+                        "Compter 50 à 100 yuans pour une heure — moins cher qu'une paire de semelles neuves.\n" +
+                        "Salons partout dans le centre, concentrés autour de Chunxi Road.\n" +
+                        "Pas besoin de réserver : on entre, on s'effondre dans le fauteuil, on existe à nouveau.\n" +
+                        "Bain de pieds chaud aux herbes d'abord, puis pression ciblée sur les points réflexes.\n" +
+                        "Idéal après une journée de vélo ou de marche, ou pour dompter le décalage horaire.\n" +
+                        "Choisissez une enseigne propre et bien éclairée, jamais le rabatteur de trottoir.\n" +
+                        "La pression sur certains points fait dire « ah » à des gens qui pensaient tout maîtriser.\n" +
+                        "Vous entrez en boitant, vous ressortez en flottant — la science Tujia, validée.",
+                    wikiTitle: "Reflexology",
+                },
+                {
+                    id: 16,
+                    nom: "KTV (Karaoké)",
+                    pinyin: "卡拉OK / 量贩式KTV - Kǎlā OK / Liàngfàn shì KTV",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "10-15 min (centre)",
+                    note: 7,
+                    incontournable: false,
+                    tags: ["night", "show"],
+                    conseil:
+                        "Le karaoké chinois n'est pas un bar, c'est une salle privée fermée où l'on chante entre soi.\n" +
+                        "Cherchez les enseignes Party World (Cash Box) ou Melody, présentes un peu partout en ville.\n" +
+                        "Comptez 100 à 300 yuans la salle selon l'heure et la durée — divisez par le nombre d'amis, ça devient raisonnable.\n" +
+                        "Le catalogue est surtout en mandarin, mais des sections anglaises et internationales existent pour les courageux.\n" +
+                        "Boissons et snacks sont en supplément, parfois un forfait open-bar pour ceux qui assument la soirée.\n" +
+                        "Salle équipée : micros, écran géant, canapés profonds et lumières tamisées façon discothèque de poche.\n" +
+                        "Ouvert très tard, souvent jusqu'à 2h — l'institution sociale chinoise par excellence après le dîner.\n" +
+                        "À caser un soir où il vous reste de l'énergie, donc en pratique jamais après une journée de marche.\n" +
+                        "Réservez tôt le week-end : les salles partent vite, surtout les grandes pour les groupes.\n" +
+                        "Personne ne vous jugera sur la justesse — le micro coupe rarement, votre dignité parfois.",
+                    wikiTitle: "Karaoke_box",
+                },
             ],
             conseilsLogistiques: [
                 "Utilisez le Métro pour les Cercles I et II.",
                 "Prenez un Taxi tôt (7h) pour la Panda Base (Cercle III).",
-                "Réservez les billets TGV pour QingchengShan plusieurs jours à l'avance.",
+                "Réservez l'Opéra du Sichuan (changement de visages) à l'avance, et configurez Alipay + Hellobike avant le vélo du matin.",
             ],
         },
         {
@@ -640,11 +709,81 @@ export const tripData = {
                         "Le meilleur jour : pluie fine, brouillard épais, néons rouges et bleus partout.",
                     wikiTitle: "Chongqing",
                 },
+                {
+                    id: 14,
+                    nom: "Drone Show",
+                    pinyin: "无人机表演 - Wúrénjī Biǎoyǎn",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "30-90 min (Nanbin Road)",
+                    note: 10,
+                    incontournable: true,
+                    tags: ["show", "night", "modern", "view"],
+                    conseil:
+                        "Plus de 5000 drones synchronisés au-dessus du Yangzi, le samedi soir vers 21h.\n" +
+                        "Le spectacle dure environ 20 minutes — court, mais 5000 robots volants, ça pose le décor.\n" +
+                        "C'est gratuit, ce qui explique en partie la foule et l'ambiance de fin du monde.\n" +
+                        "Trois spots au choix : Nanbin Road, Chaotianmen ou Jiangbeizui, selon votre rive préférée.\n" +
+                        "Arrivez 60 à 90 minutes avant si vous tenez à voir autre chose que des nuques.\n" +
+                        "Apportez une mini-chaise pliante et une batterie externe : la patience use le téléphone.\n" +
+                        "Vérifiez la confirmation quelques jours avant sur le compte WeChat « Nan'an Release » (南岸发布).\n" +
+                        "Annulé en cas de vent ou de pluie — les drones sont nombreux mais pas téméraires.\n" +
+                        "Si c'est annulé, repli sur Hongyadong illuminé, toujours spectaculaire et toujours bondé.\n" +
+                        "Au retour, les transports sont pleins à craquer : 5000 drones partent, 50000 humains aussi.",
+                    wikiTitle: "Chongqing",
+                },
+                {
+                    id: 15,
+                    nom: "Luohan Temple",
+                    pinyin: "罗汉寺 - Luóhàn Sì",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "10 min (Métro Xiaoshizi)",
+                    note: 8,
+                    incontournable: false,
+                    tags: ["temple", "tradition"],
+                    conseil:
+                        "Un temple bouddhiste millénaire coincé entre les gratte-ciel de Jiefangbei — l'intrus le plus serein du CBD.\n" +
+                        "Métro L1 ou L2, station Jiaochangkou ou Xiaoshizi, puis quelques minutes à pied entre deux flagships tech.\n" +
+                        "Entrée à 10 yuans environ : le ticket le moins cher du quartier, et de loin le plus calme.\n" +
+                        "La star, c'est l'allée des 500 statues d'arhats (luohan), chacune avec une tête différente.\n" +
+                        "Jeu local : trouver le luohan qui vous ressemble le plus — personne ne sort flatté.\n" +
+                        "Une falaise sculptée de l'époque Song subsiste, taillée bien avant que le béton n'arrive.\n" +
+                        "Restaurant végétarien sur place : on y mange sans viande à l'ombre des tours de bureaux.\n" +
+                        "Visez l'après-midi : la lumière dore les statues pendant que le CBD vrombit dehors.\n" +
+                        "Le contraste temple ancien / verre fumé moderne tient sur une seule photo verticale.\n" +
+                        "Vous priez pour la sérénité, et dehors un panneau publicitaire vous propose le dernier smartphone.",
+                    wikiTitle: "Chongqing",
+                },
+                {
+                    id: 16,
+                    nom: "Hot Pot de Chongqing",
+                    pinyin: "重庆火锅 - Chóngqìng Huǒguō",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "5-15 min (centre)",
+                    note: 9,
+                    incontournable: true,
+                    tags: ["food", "night"],
+                    conseil:
+                        "Le plat qui définit Chongqing : une fondue au bouillon rouge mala, brillante de suif de bœuf.\n" +
+                        "On trempe soi-même viande, abats, légumes et tofu dans le bouillon en pleine ébullition.\n" +
+                        "Comptez 80 à 150 yuans par personne, davantage si vous attaquez les abats nobles.\n" +
+                        "Enseignes cultes : Liuyishou et Xiaobin, présentes dans presque tous les quartiers.\n" +
+                        "Demandez le bouillon « yuanyang » : moitié doux, moitié piquant, soit un plan de survie.\n" +
+                        "Le mala n'est pas un assaisonnement, c'est une négociation avec votre système nerveux.\n" +
+                        "La transpiration est incluse dans le prix, considérez-la comme une expérience thermale.\n" +
+                        "Une bière Shancheng bien fraîche pour calmer le feu, à renouveler selon les dégâts.\n" +
+                        "Le week-end, réservez : sans réservation, vous regardez les autres manger votre dîner.\n" +
+                        "Le vrai goût de la ville se mesure le lendemain matin, au moment du second bilan.",
+                    wikiTitle: "Hot_pot",
+                },
             ],
             conseilsLogistiques: [
                 "Chongqing est verticale : utilisez les ascenseurs publics pour éviter les marches.",
                 "Le Métro L2 (aérien) est une attraction en soi avec des vues superbes.",
                 "Réservez le Téléphérique (Yangtze Cableway) sur WeChat tôt le matin.",
+                "Drone show le samedi vers 21h : confirmez sur le compte WeChat « Nan'an Release » (南岸发布) quelques jours avant.",
             ],
         },
         {
@@ -745,11 +884,81 @@ export const tripData = {
                         "La promenade idéale pour récupérer après une journée intense ailleurs dans le parc.",
                     wikiTitle: "Zhangjiajie_National_Forest_Park",
                 },
+                {
+                    id: 5,
+                    nom: "Tianzi Mountain",
+                    pinyin: "天子山 - Tiānzǐ Shān",
+                    zone: "Cercle IV (Excursion Journée)",
+                    cercle: 4,
+                    temps: "Demi-journée (dans le parc)",
+                    note: 10,
+                    incontournable: true,
+                    tags: ["nature", "cable", "view", "photo"],
+                    conseil:
+                        "Le sommet du parc de Wulingyuan, là où des milliers de pics de grès jouent les figurants d'Avatar.\n" +
+                        "Couvert par le billet 4 jours de Wulingyuan : 248 yuans, gardez le coupon comme un trésor.\n" +
+                        "Téléphérique de Tianzi pour grimper ou redescendre : environ 67 yuans le segment.\n" +
+                        "Le matin, mer de nuages sur les pics — le genre de vue qui ridiculise vos fonds d'écran.\n" +
+                        "Belvédères à enchaîner : He Long Park, Helong et Stone Boat, chacun sa version du vertige.\n" +
+                        "Se combine avec Yuanjiajie, les fameuses montagnes Avatar, sur la même journée bien remplie.\n" +
+                        "Navettes écologiques gratuites entre les zones : asseyez-vous, le parc est plus grand qu'il n'y paraît.\n" +
+                        "Visez avant 9h : après, les foules arrivent et la sérénité plie bagage.\n" +
+                        "Lumière rasante et brume au lever du jour, pour des photos que personne ne croira non retouchées.\n" +
+                        "Méfiez-vous des singes voleurs sur les sentiers : ils visent votre snack, parfois votre dignité.",
+                    wikiTitle: "Tianzi_Mountain",
+                },
+                {
+                    id: 6,
+                    nom: "Yangjiajie / Huangshizhai",
+                    pinyin: "杨家界 / 黄石寨 - Yángjiājiè / Huángshízhài",
+                    zone: "Cercle IV (Excursion Journée)",
+                    cercle: 4,
+                    temps: "Demi-journée (dans le parc)",
+                    note: 9,
+                    incontournable: false,
+                    tags: ["nature", "view", "cable"],
+                    conseil:
+                        "Les deux coins du parc de Wulingyuan où la foule ne vous a pas encore retrouvé.\n" +
+                        "Idéal pour le 3e jour : votre billet 4 jours les couvre déjà, profitez-en.\n" +
+                        "Yangjiajie possède son propre téléphérique et le belvédère Tianbo Fu, vertige garanti.\n" +
+                        "Huangshizhai est le plus grand plateau panoramique du parc, vues à 360 degrés.\n" +
+                        "Montée à Huangshizhai au choix : téléphérique rapide ou sentier pour les jambes vaillantes.\n" +
+                        "Sentiers de crête, ponts suspendus et piliers de grès qui posent pour la photo.\n" +
+                        "Le matin tôt, la brume monte entre les pics et personne ne vous bouscule.\n" +
+                        "Fuyez ici quand Yuanjiajie ressemble à un quai de métro aux heures de pointe.\n" +
+                        "Prévoyez de l'eau et des jambes : un plateau panoramique, ça se mérite à pied.\n" +
+                        "Le silence est tel que vous entendrez surtout votre propre souffle après les marches.",
+                    wikiTitle: "Wulingyuan",
+                },
+                {
+                    id: 7,
+                    nom: "Massage des pieds Tujia",
+                    pinyin: "土家足疗 - Tǔjiā Zúliáo",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "5-10 min (Wulingyuan)",
+                    note: 8,
+                    incontournable: false,
+                    tags: ["tradition"],
+                    conseil:
+                        "Après une journée à grimper les piliers de Wulingyuan, vos pieds réclament réparation.\n" +
+                        "Le massage des pieds Tujia est la spécialité de la minorité locale du même nom.\n" +
+                        "Comptez 50 à 100 yuans l'heure selon le salon et le degré de fatigue affiché sur votre visage.\n" +
+                        "Les salons s'alignent dans la rue principale et près du marché de nuit de Wulingyuan.\n" +
+                        "Ça commence par un bain de pieds aux herbes, fumant, vaguement médicinal, franchement agréable.\n" +
+                        "Puis viennent les pressions sur les points de fatigue, là où la randonnée a laissé des traces.\n" +
+                        "Allez-y le soir, après le parc : c'est le moment où le corps capitule enfin.\n" +
+                        "Idéal avant un réveil à 5h45 pour attraper la brume sur les sommets, sans pleurer.\n" +
+                        "Pas besoin de réserver, il suffit de pousser une porte et de tendre les pieds.\n" +
+                        "Le masseur trouvera toujours un point qui fait mal — la preuve, dit-il, que ça marche.",
+                    wikiTitle: "Reflexology",
+                },
             ],
             conseilsLogistiques: [
                 "Zhangjiajie est très grand et fatigue : combinez transport et marche.",
                 "Préparez de bonnes chaussures et de l'eau.",
                 "Les zones panoramiques sont souvent brumeuses : vérifiez la météo.",
+                "Soyez à l'East Gate du parc dès 7h pour devancer les foules et les files.",
             ],
         },
         {
@@ -919,6 +1128,98 @@ export const tripData = {
                         "Combo parfait après la Cité Interdite : sortie nord puis Jingshan, 5 min à pied.",
                     wikiTitle: "Jingshan_Park",
                 },
+                {
+                    id: 8,
+                    nom: "Acrobaties Chaoyang Theatre",
+                    pinyin: "朝阳剧场 - Cháoyáng Jùchǎng",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "20-30 min (Métro L6 Hujialou)",
+                    note: 9,
+                    incontournable: true,
+                    tags: ["show"],
+                    conseil:
+                        "Le spectacle d'acrobaties le plus réputé de Pékin, et la salle ne s'en cache pas.\n" +
+                        "Au programme : contorsionnistes, jongleurs, vélos empilés en pyramide et motos lancées dans la sphère de la mort.\n" +
+                        "Durée 70 à 90 minutes, juste assez pour oublier vos courbatures de la Grande Muraille.\n" +
+                        "Deux séances par jour, début vers 17h15 ou 19h30 selon votre tolérance au décalage horaire.\n" +
+                        "Billets de 150 à 400 yuans selon la catégorie, donc selon votre envie de voir les paillettes de près.\n" +
+                        "Réservation conseillée via Trip.com ou Klook, le théâtre se remplit plus vite qu'un wagon à l'heure de pointe.\n" +
+                        "Métro ligne 6, station Hujialou, puis quelques minutes à pied jusqu'à l'entrée.\n" +
+                        "Spectacle entièrement visuel, sans paroles : aucune barrière de langue, sauf celle de la gravité.\n" +
+                        "Sortie idéale après la Grande Muraille, quand vos jambes refusent tout effort supplémentaire.\n" +
+                        "Familial et techniquement bluffant — vous repartirez convaincu que votre dos ne sert vraiment à rien.",
+                    wikiTitle: "Chinese_acrobatics",
+                },
+                {
+                    id: 9,
+                    nom: "Place Tian'anmen",
+                    pinyin: "天安门广场 - Tiān'ānmén Guǎngchǎng",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "0-5 min (avant la Cité)",
+                    note: 9,
+                    incontournable: true,
+                    tags: ["tradition", "view"],
+                    conseil:
+                        "La plus grande place urbaine du monde, et elle ne fait rien pour paraître plus petite.\n" +
+                        "Réservation en ligne et contrôle d'identité obligatoires : passeport sur soi, pas de version photocopiée du courage.\n" +
+                        "Entrée gratuite, mais la file de sécurité vous fait payer en patience dès l'aube.\n" +
+                        "Arrivez vers 8h pour enchaîner avec la Cité Interdite par la porte sud, juste en face.\n" +
+                        "La cérémonie du lever du drapeau a lieu au lever du soleil — horaire qui glisse toute l'année selon le ciel.\n" +
+                        "Pour le drapeau, comptez une foule dense et un réveil héroïque : optionnel, mais spectaculaire.\n" +
+                        "Autour de vous : le Mausolée de Mao, le Monument aux héros, la Grande salle du peuple.\n" +
+                        "Sécurité stricte partout — gardez le passeport accessible, rangez l'humour pour plus tard.\n" +
+                        "Quasiment pas d'ombre sur ce béton immense : chapeau et eau ne sont pas une suggestion.\n" +
+                        "Vous traverserez la plus grande place du monde pour entrer dans le plus grand palais du monde — sobriété chinoise.",
+                    wikiTitle: "Tiananmen_Square",
+                },
+                {
+                    id: 10,
+                    nom: "Parc Beihai",
+                    pinyin: "北海公园 - Běihǎi Gōngyuán",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "10 min (à pied de la Cité)",
+                    note: 8,
+                    incontournable: false,
+                    tags: ["tradition", "nature", "view"],
+                    conseil:
+                        "Ancien jardin impérial où les empereurs venaient se détendre — vous aussi, mais en payant le billet.\n" +
+                        "Juste au nord-ouest de la Cité Interdite, à pied : entrée sud face à Jingshan, station de métro à deux pas.\n" +
+                        "Billet d'entrée entre 10 et 20 yuans selon la saison, soit le prix d'un thé tiède à proximité.\n" +
+                        "Au centre du grand lac, l'île Jade et sa pagode blanche, la fameuse White Dagoba, posée comme un point d'exclamation.\n" +
+                        "Louez une barque sur le lac : effort modéré, photos garanties, querelle de couple en option.\n" +
+                        "Saules, pavillons, lotus en été — la nature impériale taillée pour que rien ne dépasse vraiment.\n" +
+                        "Idéal en fin d'après-midi, après avoir épuisé vos jambes à la Cité Interdite et grimpé Jingshan.\n" +
+                        "Les Pékinois affluent au coucher du soleil : la lumière tape sur la pagode, les retraités sortent les éventails.\n" +
+                        "Ouvert tôt le matin jusqu'au soir, vérifiez l'horaire de saison avant de courir vers la porte sud.\n" +
+                        "Lieu de détente officiel : ici on contemple un lac que des empereurs ont contemplé, avec moins de gardes.",
+                    wikiTitle: "Beihai_Park",
+                },
+                {
+                    id: 11,
+                    nom: "Wangfujing",
+                    pinyin: "王府井 - Wángfǔjǐng",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "10 min (Métro L1)",
+                    note: 8,
+                    incontournable: false,
+                    tags: ["food", "shopping", "night"],
+                    conseil:
+                        "La grande artère piétonne du centre de Pékin, où l'on dîne et achète des souvenirs sans jamais s'asseoir.\n" +
+                        "Métro ligne 1, station Wangfujing : vous remontez directement dans la foule, c'est inclus.\n" +
+                        "Les centres commerciaux modernes ouvrent en général 10h-22h, les boutiques flagship un peu plus tard le soir.\n" +
+                        "Cap sur la Wangfujing Snack Street pour les brochettes et la street food alignée stand après stand.\n" +
+                        "Le tanghulu, ces fruits caramélisés sur pic, tourne autour de 10-20 yuans selon la taille et l'audace.\n" +
+                        "Une brochette se négocie souvent entre 10 et 30 yuans : lisez l'ardoise avant de mordre.\n" +
+                        "La librairie géante du coin vaut le détour, même si vous ne lisez pas un mot de mandarin.\n" +
+                        "Venez le soir : les lumières s'allument et la rue passe en mode néon assumé.\n" +
+                        "Très touristique, oui, mais l'animation nocturne rachète largement le côté carte postale.\n" +
+                        "Mangez votre sucrerie en marchant : ici, s'arrêter pour souffler est un acte de rébellion.",
+                    wikiTitle: "Wangfujing",
+                },
             ],
             conseilsLogistiques: [
                 "Pour la Cité Interdite, réservez 7 jours avant à minuit (heure chinoise) !",
@@ -930,81 +1231,87 @@ export const tripData = {
 };
 
 /* Dates : arrivée en Chine le 26 juillet 2026, 12 jours.
-   Chengdu J1-3 (26-28 juil) → Chongqing J4-5 (29-30 juil) →
-   Zhangjiajie J6-8 (31 juil-2 août) → Pékin J9-12 (3-6 août). */
+   Chengdu J1-2 (26-27 juil) → Zhangjiajie J3-5 (28-30 juil) →
+   Chongqing J6-7 (31 juil-1ᵉʳ août) → Pékin J8-12 (2-6 août, envol Séoul le 6). */
 export const flexibleItinerary = {
     Chengdu: [
         {
             day: "Jour 1",
             date: "Dim. 26 juillet",
-            subtitle: "Pandas & culture locale",
-            placeIds: [1, 2, 6, 8],
+            subtitle: "Arrivée & opéra des visages",
+            placeIds: [3, 15, 8, 11],
         },
         {
             day: "Jour 2",
             date: "Lun. 27 juillet",
-            subtitle: "Temples & saveurs",
-            placeIds: [3, 4, 9],
-        },
-        {
-            day: "Jour 3",
-            date: "Mar. 28 juillet",
-            subtitle: "Excursion Taoïste",
-            placeIds: [13],
-        },
-    ],
-    Chongqing: [
-        {
-            day: "Jour 4",
-            date: "Mer. 29 juillet",
-            subtitle: "La ville verticale",
-            placeIds: [4, 5, 1, 13],
-        },
-        {
-            day: "Jour 5",
-            date: "Jeu. 30 juillet",
-            subtitle: "Cyberpunk & authentique",
-            placeIds: [2, 3, 7, 6],
+            subtitle: "Pandas, vélo & hot pot",
+            placeIds: [1, 14, 2, 4, 9, 16],
         },
     ],
     Zhangjiajie: [
         {
+            day: "Jour 3",
+            date: "Mar. 28 juillet",
+            subtitle: "Transfert & rivière dorée",
+            placeIds: [4],
+        },
+        {
+            day: "Jour 4",
+            date: "Mer. 29 juillet",
+            subtitle: "Montagnes Avatar",
+            placeIds: [2, 5, 7],
+        },
+        {
+            day: "Jour 5",
+            date: "Jeu. 30 juillet",
+            subtitle: "Au choix : Porte du Ciel, pont de verre ou Yangjiajie",
+            placeIds: [1, 3, 6],
+        },
+    ],
+    Chongqing: [
+        {
             day: "Jour 6",
             date: "Ven. 31 juillet",
-            subtitle: "Porte du Ciel",
-            placeIds: [1],
+            subtitle: "Transfert & ville verticale",
+            placeIds: [4, 5, 10, 1, 16],
         },
         {
             day: "Jour 7",
             date: "Sam. 1ᵉʳ août",
-            subtitle: "Pics Avatar",
-            placeIds: [2],
-        },
-        {
-            day: "Jour 8",
-            date: "Dim. 2 août",
-            subtitle: "Au choix : pont de verre ou rivière",
-            placeIds: [3, 4],
+            subtitle: "Vieux Chongqing & drone show",
+            placeIds: [2, 7, 15, 14],
         },
     ],
     Pékin: [
         {
+            day: "Jour 8",
+            date: "Dim. 2 août",
+            subtitle: "Transfert & vieux Pékin",
+            placeIds: [3, 4],
+        },
+        {
             day: "Jour 9",
             date: "Lun. 3 août",
             subtitle: "Le cœur impérial",
-            placeIds: [1, 3, 4],
+            placeIds: [9, 1, 7, 10, 11],
         },
         {
             day: "Jour 10",
             date: "Mar. 4 août",
-            subtitle: "La Grande Muraille",
-            placeIds: [2, 6],
+            subtitle: "La Grande Muraille & acrobates",
+            placeIds: [2, 8],
         },
         {
-            day: "Jours 11-12",
-            date: "Mer. 5 — Jeu. 6 août",
-            subtitle: "Flexibilité & contemplation",
-            placeIds: [5, 7],
+            day: "Jour 11",
+            date: "Mer. 5 août",
+            subtitle: "Temple du Ciel & tech à Sanlitun",
+            placeIds: [5, 6],
+        },
+        {
+            day: "Jour 12",
+            date: "Jeu. 6 août",
+            subtitle: "Envol vers Séoul",
+            placeIds: [],
         },
     ],
 };
@@ -1014,10 +1321,10 @@ export const flexibleItinerary = {
    les arcs et les étapes du panel. */
 export const cityCoords = {
     Chengdu: { lat: 30.6595, lng: 104.0658 }, // 天府广场 — Tianfu Square
-    Chongqing: { lat: 29.563, lng: 106.5516 }, // 渝中区 — Yuzhong District
     Zhangjiajie: { lat: 29.117, lng: 110.479 }, // 张家界市 — centre
+    Chongqing: { lat: 29.563, lng: 106.5516 }, // 渝中区 — Yuzhong District
     Pékin: { lat: 39.9042, lng: 116.4074 }, // 天安门 — Tiananmen
 };
 
 /** Ordre du voyage — utilisé pour tracer les arcs entre étapes successives. */
-export const ROUTE_ORDER = ["Chengdu", "Chongqing", "Zhangjiajie", "Pékin"];
+export const ROUTE_ORDER = ["Chengdu", "Zhangjiajie", "Chongqing", "Pékin"];

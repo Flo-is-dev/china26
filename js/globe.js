@@ -51,7 +51,8 @@ function buildPoints() {
         city: c.ville,
         color: c.couleur,
         pinyin: c.pinyin,
-        order: idx + 1,
+        // Numéro d'étape = ordre chronologique (ROUTE_ORDER), pas l'ordre du tableau.
+        order: ROUTE_ORDER.indexOf(c.ville) + 1 || idx + 1,
         extension: false,
     }));
     // Séoul : point annexe, plus petit, ton or — clairement « hors voyage ».

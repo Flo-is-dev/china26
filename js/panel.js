@@ -11,7 +11,7 @@
  * `hydrateThumbs` qui résout les URLs Wikipedia en arrière-plan.
  */
 
-import { tripData, flexibleItinerary } from "./data.js";
+import { tripData, flexibleItinerary, ROUTE_ORDER } from "./data.js";
 import { hydrateThumbs } from "./images.js";
 
 /* ------------------------------------------------------------
@@ -151,6 +151,9 @@ const PLACE_COORDS = {
         "Quartier Tech": [30.6557, 104.0806],
         "Luodai Ancient Town": [30.6417, 104.325],
         "Mount Qingcheng": [30.9105, 103.5578],
+        "Tianfu Greenway (e-bike)": [30.5728, 104.0668],
+        "Massage des pieds Tujia": [30.6536, 104.081],
+        "KTV (Karaoké)": [30.6555, 104.0805],
     },
     Chongqing: {
         Hongyadong: [29.565, 106.58],
@@ -166,12 +169,18 @@ const PLACE_COORDS = {
         "Quartier Tech": [29.5635, 106.578],
         "Minxin Jiayuan Night Market": [29.636, 106.532],
         "Spots Dystopiques": [29.562, 106.588],
+        "Drone Show": [29.5497, 106.5836],
+        "Luohan Temple": [29.5619, 106.5808],
+        "Hot Pot de Chongqing": [29.558, 106.576],
     },
     Zhangjiajie: {
         "Tianmen Shan": [29.04988, 110.47889],
         "Parc Avatar (Wulingyuan)": [29.333, 110.5],
         "Pont de Verre (Grand Canyon)": [29.3987, 110.6982],
         "Rivière Golden Whip": [29.32, 110.43],
+        "Tianzi Mountain": [29.3489, 110.4319],
+        "Yangjiajie / Huangshizhai": [29.3667, 110.4167],
+        "Massage des pieds Tujia": [29.3475, 110.5483],
     },
     Pékin: {
         "Cité Interdite": [39.9163, 116.3972],
@@ -181,6 +190,10 @@ const PLACE_COORDS = {
         "Temple du Ciel": [39.8822, 116.4066],
         "Quartier moderne Sanlitun": [39.9337, 116.4549],
         "Parc Jingshan": [39.9281, 116.3906],
+        "Acrobaties Chaoyang Theatre": [39.9226, 116.4486],
+        "Place Tian'anmen": [39.9055, 116.3976],
+        "Parc Beihai": [39.9255, 116.3899],
+        Wangfujing: [39.9097, 116.4109],
     },
 };
 
@@ -453,7 +466,10 @@ export function mountPanel({ panel, host, onClose }) {
         );
         if (idx === -1) return;
         state.city = tripData.itineraireData[idx];
-        state.order = idx + 1;
+        // Le numéro d'étape suit l'ordre chronologique du voyage (ROUTE_ORDER),
+        // pas l'ordre de déclaration dans itineraireData.
+        const step = ROUTE_ORDER.indexOf(cityName);
+        state.order = step === -1 ? idx + 1 : step + 1;
         state.tab = "planning";
         state.onlyIncontournables = false;
         render();
