@@ -1244,8 +1244,8 @@ export const flexibleItinerary = {
         {
             day: "Jour 2",
             date: "Lun. 27 juillet",
-            subtitle: "Pandas, vélo & hot pot",
-            placeIds: [1, 14, 2, 4, 9, 16],
+            subtitle: "Vélo, théiers & hot pot",
+            placeIds: [14, 2, 4, 9, 16],
         },
     ],
     Zhangjiajie: [
