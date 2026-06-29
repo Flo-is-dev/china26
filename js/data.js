@@ -14,12 +14,22 @@
  *    Rendues en SVG par `panel.js` (cf. TAG_ICONS).
  *  - `conseil` : texte multi-ligne (séparateur \n), affiché avec
  *    `white-space: pre-line` ; ton pratique + second degré.
+ *
+ * Méta-voyage : `tripInfo` (durée, dates, voyageurs, budget) ; chaque ville
+ * porte `dates`, `nuits`, `hotel`, `transportIn`, `budget`. Exports annexes :
+ * `interCityTransport`, `deadlines`, `budgetSummary`, `techSetup`, `documents`,
+ * `foodData`.
  */
 
 export const tripData = {
     tripInfo: {
         title: "Chine : Un Voyage à travers l'Histoire et la Modernité",
-        duration: "12 Jours",
+        duration: "13 Jours",
+        dates: "26 juillet – 7 août 2026",
+        travelers: 3,
+        nights: 11,
+        budget: "2 455 – 2 990 € (3 pers.)",
+        budgetPerPerson: "~820 – 995 € / pers.",
         cities: ["Chengdu", "Zhangjiajie", "Chongqing", "Pékin"],
     },
     itineraireData: [
@@ -28,6 +38,23 @@ export const tripData = {
             pinyin: "四川 - Chéngdū",
             couleur: "#2ecc71",
             wikiTitle: "Chengdu",
+            dates: "26 – 29 juil. 2026",
+            nuits: 3,
+            hotel: {
+                nom: "Celebrity Ruicheng Hotel",
+                categorie: "4★",
+                adresse: "No. 68, Section 2, Renmin Middle Road, Qingyang",
+                prix: "139 € (3 nuits)",
+                statut: "Réservé (Trip.com)",
+                atout: "Chambre familiale 40 m² · métro Wenshu Monastery à 170 m",
+            },
+            transportIn: {
+                mode: "Vol international",
+                detail: "→ Chengdu Tianfu (TFU)",
+                prix: "Coût externe",
+                statut: "Hors budget",
+            },
+            budget: { min: 445, max: 575, devise: "€" },
             masterListe: [
                 {
                     id: 1,
@@ -397,6 +424,52 @@ export const tripData = {
                         "Personne ne vous jugera sur la justesse — le micro coupe rarement, votre dignité parfois.",
                     wikiTitle: "Karaoke_box",
                 },
+                {
+                    id: 17,
+                    nom: "Spa traditionnel chinois",
+                    pinyin: "中式养生 SPA · Zhōngshì yǎngshēng SPA",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "5-10 min (centre)",
+                    note: 9,
+                    incontournable: true,
+                    tags: ["tradition"],
+                    conseil:
+                        "Le rituel bien-être à la chinoise : 4 à 5 heures de bain, vapeur, gommage et massage du corps.\n" +
+                        "On commence par tremper dans des bains chauds aux herbes, puis vapeur et gommage au gant rugueux.\n" +
+                        "Le massage complet qui suit dénoue tout ce que la marche et le décalage horaire ont noué.\n" +
+                        "Comptez 200 à 350 yuans par personne pour la session longue, thé et collations souvent inclus.\n" +
+                        "Bonnes adresses à Chengdu : He Ming Spa, Lan Tang Spa, ou les enseignes Tang Cheng.\n" +
+                        "Prévoyez une demi-journée entière : ici, se presser serait un contresens absolu.\n" +
+                        "Maillot non requis, pudeur laissée au vestiaire — on vous prête tongs et pyjama maison.\n" +
+                        "Idéal le jour de repos (J3), entre deux cafés, pour repartir sur des jambes neuves.\n" +
+                        "Réservez le créneau de l'après-midi : le matin, le personnel chauffe à peine les bassins.\n" +
+                        "Vous entrez vidé par le voyage, vous ressortez convaincu d'avoir inventé la productivité du néant.",
+                    wikiTitle: "Chengdu",
+                },
+                {
+                    id: 18,
+                    nom: "Jinli & Temple de Wuhou",
+                    pinyin: "锦里 · 武侯祠 · Jǐnlǐ · Wǔhóu Cí",
+                    zone: "Cercle I (Centre)",
+                    cercle: 1,
+                    temps: "15 min (Métro L3/Bus)",
+                    note: 9,
+                    incontournable: false,
+                    tags: ["tradition", "food", "temple"],
+                    conseil:
+                        "Jinli : ruelle Qing reconstituée le long du temple de Wuhou, lanternes rouges et street food.\n" +
+                        "Le temple de Wuhou honore Zhuge Liang et les héros des Trois Royaumes — 1 500 ans d'histoire.\n" +
+                        "Entrée du temple ~50 yuans ; la ruelle Jinli, elle, est gratuite et toujours bondée le soir.\n" +
+                        "Goûtez les san da pao (boulettes de riz gluant) et la fondue de lapin, spécialités locales.\n" +
+                        "Théiers traditionnels, marionnettes d'ombres et calligraphes s'alignent entre deux échoppes.\n" +
+                        "Métro L3 station Gaoshengqiao, ou bus jusqu'à Wuhouci Dajie, puis tout se fait à pied.\n" +
+                        "Très touristique mais joliment fichu : venez à la tombée du jour pour les lanternes allumées.\n" +
+                        "À combiner avec un café tranquille — le quartier vit lentement, à la mode de Chengdu.\n" +
+                        "Évitez le midi en plein été : l'allée sans ombre transforme la balade en sauna costumé.\n" +
+                        "Le panda en peluche acheté ici coûtera trois fois le prix d'ailleurs — vous craquerez quand même.",
+                    wikiTitle: "Jinli",
+                },
             ],
             conseilsLogistiques: [
                 "Utilisez le Métro pour les Cercles I et II.",
@@ -409,6 +482,23 @@ export const tripData = {
             pinyin: "重庆 - Chóngqìng",
             couleur: "#e74c3c",
             wikiTitle: "Chongqing",
+            dates: "1ᵉʳ – 3 août 2026",
+            nuits: 2,
+            hotel: {
+                nom: "Chongqing Ashan River View Hotel",
+                categorie: "Loft Suite",
+                adresse: "21F, No. 1 Xinhua Road, Yuzhong District (Jiefangbei)",
+                prix: "122 € (2 nuits)",
+                statut: "Réservé (Trip.com)",
+                atout: "Loft 2 chambres 60–70 m² vue rivière 180° · 120 m métro Chaotianmen",
+            },
+            transportIn: {
+                mode: "TGV",
+                detail: "Zhangjiajie → Chongqing · ~5h · matin du 1ᵉʳ août",
+                prix: "75–90 € (3 pers.)",
+                statut: "À réserver le 16 juil.",
+            },
+            budget: { min: 345, max: 430, devise: "€" },
             masterListe: [
                 {
                     id: 1,
@@ -791,6 +881,23 @@ export const tripData = {
             pinyin: "张家界 - Zhāngjiājiè",
             couleur: "#3498db",
             wikiTitle: "Zhangjiajie",
+            dates: "29 juil. – 1ᵉʳ août 2026",
+            nuits: 3,
+            hotel: {
+                nom: "Boman Fashion Hotel",
+                categorie: "4★",
+                adresse: "No. 48 Jundi Road, Wulingyuan District",
+                prix: "149 € (3 nuits)",
+                statut: "Réservé (Trip.com)",
+                atout: "Chambre triple vue vallée · 410 m du parc, 5 min East Gate",
+            },
+            transportIn: {
+                mode: "Vol direct",
+                detail: "Chengdu → Zhangjiajie · Sichuan Airlines 3U6781 · 29 juil. 11h35–13h00",
+                prix: "182 € (3 pers.)",
+                statut: "Réservé",
+            },
+            budget: { min: 795, max: 870, devise: "€" },
             masterListe: [
                 {
                     id: 1,
@@ -966,6 +1073,23 @@ export const tripData = {
             pinyin: "北京 - Běijīng",
             couleur: "#f1c40f",
             wikiTitle: "Forbidden_City",
+            dates: "4 – 7 août 2026",
+            nuits: 3,
+            hotel: {
+                nom: "TRUE GO Hotel Beijing Chaoyangmen Sanlitun",
+                categorie: "9.6/10 · 2 213 avis",
+                adresse: "No. 11 Fangcaodi West Street, Chaoyang",
+                prix: "356 € (3 nuits, 2 chambres)",
+                statut: "Réservé (Trip.com)",
+                atout: "2 chambres tatami séparées · métro Dongdaqiao 560 m (L2 + L6)",
+            },
+            transportIn: {
+                mode: "Train de nuit Z3",
+                detail: "Chongqing Nord → Pékin Ouest · 3 août 19h22 → 4 août 9h31 · Soft Sleeper 软卧",
+                prix: "195–210 € (3 pers.)",
+                statut: "À réserver le 18 juil.",
+            },
+            budget: { min: 870, max: 1115, devise: "€" },
             masterListe: [
                 {
                     id: 1,
@@ -1230,86 +1354,92 @@ export const tripData = {
     ],
 };
 
-/* Dates : arrivée en Chine le 26 juillet 2026, 12 jours.
-   Chengdu J1-2 (26-27 juil) → Zhangjiajie J3-5 (28-30 juil) →
-   Chongqing J6-7 (31 juil-1ᵉʳ août) → Pékin J8-12 (2-6 août, envol Séoul le 6). */
+/* Dates : arrivée en Chine le 26 juillet 2026, 13 jours, 11 nuits.
+   Chengdu J1-3 (26-28 juil) → Zhangjiajie J4-6 (29-31 juil) →
+   Chongqing J7-9 (1ᵉʳ-3 août) → Pékin J10-13 (4-7 août, envol Séoul le 7). */
 export const flexibleItinerary = {
     Chengdu: [
         {
             day: "Jour 1",
             date: "Dim. 26 juillet",
             subtitle: "Arrivée & opéra des visages",
-            placeIds: [3, 15, 8, 11],
+            placeIds: [8],
         },
         {
             day: "Jour 2",
             date: "Lun. 27 juillet",
-            subtitle: "Vélo, théiers & hot pot",
-            placeIds: [14, 2, 4, 9, 16],
+            subtitle: "Greenway à vélo, parc & hot pot Yulin",
+            placeIds: [14, 2, 3, 15, 9],
+        },
+        {
+            day: "Jour 3",
+            date: "Mar. 28 juillet",
+            subtitle: "Spa 4-5h, Jinli & détente",
+            placeIds: [17, 18],
         },
     ],
     Zhangjiajie: [
         {
-            day: "Jour 3",
-            date: "Mar. 28 juillet",
-            subtitle: "Transfert & rivière dorée",
-            placeIds: [4],
-        },
-        {
             day: "Jour 4",
             date: "Mer. 29 juillet",
-            subtitle: "Montagnes Avatar",
-            placeIds: [2, 5, 7],
+            subtitle: "Vol du matin & rivière dorée",
+            placeIds: [4],
         },
         {
             day: "Jour 5",
             date: "Jeu. 30 juillet",
+            subtitle: "Montagnes Avatar, Tianzi & Bailong",
+            placeIds: [2, 5, 7],
+        },
+        {
+            day: "Jour 6",
+            date: "Ven. 31 juillet",
             subtitle: "Au choix : Porte du Ciel, pont de verre ou Yangjiajie",
             placeIds: [1, 3, 6],
         },
     ],
     Chongqing: [
         {
-            day: "Jour 6",
-            date: "Ven. 31 juillet",
-            subtitle: "Transfert & ville verticale",
-            placeIds: [4, 5, 10, 1, 16],
-        },
-        {
             day: "Jour 7",
             date: "Sam. 1ᵉʳ août",
-            subtitle: "Vieux Chongqing & drone show",
-            placeIds: [2, 7, 15, 14],
+            subtitle: "Ville verticale & drone show",
+            placeIds: [4, 5, 1, 16, 14],
         },
-    ],
-    Pékin: [
         {
             day: "Jour 8",
             date: "Dim. 2 août",
-            subtitle: "Transfert & vieux Pékin",
-            placeIds: [3, 4],
+            subtitle: "Liziba, vieux Chongqing & tech",
+            placeIds: [2, 7, 11],
         },
         {
             day: "Jour 9",
             date: "Lun. 3 août",
-            subtitle: "Le cœur impérial",
-            placeIds: [9, 1, 7, 10, 11],
+            subtitle: "Matin détente & train de nuit",
+            placeIds: [3, 15],
         },
+    ],
+    Pékin: [
         {
             day: "Jour 10",
             date: "Mar. 4 août",
-            subtitle: "La Grande Muraille & acrobates",
-            placeIds: [2, 8],
+            subtitle: "Arrivée, hutongs & canard laqué",
+            placeIds: [3, 4],
         },
         {
             day: "Jour 11",
             date: "Mer. 5 août",
-            subtitle: "Temple du Ciel & tech à Sanlitun",
-            placeIds: [5, 6],
+            subtitle: "Cité Interdite & Sanlitun tech",
+            placeIds: [9, 1, 7, 6],
         },
         {
             day: "Jour 12",
             date: "Jeu. 6 août",
+            subtitle: "Grande Muraille & acrobates",
+            placeIds: [2, 8],
+        },
+        {
+            day: "Jour 13",
+            date: "Ven. 7 août",
             subtitle: "Envol vers Séoul",
             placeIds: [],
         },
@@ -1328,3 +1458,156 @@ export const cityCoords = {
 
 /** Ordre du voyage — utilisé pour tracer les arcs entre étapes successives. */
 export const ROUTE_ORDER = ["Chengdu", "Zhangjiajie", "Chongqing", "Pékin"];
+
+/* Transports inter-villes — les 3 trajets reliant les 4 étapes. */
+export const interCityTransport = [
+    {
+        trajet: "Chengdu → Zhangjiajie",
+        mode: "Vol direct",
+        detail: "Sichuan Airlines 3U6781 · 29 juil. 11h35 → 13h00",
+        prix: "182 €",
+        statut: "Réservé",
+    },
+    {
+        trajet: "Zhangjiajie → Chongqing",
+        mode: "TGV",
+        detail: "~5h · matin du 1ᵉʳ août",
+        prix: "75–90 €",
+        statut: "À réserver le 16 juil. (J-15)",
+    },
+    {
+        trajet: "Chongqing → Pékin",
+        mode: "Train de nuit Z3",
+        detail: "Soft Sleeper 软卧 · 3 août 19h22 → 4 août 9h31",
+        prix: "195–210 €",
+        statut: "À réserver le 18 juil. (J-15)",
+        planB: "Vol Chongqing → Pékin matin du 4 août (~240–450 € / 3 pers.)",
+    },
+];
+
+/* Échéances de réservation à ne pas manquer (heure de Paris). */
+export const deadlines = [
+    { date: "16 juillet 2026", action: "Réserver le TGV Zhangjiajie → Chongqing" },
+    {
+        date: "18 juillet 2026, 8h",
+        action: "Réserver le train Z3 Chongqing → Pékin (priorité Soft Sleeper)",
+    },
+    {
+        date: "28 juillet 2026, 18h",
+        action: "Billets Cité Interdite via WeChat (J-7, minuit heure de Pékin)",
+    },
+];
+
+/* Récapitulatif budgétaire — 3 voyageurs, hors vols internationaux. */
+export const budgetSummary = {
+    devise: "€",
+    voyageurs: 3,
+    parEtape: [
+        { ville: "Chengdu", min: 445, max: 575 },
+        { ville: "Zhangjiajie", min: 795, max: 870 },
+        { ville: "Chongqing", min: 345, max: 430 },
+        { ville: "Pékin", min: 870, max: 1115 },
+    ],
+    total: { min: 2455, max: 2990 },
+    parPersonne: { min: 820, max: 995 },
+    hotels: { nuits: 11, total: 767 },
+    transportInter: { min: 452, max: 482 },
+    nonInclus: [
+        "Vol international vers Chengdu (aller)",
+        "Vol Pékin → Séoul (réservé à part)",
+        "Étape Séoul après le 7 août",
+        "Shopping / souvenirs",
+        "Setup tech (eSIM ~10 €, VPN ~5 €/mois)",
+        "Assurance voyage",
+    ],
+};
+
+/* Applis & équipement à préparer avant le départ. */
+export const techSetup = [
+    { outil: "Trip.com", usage: "Hôtels, trains, vols", prix: "Installé" },
+    { outil: "Alipay + Tour Pass", usage: "Paiements partout · CB liée", prix: "Gratuit" },
+    { outil: "WeChat", usage: "Communication · billets Cité Interdite", prix: "Gratuit" },
+    { outil: "DiDi", usage: "Taxis", prix: "Gratuit" },
+    { outil: "AMaps (Gaode)", usage: "Navigation (Google Maps inutilisable)", prix: "Gratuit" },
+    { outil: "eSIM chinoise", usage: "Airalo / Holafly", prix: "~10–20 €" },
+    { outil: "VPN", usage: "Astrill / ExpressVPN", prix: "~5–15 €/mois" },
+    { outil: "Hellobike", usage: "Vélos free-floating (mini-app Alipay)", prix: "~1–2 €/jour" },
+];
+
+/* Documents — statut administratif au départ. */
+export const documents = [
+    { item: "Visa", detail: "France : 30 jours sans visa jusqu'au 31 déc. 2026", statut: "OK" },
+    { item: "Passeport biométrique", detail: "Valide jusqu'à fin février 2027", statut: "OK" },
+    { item: "Preuve de sortie", detail: "Vol Pékin → Séoul", statut: "OK" },
+    { item: "Assurance voyage", detail: "À souscrire", statut: "À faire" },
+    {
+        item: "Déclaration d'arrivée numérique",
+        detail: "À vérifier proche du départ",
+        statut: "À faire",
+    },
+];
+
+/* Plats & spécialités — par ville d'itinéraire, plus une sélection « hors
+   itinéraire ». `perso: true` = coup de cœur ; `wikiTitle` alimente la vignette. */
+export const foodData = [
+    {
+        ville: "Chengdu",
+        meta: "le temple de l'épice",
+        plats: [
+            { nom: "Sichuan Hot Pot", pinyin: "四川火锅 · Sìchuān huǒguō", wikiTitle: "Hot_pot", perso: true, desc: "L'expérience ultime : un bouillon pimenté (ou moitié-moitié) où l'on cuit soi-même viandes, abats et légumes." },
+            { nom: "Mapo tofu", pinyin: "麻婆豆腐 · Mápó dòufu", wikiTitle: "Mapo_tofu", perso: true, desc: "Tofu tendre dans une sauce pimentée et poivrée au bœuf haché — le classique absolu du mála." },
+            { nom: "Porc double-cuit", pinyin: "回锅肉 · Huíguōròu", wikiTitle: "Twice_cooked_pork", perso: true, desc: "Tranches de poitrine de porc sautées deux fois avec poireau chinois et pâte de soja fermentée." },
+            { nom: "Poulet Kung Pao", pinyin: "宫保鸡丁 · Gōngbǎo jīdīng", wikiTitle: "Kung_Pao_chicken", perso: true, desc: "Dés de poulet sautés avec cacahuètes et piments séchés — l'équilibre parfait du sucré, salé, vinaigré, piquant." },
+            { nom: "Nouilles Dan Dan", pinyin: "担担面 · Dàndàn miàn", wikiTitle: "Dan_dan_noodles", desc: "Nouilles au sésame, porc haché épicé et huile de piment, à mélanger vivement." },
+        ],
+    },
+    {
+        ville: "Zhangjiajie",
+        meta: "la cuisine de montagne",
+        plats: [
+            { nom: "San Xia Guo", pinyin: "三下锅 · Sānxiàguō", wikiTitle: "Tujia_people", perso: true, desc: "Plat traditionnel de l'ethnie Tujia : ragoût de porc, tripes et bœuf mijoté avec des légumes de montagne." },
+            { nom: "Poulet aux herbes de montagne", pinyin: "山珍鸡汤 · Shānzhēn jītāng", wikiTitle: "Hunan_cuisine", perso: true, desc: "Soupe de poulet fermier infusée aux racines et plantes du Wulingyuan — idéale après une randonnée." },
+        ],
+    },
+    {
+        ville: "Chongqing",
+        meta: "le feu et la street food",
+        plats: [
+            { nom: "Chongqing Xiaomian", pinyin: "小面 · Xiǎomiàn", wikiTitle: "Chongqing_noodles", perso: true, desc: "Nouilles de blé dans un bouillon riche et très épicé — souvent dégustées au petit-déjeuner." },
+            { nom: "Mao Xue Wang", pinyin: "毛血旺 · Máoxuèwàng", wikiTitle: "Mao_xue_wang", perso: true, desc: "Ragoût de sang de canard caillé, tripes et légumes dans un bouillon rouge intense — pour les aventuriers." },
+            { nom: "Street food · Minxin Jiayuan", pinyin: "烧烤 · Shāokǎo", wikiTitle: "Chinese_street_food", perso: true, desc: "Brochettes grillées shaokao, galettes farcies et tofu puant — la nuit gourmande du marché de Minxin Jiayuan." },
+        ],
+    },
+    {
+        ville: "Pékin",
+        meta: "la cuisine impériale",
+        plats: [
+            { nom: "Canard laqué", pinyin: "北京烤鸭 · Běijīng kǎoyā", wikiTitle: "Peking_duck", perso: true, desc: "Peau croustillante au sucre, chair fondante enroulée dans de fines crêpes avec oignon vert et sauce hoisin." },
+            { nom: "Jiaozi", pinyin: "饺子 · Jiǎozi", wikiTitle: "Jiaozi", perso: true, desc: "Les fameux raviolis en croissant, garnis de porc et ciboulette — à Pékin, bouillis ou à la vapeur." },
+            { nom: "Zha Jiang Mian", pinyin: "炸酱面 · Zhájiàngmiàn", wikiTitle: "Zhajiangmian", perso: true, desc: "Nouilles épaisses nappées d'une sauce sombre au porc haché et soja fermenté, juliennes de concombre." },
+            { nom: "Jianbing", pinyin: "煎饼 · Jiānbing", wikiTitle: "Jianbing", desc: "Crêpe de blé sur plaque chaude, œuf, sauce hoisin, coriandre — le petit-déj' des rues." },
+        ],
+    },
+    {
+        ville: "Hors itinéraire",
+        meta: "autres classiques chinois",
+        bonus: true,
+        plats: [
+            { nom: "Re Gan Mian", region: "Wuhan", pinyin: "热干面 · Règānmiàn", wikiTitle: "Reganmian", perso: true, desc: "Nouilles épaisses au sésame, sauce de soja vinaigrée et oignon vert — le petit-déjeuner emblématique de Wuhan." },
+            { nom: "Lu Rou Fan", region: "Wuhan", pinyin: "卤肉饭 · Lǔròu fàn", wikiTitle: "Lu_rou_fan", perso: true, desc: "Riz blanc nappé d'une sauce onctueuse de porc gras mijoté dans la soja et l'anis étoilé — réconfort en bol." },
+            { nom: "Hong Shao Rou", region: "Hunan", pinyin: "红烧肉 · Hóngshāo ròu", wikiTitle: "Red_braised_pork_belly", desc: "Cubes de poitrine de porc caramélisés et laqués à la soja, au sucre et à l'anis — le grand classique du Hunan." },
+            { nom: "Xiaolongbao", region: "Shanghai", pinyin: "小笼包 · Xiǎolóngbāo", wikiTitle: "Xiaolongbao", desc: "Raviolis vapeur à la pâte fine, garnis de porc et d'un bouillon brûlant." },
+            { nom: "Dim sum", region: "Canton", pinyin: "點心 · Diǎnxīn", wikiTitle: "Dim_sum", desc: "Petites bouchées vapeur ou frites, servies en cascade le matin avec du thé." },
+            { nom: "Riz de Yangzhou", region: "Jiangsu", pinyin: "扬州炒饭 · Yángzhōu chǎofàn", wikiTitle: "Yangzhou_fried_rice", desc: "Le « riz cantonais » d'origine : œuf, jambon, crevettes, petits pois, parfumé au wok." },
+            { nom: "Baozi", region: "Nord", pinyin: "包子 · Bāozi", wikiTitle: "Baozi", desc: "Brioches vapeur moelleuses, fourrées au porc, aux légumes ou à la pâte de haricot rouge." },
+            { nom: "Porc aigre-doux", region: "Canton", pinyin: "咕嚕肉 · Gūlū ròu", wikiTitle: "Sweet_and_sour_pork", desc: "Morceaux de porc frits enrobés d'une sauce rubis vinaigre-sucre-ananas." },
+            { nom: "Wonton", region: "Canton", pinyin: "餛飩 · Húntún", wikiTitle: "Wonton", desc: "Raviolis fins en bouillon clair, garnis de crevettes ou de porc — réconfort instantané." },
+            { nom: "Tanghulu", region: "Nord", pinyin: "糖葫芦 · Tánghúlu", wikiTitle: "Tanghulu", desc: "Brochette de baies d'aubépine glacées de sucre craquant — la star des trottoirs et des vidéos TikTok." },
+            { nom: "Biang Biang Mian", region: "Xi'an", pinyin: "biángbiáng面 · Biángbiáng miàn", wikiTitle: "Biangbiang_noodles", desc: "Nouilles plates larges comme une ceinture, claquées à la main et nappées d'huile de piment brûlante." },
+            { nom: "Roujiamo", region: "Xi'an", pinyin: "肉夹馍 · Ròujiāmó", wikiTitle: "Roujiamo", desc: "Le « hamburger » chinois : pain plat grillé fourré de porc effiloché mijoté aux épices." },
+            { nom: "Bubble Tea", region: "Partout", pinyin: "珍珠奶茶 · Zhēnzhū nǎichá", wikiTitle: "Bubble_tea", desc: "Thé au lait glacé et ses perles de tapioca moelleuses — le phénomène mondial aux mille parfums." },
+            { nom: "Stinky Tofu", region: "Hunan", pinyin: "臭豆腐 · Chòu dòufu", wikiTitle: "Stinky_tofu", desc: "Tofu fermenté frit, à l'odeur redoutable mais au cœur fondant — le défi gustatif des vidéos de rue." },
+            { nom: "Écrevisses Mala", region: "Partout", pinyin: "麻辣小龙虾 · Málà xiǎolóngxiā", wikiTitle: "Crayfish_dish", desc: "Écrevisses sautées au piment et poivre du Sichuan, dégustées à la main les soirs d'été." },
+        ],
+    },
+];

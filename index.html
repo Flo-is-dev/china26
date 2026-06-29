@@ -1,2213 +1,781 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Sinarum — Chine, douze jours dans l'Empire du Milieu</title>
-        <link rel="icon" href="data:," />
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voyage en Chine · Dashboard Aurora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:#ECEAF3;min-height:100vh;padding:1rem;}
+  button{font-family:inherit;}
+  .om-scroll::-webkit-scrollbar{width:8px;height:8px;}
+  .om-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:8px;}
 
-        <!-- Fonts éditoriales : Playfair Display (titres), Lora (corps),
-             Inter (labels/sans), Ma Shan Zheng (pinyin). -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=Ma+Shan+Zheng&display=swap"
-            rel="stylesheet"
-        />
+  /* ---- theme tokens (set on .app) ---- */
+  .app{
+    --side-bg: linear-gradient(180deg,#FF5A5F 0%,#FF7A6B 42%,#7C3AED 100%);
+    --side-sub: rgba(255,255,255,.78);
+    --logo-color:#fff;
+    --nav-active-bg:#ffffff; --nav-active-fg:#7C3AED;
+    --nav-idle-fg: rgba(255,255,255,.82);
+    --budget-bg: rgba(255,255,255,.16); --budget-border: rgba(255,255,255,.28);
+    --budget-label:rgba(255,255,255,.85); --budget-sub:rgba(255,255,255,.8);
+    --main-bg:#FAFAFB; --head-bg:#fff; --head-border:#EEECF6;
+    --eyebrow:#7C3AED; --title:#1c1730;
+    --pill1-bg:#F4F0FE; --pill1-fg:#6D28D9; --pill2-bg:#FFE9EA; --pill2-fg:#C2363B;
+    --accent:#7C3AED; --accent-soft-bg:#F7F5FE; --accent-soft-border:#ECE8FA;
+    --node-line:linear-gradient(#C9B6F5,#F5C6C8);
+    --sub-text:#71717A; --note-fg:#52525B; --note-bg:#FAFAFA; --note-border:#EFEFF1;
+    --shadow:0 30px 60px -32px rgba(124,58,237,.4),0 4px 16px rgba(0,0,0,.04);
+  }
+  .app.citrus{
+    --side-bg: linear-gradient(180deg,#1A2E05,#3A2A09);
+    --side-sub:#C9D9A8;
+    --logo-color:#A3E635;
+    --nav-active-bg:#A3E635; --nav-active-fg:#1A2E05;
+    --nav-idle-fg:#BFD89A;
+    --budget-bg:rgba(163,230,53,.12); --budget-border:rgba(163,230,53,.28);
+    --budget-label:#A3E635; --budget-sub:#C9D9A8;
+    --main-bg:#FAFAF7; --head-bg:#fff; --head-border:#EFEAD9;
+    --eyebrow:#EA580C; --title:#1A2105;
+    --pill1-bg:#FEF3C7; --pill1-fg:#92400E; --pill2-bg:#ECFCCB; --pill2-fg:#3F6212;
+    --accent:#4D7C0F; --accent-soft-bg:#F2FBE3; --accent-soft-border:#DDEEC2;
+    --node-line:linear-gradient(#BBDB8A,#F6C79A);
+    --sub-text:#7A7568; --note-fg:#5C5A44; --note-bg:#FAFAF5; --note-border:#EFEADB;
+    --shadow:0 30px 60px -32px rgba(249,115,22,.34),0 4px 16px rgba(0,0,0,.04);
+  }
 
-        <!-- Styles -->
-        <!-- Leaflet — carte interactive (OpenStreetMap, sans clé) -->
-        <link
-            rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-            integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-            crossorigin=""
-        />
-        <link rel="stylesheet" href="css/base.css" />
-        <link rel="stylesheet" href="css/layout.css" />
-        <link rel="stylesheet" href="css/panel.css" />
-        <link rel="stylesheet" href="css/thumbs.css" />
-    </head>
-    <body>
-        <!-- ====== Loader ====== -->
-        <div class="loading" id="loading">
-            <div class="loading-compass" aria-hidden="true"></div>
-            <div class="loading-text">Sinarum</div>
-            <div class="loading-sub">Chargement de la carte</div>
-        </div>
+  .app{height:calc(100vh - 2rem);background:#fff;border-radius:16px;overflow:hidden;display:flex;border:1px solid #E4E4E7;box-shadow:var(--shadow);}
 
-        <!-- ====== Masthead — barre éditoriale ====== -->
-        <header class="masthead">
-            <div class="masthead-inner">
-                <a href="#" class="masthead-brand">
-                    Sinarum<em>· Carnet de Voyage</em>
-                </a>
-                <div class="masthead-meta">
-                    <span>Édition · Mai 2026</span>
-                    <span class="dot" aria-hidden="true"></span>
-                    <span>N° 1</span>
-                    <span class="dot" aria-hidden="true"></span>
-                    <span>Reportage</span>
-                </div>
-            </div>
-        </header>
+  .side{width:248px;background:var(--side-bg);color:#fff;padding:26px 18px;display:flex;flex-direction:column;flex-shrink:0;}
+  .side .logo{display:flex;align-items:center;gap:9px;font:800 17px 'Sora';margin-bottom:3px;}
+  .side .logo .ic{display:flex;color:var(--logo-color);}
+  .side .dates{font:500 12px 'DM Sans';color:var(--side-sub);margin-bottom:24px;padding-left:1px;}
+  .nav{display:flex;flex-direction:column;gap:4px;}
+  .nav button{display:flex;align-items:center;gap:11px;border:none;cursor:pointer;text-align:left;padding:11px 13px;border-radius:9px;background:transparent;color:var(--nav-idle-fg);font:600 14px 'DM Sans';transition:.18s;}
+  .nav button .ic{display:flex;}
+  .nav button.on{background:var(--nav-active-bg);color:var(--nav-active-fg);}
+  .spacer{flex:1;}
+  .budget{background:var(--budget-bg);border:1px solid var(--budget-border);border-radius:12px;padding:15px;}
+  .budget .k{font:600 10.5px 'DM Sans';letter-spacing:1px;text-transform:uppercase;color:var(--budget-label);}
+  .budget .v{font:800 23px 'Sora';margin-top:4px;}
+  .budget .s{font:500 12px 'DM Sans';color:var(--budget-sub);margin-top:2px;}
 
-        <!-- ====== Article principal ====== -->
-        <article class="article">
-            <!-- Colonne gauche : texte éditorial -->
-            <div class="article-text">
-                <div class="rubric">Reportage · Asie</div>
+  /* theme toggle (in sidebar) */
+  .theme-toggle{margin-bottom:12px;}
+  .theme-toggle .tt-k{display:block;font:600 10.5px 'DM Sans';letter-spacing:1px;text-transform:uppercase;color:var(--budget-label);margin-bottom:8px;}
+  .tt-switch{position:relative;display:flex;width:100%;background:var(--budget-bg);border:1px solid var(--budget-border);border-radius:10px;padding:4px;}
+  .tt-knob{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);background:var(--nav-active-bg);border-radius:7px;box-shadow:0 2px 6px rgba(0,0,0,.18);transition:transform .22s cubic-bezier(.4,0,.2,1);}
+  .app.citrus .tt-knob{transform:translateX(100%);}
+  .tt-opt{position:relative;z-index:1;flex:1;border:none;background:transparent;cursor:pointer;font:600 12.5px 'DM Sans';padding:7px 0;border-radius:7px;color:var(--nav-idle-fg);transition:color .18s;}
+  .tt-opt.on{color:var(--nav-active-fg);}
 
-                <h1 class="headline">
-                    Douze jours dans <em>l'Empire</em> du Milieu
-                </h1>
+  .main{flex:1;display:flex;flex-direction:column;background:var(--main-bg);min-width:0;}
+  .head{padding:24px 28px 16px;background:var(--head-bg);border-bottom:1px solid var(--head-border);display:flex;align-items:flex-end;justify-content:space-between;}
+  .head .eyebrow{font:700 11px 'DM Sans';letter-spacing:1.5px;text-transform:uppercase;color:var(--eyebrow);}
+  .head .h1{font:800 26px 'Sora';color:var(--title);letter-spacing:-.5px;margin-top:2px;}
+  .head .pills{display:flex;gap:7px;}
+  .pill{font:600 12px 'DM Sans';padding:6px 12px;border-radius:8px;}
+  .pill.a{background:var(--pill1-bg);color:var(--pill1-fg);}
+  .pill.b{background:var(--pill2-bg);color:var(--pill2-fg);}
 
-                <p class="standfirst">
-                    Du Sichuan brumeux aux ruelles verticales de Chongqing, des
-                    pics d'Avatar du Hunan jusqu'aux remparts impériaux de Pékin
-                    — chronique d'un voyage entre patrimoine millénaire et
-                    démesure contemporaine.
-                </p>
+  .body{flex:1;overflow:auto;padding:22px 28px;}
 
-                <div class="byline">
-                    <strong>Par Florent Gironde</strong>
-                    <span class="byline-sep">·</span>
-                    <span>26 juillet — 6 août 2026</span>
-                    <span class="byline-sep">·</span>
-                    <span>12 min de lecture</span>
-                </div>
+  /* timeline (parcours + planning) */
+  .row{display:flex;gap:16px;}
+  .rail{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+  .node{width:30px;height:30px;border-radius:50%;background:#fff;border:2px solid var(--accent);color:var(--accent);display:flex;align-items:center;justify-content:center;font:700 13px 'Sora';flex-shrink:0;}
+  .line{flex:1;width:2px;margin:5px 0;min-height:12px;background:var(--node-line);}
+  .card{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+  .chead{display:flex;align-items:flex-start;gap:10px;}
+  .cicon{width:34px;height:34px;border-radius:9px;background:var(--accent-soft-bg);border:1px solid var(--accent-soft-border);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
+  .ctag{font:700 10px 'DM Sans';letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);}
+  .ctitle{font:700 16px 'Sora';color:#18181B;}
+  .cmeta{font:700 14px 'Sora';color:var(--accent);white-space:nowrap;}
+  .csub{font:500 12.5px 'DM Sans';color:var(--sub-text);}
+  .cnote{font:500 12.5px 'DM Sans';color:var(--note-fg);background:var(--note-bg);border:1px solid var(--note-border);padding:8px 11px;border-radius:8px;}
+  .badge{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;font:600 11px 'DM Sans';padding:4px 10px;border-radius:999px;}
+  .badge .d{width:6px;height:6px;border-radius:50%;}
 
-                <!-- Intro : carte + premier paragraphe en deux colonnes -->
-                <div class="intro-row">
-                    <figure class="hero-figure">
-                        <img
-                            src="css/Gemini_Generated_Image_nrimamnrimamnrim.webp"
-                            alt="Chine — Circuit Atlas des Merveilles (12 jours) : carte illustrée reliant Chengdu, Chongqing, Zhangjiajie et Pékin."
-                            loading="eager"
-                        />
-                        <figcaption class="hero-caption">
-                            Fig. 1 — Chine · Circuit Atlas des Merveilles
-                            <span class="hero-caption-sep">·</span>
-                            Carte illustrée du voyage, douze jours, quatre
-                            villes.
-                        </figcaption>
-                    </figure>
+  /* place list inside a day card */
+  .plist{display:flex;flex-direction:column;gap:7px;margin-top:2px;}
+  .pl{display:flex;align-items:center;gap:9px;}
+  .pl-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .pl-name{font:600 13px 'DM Sans';color:#27272A;flex:1;min-width:0;}
+  .pl-meta{font:600 12px 'DM Sans';color:var(--sub-text);white-space:nowrap;}
 
-                    <div class="article-body">
-                        <p>
-                            On ne pénètre pas la Chine, on y est précipité.
-                            Quatre villes, douze jours, deux mille quatre cents
-                            kilomètres de rails et d'arcs aériens : un
-                            itinéraire qui tient moins du circuit organisé que
-                            d'une lecture verticale du pays. Chengdu pour la
-                            lenteur des salons de thé, Chongqing pour le vertige
-                            cyberpunk, Zhangjiajie pour ses pics de grès qui
-                            défient la perspective, Pékin pour clore le voyage
-                            par l'Histoire, mille ans condensés sur une cour
-                            pavée.
-                        </p>
-                    </div>
-                </div>
+  /* place grid */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  /* "tous les lieux" : cartes en flex-wrap, plafonnées à 300px */
+  .lieux-grid{display:flex;flex-wrap:wrap;gap:12px;}
+  .lieux-grid .fcard{flex:1 1 260px;max-width:300px;}
+  .fcard{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;}
+  .fhead{display:flex;align-items:flex-start;gap:12px;}
+  .ficon{width:38px;height:38px;border-radius:9px;background:var(--accent-soft-bg);border:1px solid var(--accent-soft-border);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
+  .ftitle{font:600 15px 'DM Sans';color:#18181B;}
+  .fsub{font:500 12.5px 'DM Sans';color:var(--sub-text);margin-top:1px;}
+  .fmeta{font:700 15px 'Sora';color:var(--accent);white-space:nowrap;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{font:600 10.5px 'DM Sans';padding:3px 8px;border-radius:6px;background:var(--accent-soft-bg);color:var(--accent);border:1px solid var(--accent-soft-border);}
 
-                <!-- Onglets : Itinéraire / Nourriture -->
-                <div
-                    class="tabs"
-                    role="tablist"
-                    aria-label="Sections du carnet"
-                >
-                    <button
-                        class="tab is-active"
-                        role="tab"
-                        type="button"
-                        id="tab-itineraire"
-                        aria-controls="panel-itineraire"
-                        aria-selected="true"
-                        data-tab="itineraire"
-                    >
-                        <span class="tab-label">L'itinéraire</span>
-                        <span class="tab-count">4 étapes</span>
-                    </button>
-                    <button
-                        class="tab"
-                        role="tab"
-                        type="button"
-                        id="tab-nourriture"
-                        aria-controls="panel-nourriture"
-                        aria-selected="false"
-                        tabindex="-1"
-                        data-tab="nourriture"
-                    >
-                        <span class="tab-label">Nourriture</span>
-                        <span class="tab-count">29 plats · 14 ★</span>
-                    </button>
-                    <button
-                        class="tab"
-                        role="tab"
-                        type="button"
-                        id="tab-transport"
-                        aria-controls="panel-transport"
-                        aria-selected="false"
-                        tabindex="-1"
-                        data-tab="transport"
-                    >
-                        <span class="tab-label">Moyens de transport</span>
-                        <span class="tab-count">4 modes</span>
-                    </button>
-                    <button
-                        class="tab"
-                        role="tab"
-                        type="button"
-                        id="tab-conseils"
-                        aria-controls="panel-conseils"
-                        aria-selected="false"
-                        tabindex="-1"
-                        data-tab="conseils"
-                    >
-                        <span class="tab-label">Conseils</span>
-                        <span class="tab-count">8 essentiels</span>
-                    </button>
-                    <button
-                        class="tab"
-                        role="tab"
-                        type="button"
-                        id="tab-musique"
-                        aria-controls="panel-musique"
-                        aria-selected="false"
-                        tabindex="-1"
-                        data-tab="musique"
-                    >
-                        <span class="tab-label">Musique</span>
-                        <span class="tab-count">27 titres</span>
-                    </button>
-                </div>
+  /* thumbnails (Wikipedia REST) */
+  .thumb{position:relative;display:block;overflow:hidden;flex-shrink:0;background:#ECECEF;}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .45s ease;}
+  .thumb.is-loaded img{opacity:1;}
+  .thumb-fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;}
+  .thumb.is-fallback .thumb-fb{display:flex;}
+  .thumb:not(.is-loaded):not(.is-fallback)::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#ECECEF 30%,#F5F5F7 50%,#ECECEF 70%);background-size:200% 100%;animation:shim 1.2s infinite;}
+  @keyframes shim{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+  .thumb.banner{width:100%;height:130px;}
+  .thumb.sq{width:46px;height:46px;border-radius:10px;}
+  .thumb.mini{width:30px;height:30px;border-radius:7px;}
 
-                <!-- Panneau : Itinéraire -->
-                <section
-                    class="tab-panel is-active"
-                    id="panel-itineraire"
-                    role="tabpanel"
-                    aria-labelledby="tab-itineraire"
-                    data-tab-panel="itineraire"
-                >
-                    <nav class="legend" aria-label="Étapes du voyage">
-                        <div class="legend-item" data-city="Chengdu">
-                            <span class="thumb legend-thumb">
-                                <img
-                                    data-wiki="Chengdu"
-                                    alt="Chengdu"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <span class="legend-overlay">
-                                <span class="legend-num">01</span>
-                                <span class="legend-body">
-                                    <span class="legend-name">
-                                        <span
-                                            class="dot"
-                                            style="background: #2ecc71"
-                                        ></span>
-                                        Chengdu
-                                    </span>
-                                    <span class="legend-meta"
-                                        >Sichuan · 26–27 juil. · Opéra,
-                                        vélo, hot pot</span
-                                    >
-                                </span>
-                                <span class="legend-arrow" aria-hidden="true"
-                                    >→</span
-                                >
-                            </span>
-                        </div>
-                        <div class="legend-item" data-city="Zhangjiajie">
-                            <span class="thumb legend-thumb">
-                                <img
-                                    data-wiki="Zhangjiajie"
-                                    alt="Zhangjiajie"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <span class="legend-overlay">
-                                <span class="legend-num">02</span>
-                                <span class="legend-body">
-                                    <span class="legend-name">
-                                        <span
-                                            class="dot"
-                                            style="background: #3498db"
-                                        ></span>
-                                        Zhangjiajie
-                                    </span>
-                                    <span class="legend-meta"
-                                        >Hunan · 28–30 juil. · Pics
-                                        Avatar</span
-                                    >
-                                </span>
-                                <span class="legend-arrow" aria-hidden="true"
-                                    >→</span
-                                >
-                            </span>
-                        </div>
-                        <div class="legend-item" data-city="Chongqing">
-                            <span class="thumb legend-thumb">
-                                <img
-                                    data-wiki="Chongqing"
-                                    alt="Chongqing"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <span class="legend-overlay">
-                                <span class="legend-num">03</span>
-                                <span class="legend-body">
-                                    <span class="legend-name">
-                                        <span
-                                            class="dot"
-                                            style="background: #e74c3c"
-                                        ></span>
-                                        Chongqing
-                                    </span>
-                                    <span class="legend-meta"
-                                        >Yangzi · 31 juil.–1ᵉʳ août · Drone
-                                        show</span
-                                    >
-                                </span>
-                                <span class="legend-arrow" aria-hidden="true"
-                                    >→</span
-                                >
-                            </span>
-                        </div>
-                        <div class="legend-item" data-city="Pékin">
-                            <span class="thumb legend-thumb">
-                                <img
-                                    data-wiki="Hall_of_Supreme_Harmony"
-                                    alt="Pékin — Cité Interdite"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <span class="legend-overlay">
-                                <span class="legend-num">04</span>
-                                <span class="legend-body">
-                                    <span class="legend-name">
-                                        <span
-                                            class="dot"
-                                            style="background: #f1c40f"
-                                        ></span>
-                                        Pékin
-                                    </span>
-                                    <span class="legend-meta"
-                                        >Hebei · 2–6 août · Cité Interdite,
-                                        Muraille</span
-                                    >
-                                </span>
-                                <span class="legend-arrow" aria-hidden="true"
-                                    >→</span
-                                >
-                            </span>
-                        </div>
-                    </nav>
+  /* place card with photo banner */
+  .fcard.media{padding:0;gap:0;overflow:hidden;}
+  .fcard.media .fbody{padding:16px;display:flex;flex-direction:column;gap:10px;}
 
-                    <p class="colophon">
-                        Cliquez une étape pour ouvrir le carnet détaillé
-                    </p>
+  /* section labels + filter bar */
+  .seclabel{display:flex;align-items:baseline;gap:9px;font:800 16px 'Sora';color:var(--title);margin:0 0 13px;flex-wrap:wrap;}
+  .seclabel:not(:first-child){margin-top:24px;}
+  .seclabel .num{color:var(--accent);}
+  .seclabel .pin{font:500 12px 'DM Sans';color:var(--sub-text);}
+  .filterbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+  .filterbar button{border:1px solid var(--head-border);background:#fff;color:var(--sub-text);font:600 12.5px 'DM Sans';padding:7px 13px;border-radius:8px;cursor:pointer;transition:.16s;display:flex;align-items:center;gap:7px;}
+  .filterbar button.on{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .filterbar .fdot{width:8px;height:8px;border-radius:50%;}
 
-                    <!-- Drawer ville : apparaît à la place de la grille des 4 villes -->
-                    <aside
-                        class="panel"
-                        id="panel"
-                        role="dialog"
-                        aria-hidden="true"
-                        aria-label="Détail de l'étape"
-                    >
-                        <div id="panelInner"></div>
-                    </aside>
-                </section>
+  /* advice (conseils) */
+  .advice{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:14px 15px;display:flex;gap:12px;align-items:flex-start;}
+  .advice-ic{width:34px;height:34px;border-radius:9px;background:var(--accent-soft-bg);border:1px solid var(--accent-soft-border);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
+  .advice-tx{font:500 13px 'DM Sans';color:var(--note-fg);line-height:1.5;}
 
-                <!-- Panneau : Nourriture -->
-                <section
-                    class="tab-panel"
-                    id="panel-nourriture"
-                    role="tabpanel"
-                    aria-labelledby="tab-nourriture"
-                    data-tab-panel="nourriture"
-                    hidden
-                >
-                    <p class="food-intro">
-                        <span class="food-region is-trip food-region-inline"
-                            >Ville</span
-                        >
-                        indique où on est censé le manger sur l'itinéraire ;
-                        <br />
-                        <span
-                            class="food-star food-star-inline"
-                            aria-hidden="true"
-                            >★</span
-                        >
-                        signale mes sélections personnelles.
-                    </p>
+  /* parcours : transition transport (train Z3) */
+  .node.transit{border-radius:9px;background:var(--accent);color:#fff;border:none;}
+  .card.transit{background:var(--accent-soft-bg);border-style:dashed;border-color:var(--accent-soft-border);}
 
-                    <!-- I. À CHENGDU -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">I.</span>
-                        À Chengdu
-                        <em class="food-section-meta"
-                            >— le temple de l'épice</em
-                        >
-                    </h3>
-                    <ul class="food-grid" aria-label="Plats à Chengdu">
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Hot_pot"
-                                    alt="Sichuan Hot Pot"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Chengdu</span>
-                                <h3 class="food-name">Sichuan Hot Pot</h3>
-                                <span class="food-pinyin"
-                                    >四川火锅 · Sìchuān huǒguō</span
-                                >
-                                <p class="food-desc">
-                                    L'expérience ultime : un bouillon pimenté
-                                    (ou moitié-moitié) où l'on cuit soi-même
-                                    viandes, abats et légumes.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Mapo_tofu"
-                                    alt="Mapo tofu"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Chengdu</span>
-                                <h3 class="food-name">Mapo tofu</h3>
-                                <span class="food-pinyin"
-                                    >麻婆豆腐 · Mápó dòufu</span
-                                >
-                                <p class="food-desc">
-                                    Tofu tendre dans une sauce pimentée et
-                                    poivrée au bœuf haché — le classique absolu
-                                    du <em>mála</em>.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Twice_cooked_pork"
-                                    alt="Porc double-cuit"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Chengdu</span>
-                                <h3 class="food-name">Porc double-cuit</h3>
-                                <span class="food-pinyin"
-                                    >回锅肉 · Huíguōròu</span
-                                >
-                                <p class="food-desc">
-                                    Tranches de poitrine de porc sautées deux
-                                    fois avec poireau chinois et pâte de soja
-                                    fermentée.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Kung_Pao_chicken"
-                                    alt="Poulet Kung Pao"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Chengdu</span>
-                                <h3 class="food-name">Poulet Kung Pao</h3>
-                                <span class="food-pinyin"
-                                    >宫保鸡丁 · Gōngbǎo jīdīng</span
-                                >
-                                <p class="food-desc">
-                                    Dés de poulet sautés avec cacahuètes et
-                                    piments séchés — équilibre parfait du sucré,
-                                    salé, vinaigré, piquant.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card">
-                            <span class="thumb food-thumb">
-                                <img
-                                    data-wiki="Dan_dan_noodles"
-                                    alt="Nouilles Dan Dan"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Chengdu</span>
-                                <h3 class="food-name">Nouilles Dan Dan</h3>
-                                <span class="food-pinyin"
-                                    >担担面 · Dàndàn miàn</span
-                                >
-                                <p class="food-desc">
-                                    Nouilles au sésame, porc haché épicé et
-                                    huile de piment, à mélanger vivement.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+  /* parcours : accordéon villes → jours → planning */
+  .city-card{cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+  .city-card:hover{border-color:var(--accent-soft-border);box-shadow:0 8px 22px -14px rgba(0,0,0,.25);}
+  .caret{display:flex;align-items:center;color:var(--sub-text);flex-shrink:0;transition:transform .2s;}
+  .caret.open{transform:rotate(180deg);}
+  .subwrap{margin-top:12px;padding-left:14px;border-left:2px dashed var(--accent-soft-border);}
+  .day-cards{display:flex;flex-wrap:wrap;gap:12px;}
+  .tarot{width:152px;flex:0 0 152px;background:#fff;border:1px solid #E4E4E7;border-radius:14px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,.05);transition:transform .18s,box-shadow .18s,border-color .18s;}
+  .tarot:hover{transform:translateY(-4px);box-shadow:0 16px 28px -18px rgba(0,0,0,.45);}
+  .tarot-art{position:relative;height:104px;}
+  .tarot-art .thumb{width:100%;height:100%;}
+  .tarot-jx{position:absolute;top:8px;left:8px;display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 8px;border-radius:7px;color:#fff;font:800 12px 'Sora';box-shadow:0 2px 6px rgba(0,0,0,.3);}
+  .tarot-body{padding:10px 11px 12px;display:flex;flex-direction:column;gap:8px;flex:1;}
+  .tarot-title{font:700 12.5px 'Sora';color:#18181B;line-height:1.28;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+  .tarot-meta{margin-top:auto;font:600 10.5px 'DM Sans';color:var(--sub-text);}
+  .day-detail{margin-top:14px;border-radius:12px;padding:15px 16px;}
+  .day-detail-head{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+  .dd-jx{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:30px;padding:0 9px;border-radius:8px;color:#fff;font:800 13px 'Sora';flex-shrink:0;}
+  .dd-title{font:800 15px 'Sora';color:var(--title);}
+  .dd-sub{font:500 12px 'DM Sans';color:var(--sub-text);margin-top:1px;}
+  .subplan{display:flex;flex-direction:column;gap:9px;}
+  .pl-name2{flex:1;min-width:0;}
+  .pl-n{font:600 13px 'DM Sans';color:#27272A;}
+  .pl-z{font:500 11.5px 'DM Sans';color:var(--sub-text);margin-top:1px;}
 
-                    <!-- II. À ZHANGJIAJIE -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">II.</span>
-                        À Zhangjiajie
-                        <em class="food-section-meta"
-                            >— la cuisine de montagne</em
-                        >
-                    </h3>
-                    <ul class="food-grid" aria-label="Plats à Zhangjiajie">
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Tujia_people"
-                                    alt="San Xia Guo — cuisine Tujia"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip"
-                                    >Zhangjiajie</span
-                                >
-                                <h3 class="food-name">San Xia Guo</h3>
-                                <span class="food-pinyin"
-                                    >三下锅 · Sānxiàguō</span
-                                >
-                                <p class="food-desc">
-                                    Plat traditionnel de l'ethnie Tujia : ragoût
-                                    combinant porc, tripes et bœuf, mijoté avec
-                                    des légumes de montagne.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Hunan_cuisine"
-                                    alt="Poulet aux herbes de montagne"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip"
-                                    >Zhangjiajie</span
-                                >
-                                <h3 class="food-name">
-                                    Poulet aux herbes de montagne
-                                </h3>
-                                <span class="food-pinyin"
-                                    >山珍鸡汤 · Shānzhēn jītāng</span
-                                >
-                                <p class="food-desc">
-                                    Soupe de poulet fermier infusée aux racines
-                                    et plantes du Wulingyuan — saine et
-                                    parfumée, idéale après une randonnée.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+  /* nourriture */
+  .food-intro{font:500 13px 'DM Sans';color:var(--sub-text);margin-bottom:18px;line-height:1.5;}
+  .food-intro .star{color:#F59E0B;font-weight:700;}
+  .chip.perso{background:#FEF3C7;color:#B45309;border-color:#FCE7A8;}
 
-                    <!-- III. À CHONGQING -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">III.</span>
-                        À Chongqing
-                        <em class="food-section-meta"
-                            >— le feu et la street food</em
-                        >
-                    </h3>
-                    <ul class="food-grid" aria-label="Plats à Chongqing">
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Chongqing_noodles"
-                                    alt="Chongqing Xiaomian"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip"
-                                    >Chongqing</span
-                                >
-                                <h3 class="food-name">Chongqing Xiaomian</h3>
-                                <span class="food-pinyin">小面 · Xiǎomiàn</span>
-                                <p class="food-desc">
-                                    Nouilles de blé dans un bouillon riche et
-                                    très épicé — souvent dégustées au
-                                    petit-déjeuner.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Mao_xue_wang"
-                                    alt="Mao Xue Wang"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip"
-                                    >Chongqing</span
-                                >
-                                <h3 class="food-name">Mao Xue Wang</h3>
-                                <span class="food-pinyin"
-                                    >毛血旺 · Máoxuèwàng</span
-                                >
-                                <p class="food-desc">
-                                    Ragoût de sang de canard caillé, tripes et
-                                    légumes dans un bouillon rouge intense —
-                                    pour les aventuriers.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Chinese_street_food"
-                                    alt="Street food de Chongqing"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip"
-                                    >Chongqing</span
-                                >
-                                <h3 class="food-name">
-                                    Street food · Minxin Jiayuan
-                                </h3>
-                                <span class="food-pinyin">烧烤 · Shāokǎo</span>
-                                <p class="food-desc">
-                                    Brochettes grillées <em>shaokao</em>,
-                                    galettes farcies à la viande et tofu puant —
-                                    la nuit gourmande du marché de Minxin
-                                    Jiayuan.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+  @media (max-width:760px){
+    body{padding:0;}
+    .app{height:auto;min-height:100vh;border-radius:0;border:none;flex-direction:column;}
+    .side{width:100%;}
+    .nav{flex-direction:row;flex-wrap:wrap;}
+    .nav button{flex:1;justify-content:center;}
+    .spacer{display:none;}
+    .budget{margin-top:18px;}
+    .head{flex-direction:column;align-items:flex-start;gap:10px;}
+    .grid2{grid-template-columns:1fr;}
+    .body{max-height:none;}
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="side">
+    <div class="logo"><span class="ic" id="logoIcon"></span><span id="logoText">Sinarum</span></div>
+    <div class="dates" id="sideDates">Chine · 26 juil → 6 août</div>
+    <nav class="nav" id="nav"></nav>
+    <div class="spacer"></div>
+    <div class="theme-toggle">
+      <span class="tt-k">Thème</span>
+      <div class="tt-switch" role="group" aria-label="Choix du thème">
+        <span class="tt-knob" aria-hidden="true"></span>
+        <button class="tt-opt on" data-theme="aurora">Aurora</button>
+        <button class="tt-opt" data-theme="citrus">Citrus</button>
+      </div>
+    </div>
+    <div class="budget">
+      <div class="k">Le voyage</div>
+      <div class="v" id="statValue">12 jours</div>
+      <div class="s" id="statSub">4 villes · 50 lieux</div>
+    </div>
+  </aside>
 
-                    <!-- IV. À PÉKIN -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">IV.</span>
-                        À Pékin
-                        <em class="food-section-meta"
-                            >— la cuisine impériale</em
-                        >
-                    </h3>
-                    <ul class="food-grid" aria-label="Plats à Pékin">
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Peking_duck"
-                                    alt="Canard laqué de Pékin"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Pékin</span>
-                                <h3 class="food-name">Canard laqué</h3>
-                                <span class="food-pinyin"
-                                    >北京烤鸭 · Běijīng kǎoyā</span
-                                >
-                                <p class="food-desc">
-                                    Peau croustillante saupoudrée de sucre,
-                                    chair fondante enroulée dans de fines crêpes
-                                    avec oignon vert et sauce hoisin.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Jiaozi"
-                                    alt="Jiaozi — raviolis chinois"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Pékin</span>
-                                <h3 class="food-name">Jiaozi</h3>
-                                <span class="food-pinyin">饺子 · Jiǎozi</span>
-                                <p class="food-desc">
-                                    Les fameux raviolis chinois en croissant,
-                                    garnis de porc et ciboulette — à Pékin, on
-                                    les préfère bouillis ou à la vapeur.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card is-personal">
-                            <span class="thumb food-thumb">
-                                <span
-                                    class="food-star"
-                                    aria-label="Sélection personnelle"
-                                    title="Sélection personnelle"
-                                    >★</span
-                                >
-                                <img
-                                    data-wiki="Zhajiangmian"
-                                    alt="Zha Jiang Mian"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Pékin</span>
-                                <h3 class="food-name">Zha Jiang Mian</h3>
-                                <span class="food-pinyin"
-                                    >炸酱面 · Zhájiàngmiàn</span
-                                >
-                                <p class="food-desc">
-                                    Nouilles épaisses nappées d'une sauce sombre
-                                    au porc haché et soja fermenté, juliennes de
-                                    concombre — l'âme de Pékin.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="food-card">
-                            <span class="thumb food-thumb">
-                                <img
-                                    data-wiki="Jianbing"
-                                    alt="Jianbing"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="food-body">
-                                <span class="food-region is-trip">Pékin</span>
-                                <h3 class="food-name">Jianbing</h3>
-                                <span class="food-pinyin">煎饼 · Jiānbing</span>
-                                <p class="food-desc">
-                                    Crêpe de blé sur plaque chaude, œuf, sauce
-                                    hoisin, coriandre — le petit-déj' des rues.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
+  <section class="main">
+    <header class="head">
+      <div>
+        <div class="eyebrow" id="eyebrow">Itinéraire</div>
+        <div class="h1">Voyage en Chine</div>
+      </div>
+      <div class="pills">
+        <span class="pill a" id="pillA">12 jours</span>
+        <span class="pill b" id="pillB">4 villes</span>
+      </div>
+    </header>
+    <div class="body om-scroll" id="body"></div>
+  </section>
+</div>
 
-                    <!-- V. HORS ITINÉRAIRE — section "bonus", visuellement distincte -->
-                    <div class="food-bonus">
-                        <span class="food-bonus-tag" aria-hidden="true"
-                            >Bonus</span
-                        >
-                        <h3 class="food-section-label is-bonus">
-                            <span class="food-section-num">V.</span>
-                            Autres classiques
-                            <em class="food-section-meta">— hors itinéraire</em>
-                        </h3>
-                        <ul
-                            class="food-grid is-bonus"
-                            aria-label="Autres classiques chinois"
-                        >
-                            <li class="food-card is-personal">
-                                <span class="thumb food-thumb">
-                                    <span
-                                        class="food-star"
-                                        aria-label="Sélection personnelle"
-                                        title="Sélection personnelle"
-                                        >★</span
-                                    >
-                                    <img
-                                        data-wiki="Reganmian"
-                                        alt="Re Gan Mian — nouilles sèches de Wuhan"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Wuhan</span>
-                                    <h3 class="food-name">Re Gan Mian</h3>
-                                    <span class="food-pinyin"
-                                        >热干面 · Règānmiàn</span
-                                    >
-                                    <p class="food-desc">
-                                        Nouilles épaisses au sésame, sauce de
-                                        soja vinaigrée et oignon vert — le
-                                        petit-déjeuner emblématique de Wuhan.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card is-personal">
-                                <span class="thumb food-thumb">
-                                    <span
-                                        class="food-star"
-                                        aria-label="Sélection personnelle"
-                                        title="Sélection personnelle"
-                                        >★</span
-                                    >
-                                    <img
-                                        data-wiki="Lu_rou_fan"
-                                        alt="Lu Rou Fan — riz au porc braisé"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Wuhan</span>
-                                    <h3 class="food-name">Lu Rou Fan</h3>
-                                    <span class="food-pinyin"
-                                        >卤肉饭 · Lǔròu fàn</span
-                                    >
-                                    <p class="food-desc">
-                                        Riz blanc nappé d'une sauce onctueuse de
-                                        porc gras mijoté longuement dans la
-                                        soja-anis étoilé — réconfort en bol.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Red_braised_pork_belly"
-                                        alt="Hong Shao Rou — porc braisé rouge"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Hunan</span>
-                                    <h3 class="food-name">Hong Shao Rou</h3>
-                                    <span class="food-pinyin"
-                                        >红烧肉 · Hóngshāo ròu</span
-                                    >
-                                    <p class="food-desc">
-                                        Cubes de poitrine de porc caramélisés et
-                                        mijotés dans la soja, le sucre et l'anis
-                                        — fondants, laqués, le grand classique
-                                        du Hunan.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Xiaolongbao"
-                                        alt="Xiaolongbao"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Shanghai</span>
-                                    <h3 class="food-name">Xiaolongbao</h3>
-                                    <span class="food-pinyin"
-                                        >小笼包 · Xiǎolóngbāo</span
-                                    >
-                                    <p class="food-desc">
-                                        Raviolis vapeur à la pâte fine, garnis
-                                        de porc et d'un bouillon brûlant.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Dim_sum"
-                                        alt="Dim sum"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Canton</span>
-                                    <h3 class="food-name">Dim sum</h3>
-                                    <span class="food-pinyin"
-                                        >點心 · Diǎnxīn</span
-                                    >
-                                    <p class="food-desc">
-                                        Petites bouchées vapeur ou frites,
-                                        servies en cascade le matin avec du thé.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Yangzhou_fried_rice"
-                                        alt="Riz cantonais"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Jiangsu</span>
-                                    <h3 class="food-name">Riz de Yangzhou</h3>
-                                    <span class="food-pinyin"
-                                        >扬州炒饭 · Yángzhōu chǎofàn</span
-                                    >
-                                    <p class="food-desc">
-                                        Le « riz cantonais » d'origine : œuf,
-                                        jambon, crevettes, petits pois, parfumé
-                                        au wok.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Baozi"
-                                        alt="Baozi"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Nord</span>
-                                    <h3 class="food-name">Baozi</h3>
-                                    <span class="food-pinyin"
-                                        >包子 · Bāozi</span
-                                    >
-                                    <p class="food-desc">
-                                        Brioches vapeur moelleuses, fourrées au
-                                        porc, aux légumes ou à la pâte de
-                                        haricot rouge.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Sweet_and_sour_pork"
-                                        alt="Porc aigre-doux"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Canton</span>
-                                    <h3 class="food-name">Porc aigre-doux</h3>
-                                    <span class="food-pinyin"
-                                        >咕嚕肉 · Gūlū ròu</span
-                                    >
-                                    <p class="food-desc">
-                                        Morceaux de porc frits enrobés d'une
-                                        sauce rubis vinaigre-sucre-ananas.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Wonton"
-                                        alt="Wonton"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Canton</span>
-                                    <h3 class="food-name">Wonton</h3>
-                                    <span class="food-pinyin"
-                                        >餛飩 · Húntún</span
-                                    >
-                                    <p class="food-desc">
-                                        Raviolis fins en bouillon clair, garnis
-                                        de crevettes ou de porc — réconfort
-                                        instantané.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Tanghulu"
-                                        alt="Tanghulu — brochette de fruits caramélisés"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Nord</span>
-                                    <h3 class="food-name">Tanghulu</h3>
-                                    <span class="food-pinyin"
-                                        >糖葫芦 · Tánghúlu</span
-                                    >
-                                    <p class="food-desc">
-                                        Brochette de baies d'aubépine glacées de
-                                        sucre craquant — la star croustillante
-                                        des trottoirs et des vidéos TikTok.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Biangbiang_noodles"
-                                        alt="Biang Biang Mian — nouilles larges de Xi'an"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Xi'an</span>
-                                    <h3 class="food-name">Biang Biang Mian</h3>
-                                    <span class="food-pinyin"
-                                        >biángbiáng面 · Biángbiáng miàn</span
-                                    >
-                                    <p class="food-desc">
-                                        Nouilles plates larges comme une
-                                        ceinture, claquées à la main et nappées
-                                        d'huile de piment brûlante — virales pour
-                                        leur idéogramme impossible.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Roujiamo"
-                                        alt="Roujiamo — le « hamburger » chinois"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Xi'an</span>
-                                    <h3 class="food-name">Roujiamo</h3>
-                                    <span class="food-pinyin"
-                                        >肉夹馍 · Ròujiāmó</span
-                                    >
-                                    <p class="food-desc">
-                                        Le « hamburger » chinois : pain plat grillé
-                                        fourré de porc effiloché mijoté aux épices
-                                        — un must des comptoirs de street food.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Bubble_tea"
-                                        alt="Bubble tea — thé au lait aux perles de tapioca"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Partout</span>
-                                    <h3 class="food-name">Bubble Tea</h3>
-                                    <span class="food-pinyin"
-                                        >珍珠奶茶 · Zhēnzhū nǎichá</span
-                                    >
-                                    <p class="food-desc">
-                                        Thé au lait glacé et ses perles de
-                                        tapioca moelleuses — le phénomène mondial
-                                        décliné en mille parfums sur les réseaux.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Stinky_tofu"
-                                        alt="Stinky tofu — tofu fermenté frit"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Hunan</span>
-                                    <h3 class="food-name">Stinky Tofu</h3>
-                                    <span class="food-pinyin"
-                                        >臭豆腐 · Chòu dòufu</span
-                                    >
-                                    <p class="food-desc">
-                                        Tofu fermenté frit, à l'odeur redoutable
-                                        mais au cœur fondant — le défi gustatif
-                                        favori des vidéos de rue.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="food-card">
-                                <span class="thumb food-thumb">
-                                    <img
-                                        data-wiki="Crayfish_dish"
-                                        alt="Mala xiao long xia — écrevisses épicées"
-                                        loading="lazy"
-                                    />
-                                </span>
-                                <div class="food-body">
-                                    <span class="food-region">Partout</span>
-                                    <h3 class="food-name">Écrevisses Mala</h3>
-                                    <span class="food-pinyin"
-                                        >麻辣小龙虾 · Málà xiǎolóngxiā</span
-                                    >
-                                    <p class="food-desc">
-                                        Écrevisses sautées au piment et poivre du
-                                        Sichuan, dégustées à la main les soirs
-                                        d'été — l'obsession estivale des villes.
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- /.food-bonus -->
-                </section>
+<script type="module">
+import { tripData, flexibleItinerary, ROUTE_ORDER, interCityTransport, foodData } from './js/data.js';
+import { getImage } from './js/images.js';
 
-                <!-- Panneau : Moyens de transport -->
-                <section
-                    class="tab-panel"
-                    id="panel-transport"
-                    role="tabpanel"
-                    aria-labelledby="tab-transport"
-                    data-tab-panel="transport"
-                    hidden
-                >
-                    <p class="food-intro">
-                        Quatre engins, quatre tempos. De la longue marche
-                        atmosphérique au glissement feutré du Fuxing, voici
-                        comment se déplace ce voyage.
-                    </p>
+// ---------- icons ----------
+const ICONS = {
+  pin:[['path',{d:'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z'}],['circle',{cx:12,cy:10,r:3}]],
+  mountain:[['path',{d:'m8 3 4 8 5-5 5 15H2L8 3z'}]],
+  building:[['rect',{x:6,y:3,width:12,height:18,rx:1}],['path',{d:'M9 7h.01M9 11h.01M9 15h.01M15 7h.01M15 11h.01M15 15h.01'}]],
+  landmark:[['line',{x1:3,x2:21,y1:22,y2:22}],['polygon',{points:'12 3 20 8 4 8'}],['line',{x1:6,x2:6,y1:18,y2:11}],['line',{x1:10,x2:10,y1:18,y2:11}],['line',{x1:14,x2:14,y1:18,y2:11}],['line',{x1:18,x2:18,y1:18,y2:11}]],
+  flame:[['path',{d:'M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5Z'}]],
+  utensils:[['path',{d:'M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2'}],['path',{d:'M7 2v20'}],['path',{d:'M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7'}]],
+  coffee:[['path',{d:'M17 8h1a4 4 0 1 1 0 8h-1'}],['path',{d:'M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z'}],['line',{x1:6,x2:6,y1:2,y2:4}],['line',{x1:10,x2:10,y1:2,y2:4}],['line',{x1:14,x2:14,y1:2,y2:4}]],
+  card:[['rect',{x:2,y:5,width:20,height:14,rx:2}],['line',{x1:2,x2:22,y1:10,y2:10}]],
+  map:[['polygon',{points:'3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21'}],['line',{x1:9,x2:9,y1:3,y2:18}],['line',{x1:15,x2:15,y1:6,y2:21}]],
+  ticket:[['path',{d:'M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z'}],['path',{d:'M13 5v14'}]],
+  plane:[['path',{d:'M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2Z'}]],
+  compass:[['circle',{cx:12,cy:12,r:10}],['polygon',{points:'16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76'}]],
+  bulb:[['path',{d:'M15 14c.2-1 .7-1.7 1.5-2.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.8.8 1.3 1.5 1.5 2.5'}],['path',{d:'M9 18h6'}],['path',{d:'M10 22h4'}]],
+  leaf:[['path',{d:'M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'}],['path',{d:'M2 21c0-3 1.85-5.36 5.08-6'}]],
+  calendar:[['rect',{x:3,y:4,width:18,height:18,rx:2}],['path',{d:'M16 2v4M8 2v4M3 10h18'}]],
+  train:[['rect',{x:4,y:3,width:16,height:16,rx:2}],['path',{d:'M4 11h16'}],['path',{d:'M12 3v8'}],['path',{d:'m8 19-2 3'}],['path',{d:'m18 22-2-3'}],['path',{d:'M8 15h.01M16 15h.01'}]],
+  chevron:[['path',{d:'m6 9 6 6 6-6'}]],
+};
+const SVGNS = 'http://www.w3.org/2000/svg';
+function icon(name, size){
+  size = size || 18;
+  const svg = document.createElementNS(SVGNS,'svg');
+  svg.setAttribute('width',size); svg.setAttribute('height',size);
+  svg.setAttribute('viewBox','0 0 24 24'); svg.setAttribute('fill','none');
+  svg.setAttribute('stroke','currentColor'); svg.setAttribute('stroke-width','1.75');
+  svg.setAttribute('stroke-linecap','round'); svg.setAttribute('stroke-linejoin','round');
+  (ICONS[name]||[]).forEach(d=>{
+    const el = document.createElementNS(SVGNS,d[0]);
+    for(const k in d[1]) el.setAttribute(k, d[1][k]);
+    svg.appendChild(el);
+  });
+  return svg;
+}
 
-                    <ul class="transport-grid" aria-label="Moyens de transport">
-                        <li class="transport-card">
-                            <span class="thumb transport-thumb">
-                                <img
-                                    data-wiki="Air_China"
-                                    alt="Air China — Boeing 777 en livrée internationale"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="transport-body">
-                                <span class="transport-tag is-intl">Long-courrier</span>
-                                <h3 class="transport-name">Avion international · Air China</h3>
-                                <span class="transport-pinyin">中国国际航空 · Zhōngguó Guójì Hángkōng</span>
-                                <ul class="transport-stats">
-                                    <li><strong>Vitesse</strong> <span>≈ 900 km/h</span></li>
-                                    <li><strong>Durée</strong> <span>11 h Paris–Pékin (vol direct)</span></li>
-                                    <li><strong>Flotte</strong> <span>Boeing 777-300ER · A350-900 · 787-9</span></li>
-                                </ul>
-                                <p class="transport-desc">
-                                    Compagnie nationale chinoise, membre Star
-                                    Alliance. Vol direct Paris-CDG → Pékin
-                                    Capital. Décalage horaire : +6 h l'été,
-                                    +7 h l'hiver. Pas d'escale technique.
-                                </p>
-                            </div>
-                        </li>
+// ---------- derived data ----------
+const cities = tripData.itineraireData;
+const cityByName = Object.fromEntries(cities.map(c => [c.ville, c]));
 
-                        <li class="transport-card">
-                            <span class="thumb transport-thumb">
-                                <img
-                                    data-wiki="Comac_C919"
-                                    alt="Avion court-courrier — vols intérieurs Chine"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="transport-body">
-                                <span class="transport-tag is-domestic">Court-courrier</span>
-                                <h3 class="transport-name">Avion national</h3>
-                                <span class="transport-pinyin">国内航班 · Guónèi hángbān</span>
-                                <ul class="transport-stats">
-                                    <li><strong>Vitesse</strong> <span>≈ 800 km/h</span></li>
-                                    <li><strong>Durée</strong> <span>2–3 h entre métropoles</span></li>
-                                    <li><strong>Tarifs</strong> <span>~ 60–180 € selon saison</span></li>
-                                </ul>
-                                <p class="transport-desc">
-                                    Réseau dense (China Eastern, China Southern,
-                                    Hainan, Spring, Sichuan Airlines). Retards
-                                    fréquents — préférer le rail si possible
-                                    sous 1 500 km.
-                                </p>
-                            </div>
-                        </li>
+const TRIP = {
+  villes: ROUTE_ORDER.length,
+  lieux: cities.reduce((n,c)=> n + c.masterListe.length, 0),
+  jours: ROUTE_ORDER.reduce((n,v)=> n + (flexibleItinerary[v]||[]).length, 0),
+  incont: cities.reduce((n,c)=> n + c.masterListe.filter(p=>p.incontournable).length, 0),
+};
+const FOOD_COUNT = foodData.reduce((n,g)=> n + g.plats.length, 0);
 
-                        <li class="transport-card">
-                            <span class="thumb transport-thumb">
-                                <img
-                                    data-wiki="CRH3"
-                                    alt="TGV chinois — rame Fuxing / CRH"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="transport-body">
-                                <span class="transport-tag is-hsr">Haute vitesse</span>
-                                <h3 class="transport-name">TGV chinois · Fuxing</h3>
-                                <span class="transport-pinyin">复兴号 · Fùxīng hào</span>
-                                <ul class="transport-stats">
-                                    <li><strong>Vitesse</strong> <span>350 km/h</span></li>
-                                    <li><strong>Réseau</strong> <span>45 000 km — le plus grand au monde</span></li>
-                                    <li><strong>Classes</strong> <span>Business · Première · Seconde</span></li>
-                                </ul>
-                                <p class="transport-desc">
-                                    Les lignes G et D (« gāosù »). Confort
-                                    aérien, ponctualité de banque suisse,
-                                    sécurité aéroport. Réservation via
-                                    12306 ou Trip.com.
-                                </p>
-                            </div>
-                        </li>
+const firstDate = flexibleItinerary[ROUTE_ORDER[0]][0].date;
+const lastCityDays = flexibleItinerary[ROUTE_ORDER[ROUTE_ORDER.length-1]];
+const lastDate = lastCityDays[lastCityDays.length-1].date;
 
-                        <li class="transport-card">
-                            <span class="thumb transport-thumb">
-                                <img
-                                    data-wiki="Lhasa_Express"
-                                    alt="Train Z21/22 Beijing-Lhasa — rame K/Z classique"
-                                    loading="lazy"
-                                />
-                            </span>
-                            <div class="transport-body">
-                                <span class="transport-tag is-classic">Classique</span>
-                                <h3 class="transport-name">Train standard · K / Z</h3>
-                                <span class="transport-pinyin">普速列车 · Pǔsù lièchē</span>
-                                <ul class="transport-stats">
-                                    <li><strong>Vitesse</strong> <span>120–160 km/h</span></li>
-                                    <li><strong>Couchage</strong> <span>« Hard sleeper » 硬卧 / « Soft sleeper » 软卧</span></li>
-                                    <li><strong>Idéal</strong> <span>longues distances nocturnes, petits budgets</span></li>
-                                </ul>
-                                <p class="transport-desc">
-                                    Lignes K (rapide) et Z (direct nuit). L'âme
-                                    du voyage chinois — couloirs animés,
-                                    thermos d'eau chaude, nouilles instantanées
-                                    et conversations imprévues.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
+const CITY_ICON = { 'Chengdu':'leaf', 'Zhangjiajie':'mountain', 'Chongqing':'building', 'Pékin':'landmark' };
+const ROMAN = ['I','II','III','IV','V','VI'];
 
-                <!-- Panneau : Conseils -->
-                <section
-                    class="tab-panel"
-                    id="panel-conseils"
-                    role="tabpanel"
-                    aria-labelledby="tab-conseils"
-                    data-tab-panel="conseils"
-                    hidden
-                >
-                    <p class="food-intro">
-                        Huit essentiels à connaître avant l'embarquement —
-                        visa, paiements, applis, vêtements, ponctualité de
-                        l'imprévu. La Chine se prépare ; elle se mérite.
-                    </p>
+const TAG_LABELS = {
+  unesco:'UNESCO', tradition:'Tradition', modern:'Moderne', nature:'Nature',
+  food:'Cuisine', show:'Spectacle', night:'Nuit', temple:'Temple',
+  shopping:'Shopping', cable:'Téléphérique', photo:'Photo', view:'Panorama', panda:'Panda',
+};
+const TAG_ICON_ORDER = ['panda','unesco','temple','nature','view','cable','show','food','night','shopping','modern','tradition','photo'];
+const TAG_ICON = {
+  panda:'leaf', unesco:'landmark', temple:'landmark', nature:'leaf', view:'mountain',
+  cable:'mountain', show:'ticket', food:'utensils', night:'flame', shopping:'card',
+  modern:'building', tradition:'coffee', photo:'map',
+};
+function placeIcon(p){
+  for(const t of TAG_ICON_ORDER){ if(p.tags && p.tags.includes(t)) return TAG_ICON[t]; }
+  return 'pin';
+}
 
-                    <div class="tips-grid">
-                        <article class="tip-card">
-                            <span class="tip-num">I.</span>
-                            <h3 class="tip-title">Visa &amp; passeport</h3>
-                            <p class="tip-text">
-                                Visa touristique <strong>L</strong> obligatoire
-                                pour les Français (15 jours sans visa depuis 2024
-                                pour court séjour, à vérifier au moment du départ).
-                                Passeport valide 6 mois après le retour, deux
-                                pages vierges. Demande à l'<strong>ambassade ou
-                                CVASC</strong>, 4–7 jours ouvrés.
-                            </p>
-                        </article>
+// ---------- helpers ----------
+function el(tag, cls, txt){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(txt != null) n.textContent = txt;
+  return n;
+}
+function hexA(hex, a){
+  const h = hex.replace('#','');
+  const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+function shortDate(s){
+  return s.replace(/^[A-Za-zÀ-ÿ]+\.\s*/,'').replace('juillet','juil.');
+}
+function tintIcon(node, colour){
+  node.style.color = colour;
+  node.style.background = hexA(colour,.10);
+  node.style.borderColor = hexA(colour,.25);
+}
+function secLabel(num, name, pin){
+  const s = el('div','seclabel');
+  s.appendChild(el('span','num', num + '.'));
+  s.appendChild(el('span', null, name));
+  if(pin) s.appendChild(el('span','pin', pin));
+  return s;
+}
+/* Vignette Wikipedia (via images.js) avec repli icône + shimmer de chargement. */
+function thumb(wikiTitle, size, fallbackIcon, colour){
+  const wrap = el('span', 'thumb ' + (size || ''));
+  const img = el('img'); img.loading = 'lazy'; img.alt = '';
+  wrap.appendChild(img);
+  if(fallbackIcon){
+    const fb = el('span','thumb-fb');
+    if(colour){ fb.style.background = hexA(colour,.12); fb.style.color = colour; }
+    fb.appendChild(icon(fallbackIcon, size === 'mini' ? 15 : 20));
+    wrap.appendChild(fb);
+  }
+  getImage(wikiTitle).then(url=>{
+    if(url){
+      img.src = url;
+      img.addEventListener('load', ()=> wrap.classList.add('is-loaded'), { once:true });
+    } else {
+      wrap.classList.add('is-fallback');
+    }
+  });
+  return wrap;
+}
 
-                        <article class="tip-card">
-                            <span class="tip-num">II.</span>
-                            <h3 class="tip-title">Paiements — l'écosystème Alipay / WeChat</h3>
-                            <p class="tip-text">
-                                La Chine est <em>cashless</em> : tout passe par
-                                QR code. Installer <strong>Alipay</strong> ET
-                                <strong>WeChat Pay</strong> avant le départ,
-                                lier sa carte Visa/MC. Prévoir 500 € en
-                                <strong>yuans cash</strong> de secours — utile
-                                aux taxis ruraux et petits commerçants.
-                            </p>
-                        </article>
+// ---------- config ----------
+const TABS = [
+  { key:'parcours', label:'Parcours',      icon:'compass'  },
+  { key:'planning', label:'Jour par jour', icon:'calendar' },
+  { key:'lieux',    label:'Tous les lieux',icon:'pin'      },
+  { key:'food',     label:'Nourriture',    icon:'utensils' },
+  { key:'conseils', label:'Conseils',      icon:'bulb'     },
+];
+const EYEBROWS = {
+  parcours:'Itinéraire · ' + TRIP.villes + ' villes',
+  planning:'Planning · ' + TRIP.jours + ' jours',
+  lieux:'Tous les lieux',
+  food:'Nourriture · ' + FOOD_COUNT + ' plats',
+  conseils:'Conseils logistiques',
+};
 
-                        <article class="tip-card">
-                            <span class="tip-num">III.</span>
-                            <h3 class="tip-title">Internet &amp; VPN</h3>
-                            <p class="tip-text">
-                                Google, WhatsApp, Instagram, Facebook, Netflix,
-                                <em>The New York Times</em> — tous bloqués par
-                                le <strong>Great Firewall</strong>. Installer un
-                                <strong>VPN avant l'arrivée</strong> (Astrill,
-                                ExpressVPN, NordVPN). Sinon : carte eSIM
-                                internationale qui by-pass le pare-feu.
-                            </p>
-                        </article>
+// ---------- state ----------
+const state = { theme:'aurora', tab:'parcours', lieuxCity:'Toutes', openCity:ROUTE_ORDER[0], openDay:null };
 
-                        <article class="tip-card">
-                            <span class="tip-num">IV.</span>
-                            <h3 class="tip-title">Applis indispensables</h3>
-                            <p class="tip-text">
-                                <strong>Trip.com</strong> (trains, hôtels en
-                                anglais), <strong>DiDi</strong> (le Uber local),
-                                <strong>Amap</strong> ou <strong>Baidu Maps</strong>
-                                (Google Maps ne fonctionne pas),
-                                <strong>Pleco</strong> (dictionnaire chinois),
-                                <strong>Google Translate</strong> en mode hors-ligne
-                                avec pack chinois téléchargé.
-                            </p>
-                        </article>
+// ---------- render: nav ----------
+function renderNav(){
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  TABS.forEach(t=>{
+    const b = el('button', t.key === state.tab ? 'on' : '');
+    const ic = el('span','ic'); ic.appendChild(icon(t.icon,16));
+    b.appendChild(ic);
+    b.appendChild(el('span', null, t.label));
+    b.onclick = ()=>{ state.tab = t.key; render(); };
+    nav.appendChild(b);
+  });
+}
 
-                        <article class="tip-card">
-                            <span class="tip-num">V.</span>
-                            <h3 class="tip-title">Réservations critiques</h3>
-                            <p class="tip-text">
-                                <strong>Cité Interdite</strong> : 7 jours avant
-                                à minuit (heure de Pékin) sur le mini-app
-                                WeChat — billets épuisés en 30 secondes.
-                                <strong>Trains G</strong> : à réserver 14 jours
-                                à l'avance pour les hautes saisons (Golden Week,
-                                Nouvel An). <strong>Pandas à Chengdu</strong> :
-                                pré-réservation obligatoire la veille au soir.
-                            </p>
-                        </article>
+// ---------- render: parcours (villes → jours → planning, interactif) ----------
+function renderParcours(body){
+  ROUTE_ORDER.forEach((ville, i)=>{
+    const city = cityByName[ville];
+    const days = flexibleItinerary[ville] || [];
+    const byId = new Map(city.masterListe.map(p=>[p.id, p]));
+    const last = i === ROUTE_ORDER.length - 1;
+    const cityOpen = state.openCity === ville;
 
-                        <article class="tip-card">
-                            <span class="tip-num">VI.</span>
-                            <h3 class="tip-title">Vêtements &amp; saison</h3>
-                            <p class="tip-text">
-                                Été (juillet–août) : <strong>chaud et humide</strong>
-                                (32–38 °C à Chongqing). Vêtements légers,
-                                techniques séchage rapide. Poncho pliable
-                                (pluies tropicales soudaines). Chaussures de
-                                marche fermées pour Zhangjiajie. Une pièce
-                                couvrante (épaules) pour temples et palais.
-                            </p>
-                        </article>
+    const row = el('div','row');
+    const rail = el('div','rail'); rail.style.width = '30px';
+    const node = el('div','node', String(i+1));
+    node.style.borderColor = city.couleur; node.style.color = city.couleur;
+    if(cityOpen){ node.style.background = city.couleur; node.style.color = '#fff'; }
+    rail.appendChild(node);
+    if(!last) rail.appendChild(el('div','line'));
+    row.appendChild(rail);
 
-                        <article class="tip-card">
-                            <span class="tip-num">VII.</span>
-                            <h3 class="tip-title">Santé &amp; eau</h3>
-                            <p class="tip-text">
-                                <strong>Eau du robinet non potable</strong> :
-                                bouteilles ou gourde filtrante. Vaccins à jour
-                                (DTP, hépatite A/B, ROR). Trousse :
-                                anti-diarrhéique, paracétamol, désinfectant
-                                main, masque (pollution Pékin en été modérée
-                                mais réelle). Assurance voyage indispensable
-                                — soins privés très chers.
-                            </p>
-                        </article>
+    const wrap = el('div'); wrap.style.flex='1'; wrap.style.minWidth='0'; wrap.style.paddingBottom='16px';
 
-                        <article class="tip-card">
-                            <span class="tip-num">VIII.</span>
-                            <h3 class="tip-title">Culture &amp; étiquette</h3>
-                            <p class="tip-text">
-                                Le marchandage est attendu sur les marchés
-                                (commencer à 30 % du prix annoncé).
-                                <strong>Pas de pourboire</strong> au restaurant.
-                                Photo : demander avant pour les portraits.
-                                Files d'attente parfois inexistantes — se faire
-                                doubler n'a rien d'agressif. Sourire et patience
-                                sont vos meilleures armes diplomatiques.
-                            </p>
-                        </article>
-                    </div>
-                </section>
+    // --- carte ville (cliquable) ---
+    const card = el('div','card city-card');
+    card.onclick = ()=>{ state.openCity = cityOpen ? null : ville; state.openDay = null; render(); };
 
-                <!-- Panneau : Musique -->
-                <section
-                    class="tab-panel"
-                    id="panel-musique"
-                    role="tabpanel"
-                    aria-labelledby="tab-musique"
-                    data-tab-panel="musique"
-                    hidden
-                >
-                    <p class="food-intro">
-                        La bande-son du voyage — 27 titres à écouter ville par
-                        ville, du folk des salons de thé de Chengdu au rock de
-                        Pékin. Cliquez sur une vignette pour ouvrir la vidéo sur
-                        YouTube.
-                    </p>
+    const head = el('div','chead');
+    const ci = thumb(city.wikiTitle, 'sq', CITY_ICON[ville]||'pin', city.couleur);
+    ci.style.boxShadow = '0 0 0 2px ' + hexA(city.couleur,.35);
+    head.appendChild(ci);
+    const mid = el('div'); mid.style.flex='1'; mid.style.minWidth='0';
+    const tag = el('div','ctag','Étape ' + (i+1)); tag.style.color = city.couleur;
+    mid.appendChild(tag);
+    mid.appendChild(el('div','ctitle', ville));
+    mid.appendChild(el('div','fsub', city.pinyin));
+    head.appendChild(mid);
+    const meta = el('div','cmeta', days.length + ' j'); meta.style.color = city.couleur;
+    head.appendChild(meta);
+    const car = el('span','caret' + (cityOpen ? ' open' : '')); car.appendChild(icon('chevron',16));
+    head.appendChild(car);
+    card.appendChild(head);
 
-                    <!-- I. Chengdu -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">I.</span>
-                        Chengdu
-                        <em class="food-section-meta">— folk &amp; douceur</em>
-                    </h3>
-                    <ul class="music-grid" aria-label="Chansons à Chengdu">
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=EPyFeQcDSUY"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/EPyFeQcDSUY/hqdefault.jpg"
-                                        alt="成都 — Zhao Lei"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2016</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">成都 · Chéngdū</span>
-                                    <span class="music-artist">赵雷 Zhao Lei</span>
-                                    <span class="music-note"
-                                        >L'hymne culte sur la rue Yulin.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=KugiopC40ac"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/KugiopC40ac/hqdefault.jpg"
-                                        alt="老子明天不上班 — Xie Di"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2013</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title"
-                                        >老子明天不上班</span
-                                    >
-                                    <span class="music-artist">谢帝 Xie Di</span>
-                                    <span class="music-note"
-                                        >Rap en dialecte sichuanais, esprit
-                                        « slow life ».</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=-GZ0HrhEHQs"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/-GZ0HrhEHQs/hqdefault.jpg"
-                                        alt="和你一样 — Li Yuchun"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2008</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">和你一样</span>
-                                    <span class="music-artist"
-                                        >李宇春 Li Yuchun</span
-                                    >
-                                    <span class="music-note"
-                                        >La star pop native de Chengdu.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=mNLFGK18wi4"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/mNLFGK18wi4/hqdefault.jpg"
-                                        alt="画心 — Jane Zhang"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2008</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">画心</span>
-                                    <span class="music-artist"
-                                        >张靓颖 Jane Zhang</span
-                                    >
-                                    <span class="music-note"
-                                        >Native de Chengdu — BO de
-                                        « Painted Skin ».</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=gYquk1fBcYI"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/gYquk1fBcYI/hqdefault.jpg"
-                                        alt="华阴老腔一声喊 — Tan Weiwei"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2016</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title"
-                                        >华阴老腔一声喊</span
-                                    >
-                                    <span class="music-artist"
-                                        >谭维维 Tan Weiwei</span
-                                    >
-                                    <span class="music-note"
-                                        >Sichuanaise — fusion rock &amp; opéra
-                                        traditionnel.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=QpAP6mUTAq8"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/QpAP6mUTAq8/hqdefault.jpg"
-                                        alt="理想 — Zhao Lei"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2014</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">理想</span>
-                                    <span class="music-artist">赵雷 Zhao Lei</span>
-                                    <span class="music-note"
-                                        >Le même folk nostalgique que
-                                        « Chengdu ».</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=oBk8k07aAAU"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/oBk8k07aAAU/hqdefault.jpg"
-                                        alt="董小姐 — Song Dongye"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2013</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">董小姐</span>
-                                    <span class="music-artist"
-                                        >宋冬野 Song Dongye</span
-                                    >
-                                    <span class="music-note"
-                                        >Folk doux, ambiance bar à thé.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+    if(days.length){
+      card.appendChild(el('div','csub', shortDate(days[0].date) + ' → ' + shortDate(days[days.length-1].date)));
+    }
+    if(!cityOpen){
+      const inc = city.masterListe.filter(p=>p.incontournable).map(p=>p.nom);
+      if(inc.length) card.appendChild(el('div','cnote','À ne pas manquer · ' + inc.join(' · ')));
+    }
+    wrap.appendChild(card);
 
-                    <!-- II. Zhangjiajie / Hunan -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">II.</span>
-                        Zhangjiajie
-                        <em class="food-section-meta"
-                            >— montagnes &amp; folk du Hunan</em
-                        >
-                    </h3>
-                    <ul class="music-grid" aria-label="Chansons à Zhangjiajie">
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=ZYBpysy5oqY"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/ZYBpysy5oqY/hqdefault.jpg"
-                                        alt="浏阳河 — Song Zuying"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1959</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title"
-                                        >浏阳河 · Liúyáng hé</span
-                                    >
-                                    <span class="music-artist"
-                                        >宋祖英 Song Zuying</span
-                                    >
-                                    <span class="music-note"
-                                        >La rivière emblématique du Hunan.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=rGKIGQ4l7qE"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/rGKIGQ4l7qE/hqdefault.jpg"
-                                        alt="辣妹子 — Song Zuying"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1998</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">辣妹子</span>
-                                    <span class="music-artist"
-                                        >宋祖英 Song Zuying</span
-                                    >
-                                    <span class="music-note"
-                                        >La diva Miao chante les
-                                        « filles épicées ».</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=P-7NyH_uA6M"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/P-7NyH_uA6M/hqdefault.jpg"
-                                        alt="小背篓 — Song Zuying"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1990</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">小背篓</span>
-                                    <span class="music-artist"
-                                        >宋祖英 Song Zuying</span
-                                    >
-                                    <span class="music-note"
-                                        >Classique folk hunanais.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=Won0FhxbAgw"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/Won0FhxbAgw/hqdefault.jpg"
-                                        alt="为了谁 — Zu Hai"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1998</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">为了谁</span>
-                                    <span class="music-artist">祖海 Zu Hai</span>
-                                    <span class="music-note"
-                                        >Une voix native du Hunan.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=3YDz-ftqr1g"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/3YDz-ftqr1g/hqdefault.jpg"
-                                        alt="I See You — Leona Lewis (Avatar)"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2009</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title"
-                                        >I See You (Avatar)</span
-                                    >
-                                    <span class="music-artist"
-                                        >Leona Lewis · James Horner</span
-                                    >
-                                    <span class="music-note"
-                                        >Les montagnes flottantes inspirées de
-                                        Zhangjiajie.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+    // --- jours en rangée de cartes (façon tarot) ---
+    if(cityOpen){
+      const sub = el('div','subwrap'); sub.style.borderColor = hexA(city.couleur,.30);
+      const cardsRow = el('div','day-cards');
+      let selIdx = -1;
+      days.forEach((day, di)=>{
+        const dayKey = ville + '#' + di;
+        const dayOpen = state.openDay === dayKey;
+        if(dayOpen) selIdx = di;
+        const ids = day.placeIds || [];
+        const firstPlace = ids.length ? byId.get(ids[0]) : null;
 
-                    <!-- III. Chongqing -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">III.</span>
-                        Chongqing
-                        <em class="food-section-meta"
-                            >— feu &amp; brouillard</em
-                        >
-                    </h3>
-                    <ul class="music-grid" aria-label="Chansons à Chongqing">
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=ONs7co6LoYU"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/ONs7co6LoYU/hqdefault.jpg"
-                                        alt="火锅底料 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2017</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">火锅底料</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >Ode au hotpot par le rappeur de
-                                        Chongqing.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=VhUwBwcXjZQ"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/VhUwBwcXjZQ/hqdefault.jpg"
-                                        alt="天干物燥 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2017</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">天干物燥</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >Trap en dialecte de Chongqing.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=pepVIKvWinc"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/pepVIKvWinc/hqdefault.jpg"
-                                        alt="沧海一声笑 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2018</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">沧海一声笑</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >Reprise culte façon Chongqing.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=wqK9JOofjGw"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/wqK9JOofjGw/hqdefault.jpg"
-                                        alt="纤夫的爱 — Yin Xiangjie & Yu Wenhua"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1993</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">纤夫的爱</span>
-                                    <span class="music-artist"
-                                        >尹相杰 &amp; 于文华</span
-                                    >
-                                    <span class="music-note"
-                                        >Les haleurs du Yangzi — duo des
-                                        années 90.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=1YyJ45ItoQ4"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/1YyJ45ItoQ4/hqdefault.jpg"
-                                        alt="重庆魂 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2018</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">重庆魂</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >L'âme de la ville-montagne en
-                                        hip-hop.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=1DW5jlEdPcI"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/1DW5jlEdPcI/hqdefault.jpg"
-                                        alt="空城计 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2016</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">空城计</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >Flow théâtral du natif de
-                                        Chongqing.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=WBf7nFK33UU"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/WBf7nFK33UU/hqdefault.jpg"
-                                        alt="苦行僧 — GAI"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2017</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">苦行僧</span>
-                                    <span class="music-artist">GAI 周延</span>
-                                    <span class="music-note"
-                                        >Le morceau révélation de GAI.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
+        const tc = el('div','tarot');
+        if(dayOpen){
+          tc.style.transform = 'translateY(-4px)';
+          tc.style.borderColor = city.couleur;
+          tc.style.boxShadow = '0 16px 30px -16px ' + hexA(city.couleur,.6);
+        }
+        tc.onclick = ()=>{ state.openDay = dayOpen ? null : dayKey; render(); };
 
-                    <!-- IV. Pékin -->
-                    <h3 class="food-section-label">
-                        <span class="food-section-num">IV.</span>
-                        Pékin
-                        <em class="food-section-meta">— capitale &amp; rock</em>
-                    </h3>
-                    <ul class="music-grid" aria-label="Chansons à Pékin">
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=pRjhnO9v3Ro"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/pRjhnO9v3Ro/hqdefault.jpg"
-                                        alt="北京欢迎你"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2008</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">北京欢迎你</span>
-                                    <span class="music-artist"
-                                        >Multi-artistes</span
-                                    >
-                                    <span class="music-note"
-                                        >L'hymne des J.O. de 2008.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=FHrK1Q4KP4I"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/FHrK1Q4KP4I/hqdefault.jpg"
-                                        alt="北京北京 — Wang Feng"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2007</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">北京北京</span>
-                                    <span class="music-artist"
-                                        >汪峰 Wang Feng</span
-                                    >
-                                    <span class="music-note"
-                                        >Rock urbain sur la capitale.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=5bSkPB5jShY"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/5bSkPB5jShY/hqdefault.jpg"
-                                        alt="北京一夜 — Shin"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2004</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">北京一夜</span>
-                                    <span class="music-artist">信乐团 Shin</span>
-                                    <span class="music-note"
-                                        >Rock-opéra culte (One Night in
-                                        Beijing).</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=DVa3KKqYCNU"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/DVa3KKqYCNU/hqdefault.jpg"
-                                        alt="我爱北京天安门"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1970</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title"
-                                        >我爱北京天安门</span
-                                    >
-                                    <span class="music-artist"
-                                        >小蓓蕾组合</span
-                                    >
-                                    <span class="music-note"
-                                        >La comptine patriotique connue de
-                                        tous.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=LqNX8P-3RIQ"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/LqNX8P-3RIQ/hqdefault.jpg"
-                                        alt="故乡 — Xu Wei"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2000</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">故乡</span>
-                                    <span class="music-artist">许巍 Xu Wei</span>
-                                    <span class="music-note"
-                                        >Le rockeur emblématique de Pékin.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=FVVqEw5UTUA"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/FVVqEw5UTUA/hqdefault.jpg"
-                                        alt="同桌的你 — Lao Lang"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">1994</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">同桌的你</span>
-                                    <span class="music-artist">老狼 Lao Lang</span>
-                                    <span class="music-note"
-                                        >Folk étudiant des campus pékinois.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=ecTSlaNM0Z0"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/ecTSlaNM0Z0/hqdefault.jpg"
-                                        alt="平凡之路 — Pu Shu"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2014</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">平凡之路</span>
-                                    <span class="music-artist">朴树 Pu Shu</span>
-                                    <span class="music-note"
-                                        >L'auteur-compositeur pékinois
-                                        culte.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                        <li class="music-card">
-                            <a
-                                class="music-link"
-                                href="https://www.youtube.com/watch?v=7Y1Kp0JOoPU"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <span class="music-thumb">
-                                    <img
-                                        src="https://img.youtube.com/vi/7Y1Kp0JOoPU/hqdefault.jpg"
-                                        alt="后海酒吧 — Chen Yujian"
-                                        loading="lazy"
-                                    />
-                                    <span class="music-year">2017</span>
-                                    <span class="music-play" aria-hidden="true"
-                                        >▶</span
-                                    >
-                                </span>
-                                <span class="music-body">
-                                    <span class="music-title">后海酒吧</span>
-                                    <span class="music-artist"
-                                        >陈玉建 Chen Yujian</span
-                                    >
-                                    <span class="music-note"
-                                        >Le quartier des bars de Houhai.</span
-                                    >
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-            </div>
-        </article>
+        const art = el('div','tarot-art');
+        art.appendChild(thumb((firstPlace && firstPlace.wikiTitle) || city.wikiTitle, '', firstPlace ? placeIcon(firstPlace) : 'calendar', city.couleur));
+        const jx = el('span','tarot-jx', day.day.replace('Jour ','J')); jx.style.background = city.couleur;
+        art.appendChild(jx);
+        tc.appendChild(art);
 
-        <!-- ====== Lightbox (zoom de la carte hero) ====== -->
-        <div
-            class="lightbox"
-            id="lightbox"
-            role="dialog"
-            aria-modal="true"
-            aria-hidden="true"
-            aria-label="Image agrandie"
-        >
-            <button class="lightbox-close" type="button" aria-label="Fermer">×</button>
-            <img class="lightbox-img" alt="" />
-        </div>
+        const tb = el('div','tarot-body');
+        tb.appendChild(el('div','tarot-title', day.subtitle));
+        tb.appendChild(el('div','tarot-meta', shortDate(day.date) + ' · ' + (ids.length ? ids.length + ' lieux' : 'transfert')));
+        tc.appendChild(tb);
 
-        <!-- ====== Scripts ====== -->
-        <!-- Leaflet doit être chargé (global `L`) avant le module main.js -->
-        <script
-            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""
-        ></script>
-        <script type="module" src="js/main.js"></script>
-    </body>
+        cardsRow.appendChild(tc);
+      });
+      sub.appendChild(cardsRow);
+
+      // --- exploration de la journée choisie ---
+      if(selIdx >= 0){
+        const day = days[selIdx];
+        const ids = day.placeIds || [];
+        const detail = el('div','day-detail');
+        detail.style.background = hexA(city.couleur,.06);
+        detail.style.border = '1px solid ' + hexA(city.couleur,.22);
+
+        const dh = el('div','day-detail-head');
+        const ddjx = el('span','dd-jx', day.day.replace('Jour ','J')); ddjx.style.background = city.couleur;
+        dh.appendChild(ddjx);
+        const dhb = el('div'); dhb.style.minWidth = '0';
+        dhb.appendChild(el('div','dd-title', day.subtitle));
+        dhb.appendChild(el('div','dd-sub', shortDate(day.date) + ' · ' + (ids.length ? ids.length + ' lieux à explorer' : 'journée de transfert')));
+        dh.appendChild(dhb);
+        detail.appendChild(dh);
+
+        if(ids.length){
+          const plan = el('div','subplan');
+          ids.forEach(id=>{
+            const p = byId.get(id); if(!p) return;
+            const r = el('div','pl');
+            const t = thumb(p.wikiTitle || city.wikiTitle, 'mini', placeIcon(p), city.couleur);
+            t.style.boxShadow = '0 0 0 1.5px ' + hexA(city.couleur,.30);
+            r.appendChild(t);
+            const nm = el('div','pl-name2');
+            nm.appendChild(el('div','pl-n', p.nom));
+            nm.appendChild(el('div','pl-z', p.zone + ' · ' + p.temps));
+            r.appendChild(nm);
+            r.appendChild(el('span','pl-meta','★ ' + p.note));
+            plan.appendChild(r);
+          });
+          detail.appendChild(plan);
+        } else {
+          const note = el('div','cnote'); note.style.margin='0'; note.style.display='flex'; note.style.alignItems='center'; note.style.gap='8px';
+          const ic = icon('plane',15); ic.style.color = city.couleur; ic.style.flexShrink='0';
+          note.appendChild(ic); note.appendChild(document.createTextNode(day.subtitle));
+          detail.appendChild(note);
+        }
+        sub.appendChild(detail);
+      }
+      wrap.appendChild(sub);
+    }
+
+    row.appendChild(wrap); body.appendChild(row);
+
+    // --- transition train de nuit Z3, entre Chongqing et Pékin ---
+    if(ville === 'Chongqing'){
+      const z3 = interCityTransport.find(t => /Z3/.test(t.mode) || t.trajet === 'Chongqing → Pékin');
+      if(z3) body.appendChild(transitRow(z3));
+    }
+  });
+}
+
+// ---------- render: transition transport (Z3) ----------
+function transitRow(t){
+  const row = el('div','row');
+  const rail = el('div','rail'); rail.style.width = '30px';
+  const node = el('div','node transit'); node.appendChild(icon('train',17));
+  rail.appendChild(node);
+  rail.appendChild(el('div','line'));
+  row.appendChild(rail);
+
+  const wrap = el('div'); wrap.style.flex='1'; wrap.style.minWidth='0'; wrap.style.paddingBottom='16px';
+  const card = el('div','card transit');
+
+  const head = el('div','chead'); head.style.justifyContent='space-between';
+  const left = el('div'); left.style.flex='1'; left.style.minWidth='0';
+  left.appendChild(el('div','ctag','Transition · nuit'));
+  left.appendChild(el('div','ctitle', t.mode));
+  head.appendChild(left);
+  head.appendChild(el('div','cmeta', t.prix));
+  card.appendChild(head);
+
+  card.appendChild(el('div','csub', t.trajet + ' · ' + t.detail));
+
+  if(t.statut){
+    const badge = el('div','badge'); badge.style.background = '#FEF3C7'; badge.style.color = '#B45309';
+    const d = el('span','d'); d.style.background = '#B45309'; badge.appendChild(d);
+    badge.appendChild(document.createTextNode(t.statut));
+    card.appendChild(badge);
+  }
+  if(t.planB) card.appendChild(el('div','cnote','Plan B · ' + t.planB));
+
+  wrap.appendChild(card); row.appendChild(wrap);
+  return row;
+}
+
+// ---------- render: planning (day by day) ----------
+function renderPlanning(body){
+  let dayNum = 0;
+  const lastCity = ROUTE_ORDER[ROUTE_ORDER.length-1];
+  ROUTE_ORDER.forEach((ville)=>{
+    const city = cityByName[ville];
+    const byId = new Map(city.masterListe.map(p=>[p.id, p]));
+    const days = flexibleItinerary[ville] || [];
+    days.forEach((day, idx)=>{
+      dayNum++;
+      const globalLast = (ville === lastCity) && (idx === days.length-1);
+
+      const row = el('div','row');
+      const rail = el('div','rail'); rail.style.width='30px';
+      const node = el('div','node', String(dayNum));
+      node.style.borderColor = city.couleur; node.style.color = city.couleur;
+      rail.appendChild(node);
+      if(!globalLast) rail.appendChild(el('div','line'));
+      row.appendChild(rail);
+
+      const wrap = el('div'); wrap.style.flex='1'; wrap.style.minWidth='0'; wrap.style.paddingBottom='16px';
+      const card = el('div','card');
+
+      const head = el('div','chead'); head.style.justifyContent='space-between';
+      const left = el('div'); left.style.flex='1'; left.style.minWidth='0';
+      const tag = el('div','ctag', ville.toUpperCase() + ' · ' + shortDate(day.date)); tag.style.color = city.couleur;
+      left.appendChild(tag);
+      left.appendChild(el('div','ctitle', day.subtitle));
+      head.appendChild(left);
+      const meta = el('div','cmeta', day.day); meta.style.color = city.couleur; meta.style.font = "700 13px 'Sora'";
+      head.appendChild(meta);
+      card.appendChild(head);
+
+      const ids = day.placeIds || [];
+      if(ids.length){
+        const pl = el('div','plist');
+        ids.forEach(id=>{
+          const p = byId.get(id); if(!p) return;
+          const r = el('div','pl');
+          const t = thumb(p.wikiTitle || city.wikiTitle, 'mini', placeIcon(p), city.couleur);
+          t.style.boxShadow = '0 0 0 1.5px ' + hexA(city.couleur,.30);
+          r.appendChild(t);
+          r.appendChild(el('span','pl-name', p.nom));
+          r.appendChild(el('span','pl-meta','★ ' + p.note));
+          pl.appendChild(r);
+        });
+        card.appendChild(pl);
+      } else {
+        const note = el('div','cnote'); note.style.display='flex'; note.style.alignItems='center'; note.style.gap='8px';
+        const ic = icon('plane',16); ic.style.color = city.couleur; ic.style.flexShrink='0';
+        note.appendChild(ic);
+        note.appendChild(document.createTextNode(day.subtitle));
+        card.appendChild(note);
+      }
+
+      wrap.appendChild(card); row.appendChild(wrap); body.appendChild(row);
+    });
+  });
+}
+
+// ---------- render: lieux (all places, filterable) ----------
+function placeCard(p, city){
+  const c = el('div','fcard media');
+  c.appendChild(thumb(p.wikiTitle || city.wikiTitle, 'banner', placeIcon(p), city.couleur));
+
+  const body = el('div','fbody');
+  const head = el('div','fhead');
+  const mid = el('div'); mid.style.flex='1'; mid.style.minWidth='0';
+  mid.appendChild(el('div','ftitle', p.nom));
+  mid.appendChild(el('div','fsub', p.pinyin));
+  head.appendChild(mid);
+  const meta = el('div','fmeta','★ ' + p.note); meta.style.color = city.couleur;
+  head.appendChild(meta);
+  body.appendChild(head);
+
+  body.appendChild(el('div','fsub', p.zone + ' · ' + p.temps));
+
+  if(p.tags && p.tags.length){
+    const tg = el('div','tags');
+    p.tags.forEach(t=> tg.appendChild(el('span','chip', TAG_LABELS[t] || t)));
+    body.appendChild(tg);
+  }
+  if(p.conseil) body.appendChild(el('div','cnote', p.conseil.split('\n')[0]));
+
+  if(p.incontournable){
+    const b = el('div','badge'); b.style.background='#DCFCE7'; b.style.color='#15803D';
+    const d = el('span','d'); d.style.background='#15803D'; b.appendChild(d);
+    b.appendChild(document.createTextNode('Incontournable'));
+    body.appendChild(b);
+  }
+  c.appendChild(body);
+  return c;
+}
+function renderLieux(body){
+  const bar = el('div','filterbar');
+  ['Toutes', ...ROUTE_ORDER].forEach(v=>{
+    const b = el('button', v === state.lieuxCity ? 'on' : '');
+    if(v !== 'Toutes'){
+      const dot = el('span','fdot'); dot.style.background = cityByName[v].couleur; b.appendChild(dot);
+    }
+    b.appendChild(document.createTextNode(v));
+    b.onclick = ()=>{ state.lieuxCity = v; render(); };
+    bar.appendChild(b);
+  });
+  body.appendChild(bar);
+
+  const target = state.lieuxCity === 'Toutes' ? ROUTE_ORDER : [state.lieuxCity];
+  target.forEach((ville)=>{
+    const i = ROUTE_ORDER.indexOf(ville);
+    const city = cityByName[ville];
+    body.appendChild(secLabel(ROMAN[i], ville, city.pinyin));
+    const g = el('div','lieux-grid');
+    city.masterListe.forEach(p=> g.appendChild(placeCard(p, city)));
+    body.appendChild(g);
+  });
+}
+
+// ---------- render: conseils ----------
+function renderConseils(body){
+  ROUTE_ORDER.forEach((ville, i)=>{
+    const city = cityByName[ville];
+    const list = city.conseilsLogistiques || [];
+    if(!list.length) return;
+    body.appendChild(secLabel(ROMAN[i], ville, city.pinyin));
+    const g = el('div','grid2');
+    list.forEach(tx=>{
+      const a = el('div','advice');
+      const ic = el('div','advice-ic'); tintIcon(ic, city.couleur); ic.appendChild(icon('bulb',18));
+      a.appendChild(ic);
+      a.appendChild(el('div','advice-tx', tx));
+      g.appendChild(a);
+    });
+    body.appendChild(g);
+  });
+}
+
+// ---------- render: nourriture ----------
+function foodCard(plat, colour, regionLabel){
+  const c = el('div','fcard media');
+  c.appendChild(thumb(plat.wikiTitle, 'banner', 'utensils', colour));
+  const body = el('div','fbody');
+  const head = el('div','fhead');
+  const mid = el('div'); mid.style.flex='1'; mid.style.minWidth='0';
+  mid.appendChild(el('div','ftitle', plat.nom));
+  mid.appendChild(el('div','fsub', plat.pinyin));
+  head.appendChild(mid);
+  if(plat.perso){ const star = el('div','fmeta','★'); star.style.color = '#F59E0B'; star.title = 'Coup de cœur'; head.appendChild(star); }
+  body.appendChild(head);
+  if(regionLabel){ const tg = el('div','tags'); tg.appendChild(el('span','chip', regionLabel)); body.appendChild(tg); }
+  if(plat.desc) body.appendChild(el('div','cnote', plat.desc));
+  c.appendChild(body);
+  return c;
+}
+function renderFood(body){
+  const intro = el('div','food-intro');
+  intro.appendChild(el('span','star','★'));
+  intro.appendChild(document.createTextNode(' mes coups de cœur — la pastille indique où déguster chaque plat. ' + FOOD_COUNT + ' plats au menu.'));
+  body.appendChild(intro);
+
+  foodData.forEach((group, i)=>{
+    const city = cityByName[group.ville];
+    const colour = city ? city.couleur : '#64748B';
+    body.appendChild(secLabel(ROMAN[i], group.ville, group.meta));
+    const g = el('div','lieux-grid');
+    group.plats.forEach(plat=>{
+      const regionLabel = city ? group.ville : (plat.region || 'Bonus');
+      g.appendChild(foodCard(plat, colour, regionLabel));
+    });
+    body.appendChild(g);
+  });
+}
+
+// ---------- render: body dispatch ----------
+function renderBody(){
+  const body = document.getElementById('body');
+  body.innerHTML = '';
+  if(state.tab === 'parcours')      renderParcours(body);
+  else if(state.tab === 'planning') renderPlanning(body);
+  else if(state.tab === 'lieux')    renderLieux(body);
+  else if(state.tab === 'food')     renderFood(body);
+  else if(state.tab === 'conseils') renderConseils(body);
+}
+
+// ---------- render: shell ----------
+function render(){
+  const app = document.getElementById('app');
+  app.className = 'app' + (state.theme === 'citrus' ? ' citrus' : '');
+
+  document.querySelectorAll('.tt-opt').forEach(o=> o.classList.toggle('on', o.dataset.theme === state.theme));
+  document.getElementById('logoText').textContent = state.theme === 'citrus' ? 'Itinéraire' : 'Sinarum';
+  const li = document.getElementById('logoIcon'); li.innerHTML = '';
+  li.appendChild(icon(state.theme === 'citrus' ? 'leaf' : 'compass', 17));
+
+  document.getElementById('eyebrow').textContent = EYEBROWS[state.tab];
+  document.getElementById('pillA').textContent = TRIP.jours + ' jours';
+  document.getElementById('pillB').textContent = TRIP.villes + ' villes';
+  document.getElementById('sideDates').textContent = 'Chine · ' + shortDate(firstDate) + ' → ' + shortDate(lastDate);
+  document.getElementById('statValue').textContent = TRIP.jours + ' jours';
+  document.getElementById('statSub').textContent = TRIP.villes + ' villes · ' + TRIP.lieux + ' lieux · ' + TRIP.incont + ' incontournables';
+
+  renderNav();
+  renderBody();
+}
+
+// ---------- theme switcher ----------
+document.querySelectorAll('.tt-opt').forEach(b=>{
+  b.onclick = ()=>{ state.theme = b.dataset.theme; render(); };
+});
+
+render();
+</script>
+</body>
 </html>
