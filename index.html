@@ -221,6 +221,10 @@
     .head{flex-direction:column;align-items:flex-start;gap:10px;}
     .grid2{grid-template-columns:1fr;}
     .body{max-height:none;}
+    /* cartes-jours : rangée qui défile horizontalement au lieu de s'empiler */
+    .day-cards{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:12px;padding:6px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
+    .tarot{flex:0 0 150px;width:150px;scroll-snap-align:start;}
+    .tarot-art{height:128px;}
   }
 </style>
 </head>
@@ -505,19 +509,14 @@ function renderParcours(body){
     if(days.length){
       card.appendChild(el('div','csub', shortDate(days[0].date) + ' → ' + shortDate(days[days.length-1].date)));
     }
-    // réservations : hôtel + transport d'arrivée
-    const bks = el('div','bookings');
+    // réservation : hôtel de l'étape (les transports ont leur propre case)
     const h = city.hotel;
     if(h){
+      const bks = el('div','bookings');
       bks.appendChild(bookingRow('bed', city.couleur, h.photo, h.nom,
         [h.chambre, h.sejour].filter(Boolean).join(' · '), h.prix, h.statut, h.ref));
+      card.appendChild(bks);
     }
-    [city.transportIn, city.transportOut].forEach(t=>{
-      if(!t || t.international) return; // les vols internationaux ont leur propre case de transition
-      const ti = /vol|avion/i.test(t.mode) ? 'plane' : (/train|tgv/i.test(t.mode) ? 'train' : 'map');
-      bks.appendChild(bookingRow(ti, city.couleur, null, t.mode, t.detail, t.prix, t.statut, t.ref));
-    });
-    if(bks.children.length) card.appendChild(bks);
 
     if(!cityOpen){
       const inc = city.masterListe.filter(p=>p.incontournable).map(p=>p.nom);
@@ -604,21 +603,9 @@ function renderParcours(body){
 
     row.appendChild(wrap); body.appendChild(row);
 
-    // --- transition train de nuit, entre Chongqing et Pékin ---
-    if(ville === 'Chongqing'){
-      const tn = interCityTransport.find(t => t.trajet === 'Chongqing → Pékin');
-      if(tn) body.appendChild(transitRow({
-        icon: 'train',
-        tag: 'Transition · nuit',
-        titre: tn.mode,
-        sous: tn.trajet + ' · ' + tn.detail,
-        prix: tn.prix,
-        statut: tn.statut,
-        ref: tn.ref,
-        planB: tn.planB,
-        withLine: true,
-      }));
-    }
+    // --- transport inter-villes (vol / train) en case indépendante ---
+    const leg = interCityTransport.find(t => t.trajet.split('→')[0].trim() === ville);
+    if(leg) body.appendChild(interCityRow(leg, true));
   });
 
   // Vols retour (Pékin → Séoul, puis Séoul → Paris) après la dernière étape
@@ -659,6 +646,22 @@ function transitRow(o){
 
   wrap.appendChild(card); row.appendChild(wrap);
   return row;
+}
+/* Transport inter-villes (vol intérieur / train) en case de transition indépendante. */
+function interCityRow(t, withLine){
+  const isPlane = /vol|avion/i.test(t.mode);
+  const tag = isPlane ? 'Vol intérieur' : (/nuit/i.test(t.mode) ? 'Transition · nuit' : 'Correspondance · train');
+  return transitRow({
+    icon: isPlane ? 'plane' : 'train',
+    tag,
+    titre: t.mode,
+    sous: t.trajet + ' · ' + t.detail,
+    prix: t.prix,
+    statut: t.statut,
+    ref: t.ref,
+    planB: t.planB,
+    withLine,
+  });
 }
 /* Vol international en case de transition (bulle avion, sans numéro d'étape). */
 function flightRow(f, withLine){
