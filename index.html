@@ -162,6 +162,25 @@
   .bk-s{font:500 11px 'DM Sans';color:var(--sub-text);margin-top:2px;line-height:1.4;}
   .bk-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
   .bk-price{font:700 12.5px 'Sora';white-space:nowrap;}
+  .bk-addr{font:500 11px 'DM Sans';color:var(--sub-text);margin-top:3px;display:flex;align-items:center;gap:5px;}
+  .bk-addr .ic{display:flex;color:var(--accent);flex-shrink:0;}
+
+  /* checklist J1 (conseils) */
+  .checklist{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:16px 18px;margin-bottom:24px;}
+  .cl-head{display:flex;align-items:center;gap:9px;font:800 15px 'Sora';color:var(--title);}
+  .cl-head .ic{display:flex;color:var(--accent);}
+  .cl-sub{font:500 12px 'DM Sans';color:var(--sub-text);margin:2px 0 4px 26px;}
+  .cl-group{display:flex;align-items:baseline;gap:9px;margin:15px 0 7px;flex-wrap:wrap;}
+  .cl-gt{font:700 11px 'DM Sans';letter-spacing:1px;text-transform:uppercase;color:var(--accent);}
+  .cl-dur{font:600 10px 'DM Sans';color:var(--sub-text);background:var(--accent-soft-bg);border:1px solid var(--accent-soft-border);padding:1px 8px;border-radius:999px;}
+  .cl-list{display:flex;flex-direction:column;gap:3px;}
+  .cl-item{display:flex;align-items:center;gap:11px;padding:6px 8px;border-radius:8px;cursor:pointer;user-select:none;transition:background .12s;}
+  .cl-item:hover{background:var(--note-bg);}
+  .cl-cb{width:19px;height:19px;border-radius:6px;border:2px solid #C7C7D1;flex-shrink:0;position:relative;transition:.15s;}
+  .cl-item.done .cl-cb{background:var(--accent);border-color:var(--accent);}
+  .cl-item.done .cl-cb::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);}
+  .cl-tx{font:500 13px 'DM Sans';color:var(--note-fg);}
+  .cl-item.done .cl-tx{color:var(--sub-text);text-decoration:line-through;}
 
   /* échéances (conseils) */
   .deadlines{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:16px 18px;margin-bottom:24px;}
@@ -221,10 +240,18 @@
     .head{flex-direction:column;align-items:flex-start;gap:10px;}
     .grid2{grid-template-columns:1fr;}
     .body{max-height:none;}
-    /* cartes-jours : rangée qui défile horizontalement au lieu de s'empiler */
-    .day-cards{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;gap:12px;padding:6px 2px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
-    .tarot{flex:0 0 150px;width:150px;scroll-snap-align:start;}
-    .tarot-art{height:128px;}
+    /* cartes-jours : toujours en rangée, compressées pour tenir sans scroll */
+    .body{padding:14px 12px;}
+    .row{gap:11px;}
+    .subwrap{padding-left:8px;}
+    .day-cards{flex-wrap:nowrap;gap:6px;justify-content:center;padding:6px 0 4px;}
+    .tarot{flex:1 1 0;width:auto;min-width:0;padding:5px;}
+    .tarot-frame{padding:5px 4px 6px;gap:4px;background-size:8px 2px,2px 8px,8px 2px,2px 8px,8px 2px,2px 8px,8px 2px,2px 8px;}
+    .tarot-num{font-size:12px;letter-spacing:.5px;padding-top:0;}
+    .tarot-flourish{width:18px;}
+    .tarot-art{height:76px;}
+    .tarot-name{font-size:7px;letter-spacing:.2px;-webkit-line-clamp:3;min-height:0;}
+    .tarot-meta{font-size:6.5px;letter-spacing:.2px;}
   }
 </style>
 </head>
@@ -266,7 +293,7 @@
 </div>
 
 <script type="module">
-import { tripData, flexibleItinerary, ROUTE_ORDER, interCityTransport, foodData, deadlines, internationalFlights } from './js/data.js';
+import { tripData, flexibleItinerary, ROUTE_ORDER, interCityTransport, foodData, deadlines, internationalFlights, arrivalChecklist } from './js/data.js';
 import { getImage } from './js/images.js';
 
 // ---------- icons ----------
@@ -289,6 +316,7 @@ const ICONS = {
   train:[['rect',{x:4,y:3,width:16,height:16,rx:2}],['path',{d:'M4 11h16'}],['path',{d:'M12 3v8'}],['path',{d:'m8 19-2 3'}],['path',{d:'m18 22-2-3'}],['path',{d:'M8 15h.01M16 15h.01'}]],
   chevron:[['path',{d:'m6 9 6 6 6-6'}]],
   bed:[['path',{d:'M2 4v16'}],['path',{d:'M2 8h18a2 2 0 0 1 2 2v10'}],['path',{d:'M2 17h20'}],['path',{d:'M6 8v5'}]],
+  checklist:[['path',{d:'M9 11l3 3L22 4'}],['path',{d:'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11'}]],
 };
 const SVGNS = 'http://www.w3.org/2000/svg';
 function icon(name, size){
@@ -428,7 +456,7 @@ function renderNav(){
 }
 
 // ---------- render: réservations (hôtel / transport) ----------
-function bookingRow(iconName, colour, photo, titre, sous, prix, statut, ref){
+function bookingRow(iconName, colour, photo, titre, sous, prix, statut, ref, adresse){
   const r = el('div','bk');
   const ic = el('div','bk-ic');
   if(photo){
@@ -444,6 +472,13 @@ function bookingRow(iconName, colour, photo, titre, sous, prix, statut, ref){
   b.appendChild(el('div','bk-t', titre));
   const s = [sous, ref ? 'Nº ' + ref : null].filter(Boolean).join(' · ');
   if(s) b.appendChild(el('div','bk-s', s));
+  if(adresse){
+    const a = el('div','bk-addr');
+    const ai = el('span','ic'); ai.style.color = colour; ai.appendChild(icon('pin',13));
+    a.appendChild(ai);
+    a.appendChild(el('span', null, adresse));
+    b.appendChild(a);
+  }
   r.appendChild(b);
 
   const right = el('div','bk-right');
@@ -514,7 +549,7 @@ function renderParcours(body){
     if(h){
       const bks = el('div','bookings');
       bks.appendChild(bookingRow('bed', city.couleur, h.photo, h.nom,
-        [h.chambre, h.sejour].filter(Boolean).join(' · '), h.prix, h.statut, h.ref));
+        [h.chambre, h.sejour].filter(Boolean).join(' · '), h.prix, h.statut, h.ref, h.adresseCn || h.adresse));
       card.appendChild(bks);
     }
 
@@ -794,7 +829,47 @@ function renderLieux(body){
 }
 
 // ---------- render: conseils ----------
+const CHECK_KEY = 'china26.checklist.v1';
+function loadChecks(){ try { return new Set(JSON.parse(localStorage.getItem(CHECK_KEY) || '[]')); } catch(e){ return new Set(); } }
+function saveChecks(set){ try { localStorage.setItem(CHECK_KEY, JSON.stringify([...set])); } catch(e){} }
+
+function renderChecklist(body){
+  if(!arrivalChecklist) return;
+  const checks = loadChecks();
+  const box = el('div','checklist');
+  const head = el('div','cl-head');
+  const hic = el('span','ic'); hic.appendChild(icon('checklist',17));
+  head.appendChild(hic);
+  head.appendChild(el('span', null, arrivalChecklist.titre));
+  box.appendChild(head);
+  if(arrivalChecklist.sous) box.appendChild(el('div','cl-sub', arrivalChecklist.sous));
+
+  arrivalChecklist.groupes.forEach((g, gi)=>{
+    const gh = el('div','cl-group');
+    gh.appendChild(el('span','cl-gt', g.titre));
+    if(g.duree) gh.appendChild(el('span','cl-dur', g.duree));
+    box.appendChild(gh);
+    const list = el('div','cl-list');
+    g.items.forEach((txt, ii)=>{
+      const id = 'g' + gi + 'i' + ii;
+      const row = el('label','cl-item' + (checks.has(id) ? ' done' : ''));
+      row.appendChild(el('span','cl-cb'));
+      row.appendChild(el('span','cl-tx', txt));
+      row.onclick = ()=>{
+        if(checks.has(id)){ checks.delete(id); row.classList.remove('done'); }
+        else { checks.add(id); row.classList.add('done'); }
+        saveChecks(checks);
+      };
+      list.appendChild(row);
+    });
+    box.appendChild(list);
+  });
+  body.appendChild(box);
+}
+
 function renderConseils(body){
+  renderChecklist(body);
+
   // Échéances à ne pas manquer, regroupées par phase
   if(deadlines && deadlines.length){
     const dl = el('div','deadlines');

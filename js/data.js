@@ -44,6 +44,7 @@ export const tripData = {
                 nom: "Celebrity Ruicheng Hotel",
                 categorie: "4★",
                 adresse: "No. 68, Section 2, Renmin Middle Road, Qingyang",
+                adresseCn: "名人瑞成酒店 · 成都市青羊区人民中路二段68号",
                 chambre: "Chambre classe affaire familiale (2 lits)",
                 sejour: "26 → 29 juil. · 3 nuits",
                 prix: "139,44 €",
@@ -1517,6 +1518,51 @@ export const internationalFlights = [
         statut: "Confirmée",
     },
 ];
+
+/* Checklist du jour d'arrivée (J1 · 26 juillet · Chengdu), cochable. */
+export const arrivalChecklist = {
+    titre: "Checklist J1 — arrivée à Chengdu",
+    sous: "26 juillet · à faire dès l'atterrissage",
+    groupes: [
+        {
+            titre: "À l'arrivée aéroport",
+            duree: "30 min",
+            items: [
+                "CDAC scan immigration",
+                "Activer eSIM Airalo (3 personnes)",
+                "Activer LetsVPN",
+                "Retrait 500 CNY — N26 ATM",
+            ],
+        },
+        {
+            titre: "Transport aéroport → hôtel",
+            duree: "45 min",
+            items: ["🧪 Test DiDi (via Alipay)"],
+        },
+        {
+            titre: "Hôtel",
+            duree: "30 min",
+            items: ["Check-in Celebrity Ruicheng", "Pause chambre + charger les téléphones"],
+        },
+        {
+            titre: "Sortie test paiements",
+            duree: "1-2 h",
+            items: [
+                "🧪 Test Alipay (bouteille d'eau)",
+                "🧪 Test WeChat Pay (autre snack)",
+                "🧪 Test Hellobike (via Alipay)",
+                "🧪 Test métro QR Alipay (1 station)",
+            ],
+        },
+        {
+            titre: "Soir",
+            items: [
+                "🎭 Spectacle Bian Lian — Liyuan (si booké)",
+                "🍜 Dîner + dodo tôt (jet lag)",
+            ],
+        },
+    ],
+};
 
 /* Échéances à ne pas manquer (heures de Paris), regroupées par phase. */
 export const deadlines = [
