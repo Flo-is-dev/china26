@@ -152,7 +152,29 @@
   .advice-ic{width:34px;height:34px;border-radius:9px;background:var(--accent-soft-bg);border:1px solid var(--accent-soft-border);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0;}
   .advice-tx{font:500 13px 'DM Sans';color:var(--note-fg);line-height:1.5;}
 
-  /* parcours : transition transport (train Z3) */
+  /* réservations (parcours) */
+  .bookings{display:flex;flex-direction:column;gap:8px;margin-top:2px;}
+  .bk{display:flex;gap:11px;align-items:flex-start;background:var(--note-bg);border:1px solid var(--note-border);border-radius:10px;padding:9px 11px;}
+  .bk-ic{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+  .bk-ic img{width:100%;height:100%;object-fit:cover;display:block;}
+  .bk-body{flex:1;min-width:0;}
+  .bk-t{font:600 12.5px 'DM Sans';color:#27272A;}
+  .bk-s{font:500 11px 'DM Sans';color:var(--sub-text);margin-top:2px;line-height:1.4;}
+  .bk-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+  .bk-price{font:700 12.5px 'Sora';white-space:nowrap;}
+
+  /* échéances (conseils) */
+  .deadlines{background:#fff;border:1px solid #E4E4E7;border-radius:12px;padding:16px 18px;margin-bottom:24px;}
+  .dl-head{display:flex;align-items:center;gap:9px;font:800 15px 'Sora';color:var(--title);margin-bottom:14px;}
+  .dl-head .ic{display:flex;color:var(--accent);}
+  .dl-phase{font:700 10.5px 'DM Sans';letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin:16px 0 9px;}
+  .dl-phase:first-of-type{margin-top:0;}
+  .dl-list{display:flex;flex-direction:column;gap:9px;}
+  .dl-row{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;}
+  .dl-date{font:700 12px 'Sora';color:var(--title);white-space:nowrap;min-width:158px;}
+  .dl-act{font:500 13px 'DM Sans';color:var(--note-fg);flex:1;min-width:0;}
+
+  /* parcours : transition transport (train de nuit) */
   .node.transit{border-radius:9px;background:var(--accent);color:#fff;border:none;}
   .card.transit{background:var(--accent-soft-bg);border-style:dashed;border-color:var(--accent-soft-border);}
 
@@ -240,7 +262,7 @@
 </div>
 
 <script type="module">
-import { tripData, flexibleItinerary, ROUTE_ORDER, interCityTransport, foodData } from './js/data.js';
+import { tripData, flexibleItinerary, ROUTE_ORDER, interCityTransport, foodData, deadlines, internationalFlights } from './js/data.js';
 import { getImage } from './js/images.js';
 
 // ---------- icons ----------
@@ -262,6 +284,7 @@ const ICONS = {
   calendar:[['rect',{x:3,y:4,width:18,height:18,rx:2}],['path',{d:'M16 2v4M8 2v4M3 10h18'}]],
   train:[['rect',{x:4,y:3,width:16,height:16,rx:2}],['path',{d:'M4 11h16'}],['path',{d:'M12 3v8'}],['path',{d:'m8 19-2 3'}],['path',{d:'m18 22-2-3'}],['path',{d:'M8 15h.01M16 15h.01'}]],
   chevron:[['path',{d:'m6 9 6 6 6-6'}]],
+  bed:[['path',{d:'M2 4v16'}],['path',{d:'M2 8h18a2 2 0 0 1 2 2v10'}],['path',{d:'M2 17h20'}],['path',{d:'M6 8v5'}]],
 };
 const SVGNS = 'http://www.w3.org/2000/svg';
 function icon(name, size){
@@ -400,8 +423,47 @@ function renderNav(){
   });
 }
 
+// ---------- render: réservations (hôtel / transport) ----------
+function bookingRow(iconName, colour, photo, titre, sous, prix, statut, ref){
+  const r = el('div','bk');
+  const ic = el('div','bk-ic');
+  if(photo){
+    const im = el('img'); im.src = photo; im.alt = ''; im.loading = 'lazy';
+    im.onerror = ()=>{ ic.innerHTML = ''; tintIcon(ic, colour); ic.appendChild(icon(iconName,16)); };
+    ic.appendChild(im);
+  } else {
+    tintIcon(ic, colour); ic.appendChild(icon(iconName,16));
+  }
+  r.appendChild(ic);
+
+  const b = el('div','bk-body');
+  b.appendChild(el('div','bk-t', titre));
+  const s = [sous, ref ? 'Nº ' + ref : null].filter(Boolean).join(' · ');
+  if(s) b.appendChild(el('div','bk-s', s));
+  r.appendChild(b);
+
+  const right = el('div','bk-right');
+  if(prix){ const p = el('div','bk-price', prix); p.style.color = colour; right.appendChild(p); }
+  if(statut){
+    const done = /confirm|émis|emis|achet|réserv|reserv/i.test(statut);
+    const badge = el('div','badge');
+    badge.style.background = done ? '#DCFCE7' : '#F4F4F5';
+    badge.style.color = done ? '#15803D' : '#52525B';
+    const d = el('span','d'); d.style.background = done ? '#15803D' : '#71717A'; badge.appendChild(d);
+    badge.appendChild(document.createTextNode(statut));
+    right.appendChild(badge);
+  }
+  r.appendChild(right);
+  return r;
+}
+
 // ---------- render: parcours (villes → jours → planning, interactif) ----------
 function renderParcours(body){
+  // Vol aller (Paris → Chengdu) : case de transition avant la 1ʳᵉ étape
+  const volAller = internationalFlights.find(f => /→ Chengdu/i.test(f.trajet));
+  const volsRetour = internationalFlights.filter(f => f !== volAller);
+  if(volAller) body.appendChild(flightRow(volAller, true));
+
   ROUTE_ORDER.forEach((ville, i)=>{
     const city = cityByName[ville];
     const days = flexibleItinerary[ville] || [];
@@ -415,7 +477,7 @@ function renderParcours(body){
     node.style.borderColor = city.couleur; node.style.color = city.couleur;
     if(cityOpen){ node.style.background = city.couleur; node.style.color = '#fff'; }
     rail.appendChild(node);
-    if(!last) rail.appendChild(el('div','line'));
+    if(!last || volsRetour.length) rail.appendChild(el('div','line'));
     row.appendChild(rail);
 
     const wrap = el('div'); wrap.style.flex='1'; wrap.style.minWidth='0'; wrap.style.paddingBottom='16px';
@@ -443,6 +505,20 @@ function renderParcours(body){
     if(days.length){
       card.appendChild(el('div','csub', shortDate(days[0].date) + ' → ' + shortDate(days[days.length-1].date)));
     }
+    // réservations : hôtel + transport d'arrivée
+    const bks = el('div','bookings');
+    const h = city.hotel;
+    if(h){
+      bks.appendChild(bookingRow('bed', city.couleur, h.photo, h.nom,
+        [h.chambre, h.sejour].filter(Boolean).join(' · '), h.prix, h.statut, h.ref));
+    }
+    [city.transportIn, city.transportOut].forEach(t=>{
+      if(!t || t.international) return; // les vols internationaux ont leur propre case de transition
+      const ti = /vol|avion/i.test(t.mode) ? 'plane' : (/train|tgv/i.test(t.mode) ? 'train' : 'map');
+      bks.appendChild(bookingRow(ti, city.couleur, null, t.mode, t.detail, t.prix, t.statut, t.ref));
+    });
+    if(bks.children.length) card.appendChild(bks);
+
     if(!cityOpen){
       const inc = city.masterListe.filter(p=>p.incontournable).map(p=>p.nom);
       if(inc.length) card.appendChild(el('div','cnote','À ne pas manquer · ' + inc.join(' · ')));
@@ -528,21 +604,34 @@ function renderParcours(body){
 
     row.appendChild(wrap); body.appendChild(row);
 
-    // --- transition train de nuit Z3, entre Chongqing et Pékin ---
+    // --- transition train de nuit, entre Chongqing et Pékin ---
     if(ville === 'Chongqing'){
-      const z3 = interCityTransport.find(t => /Z3/.test(t.mode) || t.trajet === 'Chongqing → Pékin');
-      if(z3) body.appendChild(transitRow(z3));
+      const tn = interCityTransport.find(t => t.trajet === 'Chongqing → Pékin');
+      if(tn) body.appendChild(transitRow({
+        icon: 'train',
+        tag: 'Transition · nuit',
+        titre: tn.mode,
+        sous: tn.trajet + ' · ' + tn.detail,
+        prix: tn.prix,
+        statut: tn.statut,
+        ref: tn.ref,
+        planB: tn.planB,
+        withLine: true,
+      }));
     }
   });
+
+  // Vols retour (Pékin → Séoul, puis Séoul → Paris) après la dernière étape
+  volsRetour.forEach((f, i)=> body.appendChild(flightRow(f, i < volsRetour.length - 1)));
 }
 
-// ---------- render: transition transport (Z3) ----------
-function transitRow(t){
+// ---------- render: transition transport (train / avion, bulle sans numéro) ----------
+function transitRow(o){
   const row = el('div','row');
   const rail = el('div','rail'); rail.style.width = '30px';
-  const node = el('div','node transit'); node.appendChild(icon('train',17));
+  const node = el('div','node transit'); node.appendChild(icon(o.icon || 'train',17));
   rail.appendChild(node);
-  rail.appendChild(el('div','line'));
+  if(o.withLine !== false) rail.appendChild(el('div','line'));
   row.appendChild(rail);
 
   const wrap = el('div'); wrap.style.flex='1'; wrap.style.minWidth='0'; wrap.style.paddingBottom='16px';
@@ -550,24 +639,38 @@ function transitRow(t){
 
   const head = el('div','chead'); head.style.justifyContent='space-between';
   const left = el('div'); left.style.flex='1'; left.style.minWidth='0';
-  left.appendChild(el('div','ctag','Transition · nuit'));
-  left.appendChild(el('div','ctitle', t.mode));
+  left.appendChild(el('div','ctag', o.tag));
+  left.appendChild(el('div','ctitle', o.titre));
   head.appendChild(left);
-  head.appendChild(el('div','cmeta', t.prix));
+  if(o.prix) head.appendChild(el('div','cmeta', o.prix));
   card.appendChild(head);
 
-  card.appendChild(el('div','csub', t.trajet + ' · ' + t.detail));
+  if(o.sous) card.appendChild(el('div','csub', o.sous));
 
-  if(t.statut){
-    const badge = el('div','badge'); badge.style.background = '#FEF3C7'; badge.style.color = '#B45309';
-    const d = el('span','d'); d.style.background = '#B45309'; badge.appendChild(d);
-    badge.appendChild(document.createTextNode(t.statut));
+  if(o.statut){
+    const todo = /à réserver/i.test(o.statut);
+    const bg = todo ? '#FEF3C7' : '#DCFCE7', fg = todo ? '#B45309' : '#15803D';
+    const badge = el('div','badge'); badge.style.background = bg; badge.style.color = fg;
+    const d = el('span','d'); d.style.background = fg; badge.appendChild(d);
+    badge.appendChild(document.createTextNode(o.statut + (o.ref ? ' · Nº ' + o.ref : '')));
     card.appendChild(badge);
   }
-  if(t.planB) card.appendChild(el('div','cnote','Plan B · ' + t.planB));
+  if(o.planB) card.appendChild(el('div','cnote','Plan B · ' + o.planB));
 
   wrap.appendChild(card); row.appendChild(wrap);
   return row;
+}
+/* Vol international en case de transition (bulle avion, sans numéro d'étape). */
+function flightRow(f, withLine){
+  return transitRow({
+    icon: 'plane',
+    tag: 'Vol international',
+    titre: f.trajet,
+    sous: [f.compagnie, f.vols, f.detail].filter(Boolean).join(' · '),
+    statut: f.statut,
+    ref: f.ref,
+    withLine,
+  });
 }
 
 // ---------- render: planning (day by day) ----------
@@ -689,6 +792,31 @@ function renderLieux(body){
 
 // ---------- render: conseils ----------
 function renderConseils(body){
+  // Échéances à ne pas manquer, regroupées par phase
+  if(deadlines && deadlines.length){
+    const dl = el('div','deadlines');
+    const head = el('div','dl-head');
+    const hic = el('span','ic'); hic.appendChild(icon('calendar',17));
+    head.appendChild(hic);
+    head.appendChild(el('span', null, 'Échéances à ne pas manquer'));
+    dl.appendChild(head);
+
+    const phases = [];
+    deadlines.forEach(d=>{ const p = d.phase || 'Échéances'; if(!phases.includes(p)) phases.push(p); });
+    phases.forEach(ph=>{
+      dl.appendChild(el('div','dl-phase', ph));
+      const list = el('div','dl-list');
+      deadlines.filter(d => (d.phase || 'Échéances') === ph).forEach(d=>{
+        const r = el('div','dl-row');
+        r.appendChild(el('span','dl-date', d.date));
+        r.appendChild(el('span','dl-act', d.action));
+        list.appendChild(r);
+      });
+      dl.appendChild(list);
+    });
+    body.appendChild(dl);
+  }
+
   ROUTE_ORDER.forEach((ville, i)=>{
     const city = cityByName[ville];
     const list = city.conseilsLogistiques || [];

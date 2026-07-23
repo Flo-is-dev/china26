@@ -44,41 +44,24 @@ export const tripData = {
                 nom: "Celebrity Ruicheng Hotel",
                 categorie: "4★",
                 adresse: "No. 68, Section 2, Renmin Middle Road, Qingyang",
-                prix: "139 € (3 nuits)",
-                statut: "Réservé (Trip.com)",
-                atout: "Chambre familiale 40 m² · métro Wenshu Monastery à 170 m",
+                chambre: "Chambre classe affaire familiale (2 lits)",
+                sejour: "26 → 29 juil. · 3 nuits",
+                prix: "139,44 €",
+                statut: "Confirmée",
+                ref: "1306269143125188",
+                atout: "Salle de sport · parking · borne VE · métro Wenshu Monastery à 170 m",
+                photo: "https://ak-d.tripcdn.com/images/200m1e000001fvyd2AB3D_C_350_350.jpg?proc=namelogo/d_1",
             },
             transportIn: {
-                mode: "Vol international",
-                detail: "→ Chengdu Tianfu (TFU)",
-                prix: "Coût externe",
-                statut: "Hors budget",
+                mode: "Vol Air China CA934 + CA4108",
+                detail: "Paris CDG 20h20 (25 juil.) → Chengdu CTU 17h15 (26 juil.) · 1 escale · 14 h 55 · éco · 3 pers.",
+                prix: "Hors budget",
+                statut: "Confirmée",
+                ref: "QVJPXV",
+                international: true,
             },
             budget: { min: 445, max: 575, devise: "€" },
             masterListe: [
-                {
-                    id: 1,
-                    nom: "Panda Base",
-                    pinyin: "大熊猫繁育研究基地",
-                    zone: "Cercle III (Excursion)",
-                    cercle: 3,
-                    temps: "45-60 min (Taxi/Métro+Bus)",
-                    note: 10,
-                    incontournable: true,
-                    tags: ["panda", "nature", "photo"],
-                    conseil:
-                        "Ouverture à 7h30 pile, et pas une minute plus tard sous peine de pandas comateux.\n" +
-                        "Dès 9h, ils auront décidé que la sieste est leur discipline olympique principale.\n" +
-                        "Plus de 100 pensionnaires, dont une nursery où les bébés tiennent dans une paume.\n" +
-                        "Entrée 55 yuans : moins cher qu'un café parisien pour un site classé UNESCO.\n" +
-                        "Métro L3 jusqu'à Panda Avenue, puis bus 198 ou taxi (45 min depuis le centre).\n" +
-                        "Évitez le week-end : la Chine entière y débarque avec marmaille en bandoulière.\n" +
-                        "Prévoyez 3 heures minimum — vous ressortirez à reculons, vaguement émus.\n" +
-                        "Bambous gratuits pour les pandas, peluches non remboursables pour vous.\n" +
-                        "Les pandas roux du même parc sont plus actifs et tout aussi photogéniques.\n" +
-                        "N'achetez pas le t-shirt « I love panda » — vous le mettrez, c'est dit.",
-                    wikiTitle: "Chengdu_Research_Base_of_Giant_Panda_Breeding",
-                },
                 {
                     id: 2,
                     nom: "People's Park",
@@ -472,9 +455,10 @@ export const tripData = {
                 },
             ],
             conseilsLogistiques: [
-                "Utilisez le Métro pour les Cercles I et II.",
-                "Prenez un Taxi tôt (7h) pour la Panda Base (Cercle III).",
-                "Réservez l'Opéra du Sichuan (changement de visages) à l'avance, et configurez Alipay + Hellobike avant le vélo du matin.",
+                "Pluie annoncée : programme d'intérieur, on ne force rien dehors.",
+                "Le SPA traditionnel (4-5 h) est le gros morceau de l'étape — visez le créneau de l'après-midi.",
+                "Massage des pieds Tujia : sans réservation, 50-100 yuans l'heure, parfait en fin de journée.",
+                "Réservez l'Opéra du Sichuan (« Bian Lian », changement de visages) à l'avance.",
             ],
         },
         {
@@ -488,15 +472,20 @@ export const tripData = {
                 nom: "Chongqing Ashan River View Hotel",
                 categorie: "Loft Suite",
                 adresse: "21F, No. 1 Xinhua Road, Yuzhong District (Jiefangbei)",
-                prix: "122 € (2 nuits)",
-                statut: "Réservé (Trip.com)",
-                atout: "Loft 2 chambres 60–70 m² vue rivière 180° · 120 m métro Chaotianmen",
+                chambre: "Loft 2 chambres « 180° Riverside Residence »",
+                sejour: "1ᵉʳ → 3 août · 2 nuits",
+                prix: "122,13 €",
+                statut: "Confirmée",
+                ref: "1306269143684179",
+                atout: "Spa · salle de sport · parking · 120 m métro Chaotianmen",
+                photo: "https://ak-d.tripcdn.com/images/1mc5l12000g4mrvc57C01_C_350_350.jpg?proc=namelogo/d_1",
             },
             transportIn: {
                 mode: "TGV",
-                detail: "Zhangjiajie → Chongqing · ~5h · matin du 1ᵉʳ août",
-                prix: "75–90 € (3 pers.)",
-                statut: "À réserver le 16 juil.",
+                detail: "Zhangjiajie Ouest 08h52 → Chongqing Est 10h54 · 1ᵉʳ août · 2 h 02",
+                prix: "119,19 €",
+                statut: "Billets achetés",
+                ref: "1306270446595660",
             },
             budget: { min: 345, max: 430, devise: "€" },
             masterListe: [
@@ -887,15 +876,20 @@ export const tripData = {
                 nom: "Boman Fashion Hotel",
                 categorie: "4★",
                 adresse: "No. 48 Jundi Road, Wulingyuan District",
-                prix: "149 € (3 nuits)",
-                statut: "Réservé (Trip.com)",
-                atout: "Chambre triple vue vallée · 410 m du parc, 5 min East Gate",
+                chambre: "Chambre triple",
+                sejour: "29 juil. → 1ᵉʳ août · 3 nuits",
+                prix: "148,98 €",
+                statut: "Confirmée",
+                ref: "1306269143348781",
+                atout: "Salon exécutif · salle de sport · parking privé · entrée du parc national",
+                photo: "https://ak-d.tripcdn.com/images/1mc3w12000sbbnahk53E1_C_350_350.jpg?proc=namelogo/d_1",
             },
             transportIn: {
-                mode: "Vol direct",
-                detail: "Chengdu → Zhangjiajie · Sichuan Airlines 3U6781 · 29 juil. 11h35–13h00",
-                prix: "182 € (3 pers.)",
-                statut: "Réservé",
+                mode: "Vol 3U6781",
+                detail: "Chengdu TFU 11h35 → Zhangjiajie DYG 13h00 · 29 juil. · 3 passagers",
+                prix: "181,65 €",
+                statut: "Billets émis",
+                ref: "1306269904862816",
             },
             budget: { min: 795, max: 870, devise: "€" },
             masterListe: [
@@ -1079,15 +1073,27 @@ export const tripData = {
                 nom: "TRUE GO Hotel Beijing Chaoyangmen Sanlitun",
                 categorie: "9.6/10 · 2 213 avis",
                 adresse: "No. 11 Fangcaodi West Street, Chaoyang",
-                prix: "356 € (3 nuits, 2 chambres)",
-                statut: "Réservé (Trip.com)",
-                atout: "2 chambres tatami séparées · métro Dongdaqiao 560 m (L2 + L6)",
+                chambre: "Chambre tatami (confort matelas + streaming)",
+                sejour: "4 → 7 août · 3 nuits",
+                prix: "356,40 €",
+                statut: "Confirmée",
+                ref: "1306269143859819",
+                atout: "Parking privé · bagagerie · restaurant · métro Dongdaqiao 560 m (L2 + L6)",
+                photo: "https://ak-d.tripcdn.com/images/200l1b000001brmkv660A_C_350_350.jpg?proc=namelogo/d_1",
             },
             transportIn: {
-                mode: "Train de nuit Z3",
-                detail: "Chongqing Nord → Pékin Ouest · 3 août 19h22 → 4 août 9h31 · Soft Sleeper 软卧",
-                prix: "195–210 € (3 pers.)",
-                statut: "À réserver le 18 juil.",
+                mode: "Train de nuit",
+                detail: "Chongqing Nord 16h07 (3 août) → Pékin Ouest 10h13 (4 août) · 18 h 06",
+                prix: "358,92 €",
+                statut: "Billets achetés",
+                ref: "1306270357370328",
+            },
+            transportOut: {
+                mode: "Vol Asiana OZ334",
+                detail: "Pékin PEK 15h30 → Séoul ICN 18h30 · 7 août · direct · 2 h · éco · 3 pers.",
+                prix: "Hors budget",
+                statut: "Confirmée",
+                international: true,
             },
             budget: { min: 870, max: 1115, devise: "€" },
             masterListe: [
@@ -1368,8 +1374,8 @@ export const flexibleItinerary = {
         {
             day: "Jour 2",
             date: "Lun. 27 juillet",
-            subtitle: "Greenway à vélo, parc & hot pot Yulin",
-            placeIds: [14, 2, 3, 15, 9],
+            subtitle: "Greenway à vélo, parc & massage",
+            placeIds: [14, 2, 3, 15],
         },
         {
             day: "Jour 3",
@@ -1463,38 +1469,66 @@ export const ROUTE_ORDER = ["Chengdu", "Zhangjiajie", "Chongqing", "Pékin"];
 export const interCityTransport = [
     {
         trajet: "Chengdu → Zhangjiajie",
-        mode: "Vol direct",
-        detail: "Sichuan Airlines 3U6781 · 29 juil. 11h35 → 13h00",
-        prix: "182 €",
-        statut: "Réservé",
+        mode: "Vol 3U6781",
+        detail: "Chengdu TFU 11h35 → Zhangjiajie DYG 13h00 · 29 juil. · 3 passagers",
+        prix: "181,65 €",
+        statut: "Billets émis",
+        ref: "1306269904862816",
     },
     {
         trajet: "Zhangjiajie → Chongqing",
         mode: "TGV",
-        detail: "~5h · matin du 1ᵉʳ août",
-        prix: "75–90 €",
-        statut: "À réserver le 16 juil. (J-15)",
+        detail: "Zhangjiajie Ouest 08h52 → Chongqing Est 10h54 · 1ᵉʳ août · 2 h 02",
+        prix: "119,19 €",
+        statut: "Billets achetés",
+        ref: "1306270446595660",
     },
     {
         trajet: "Chongqing → Pékin",
-        mode: "Train de nuit Z3",
-        detail: "Soft Sleeper 软卧 · 3 août 19h22 → 4 août 9h31",
-        prix: "195–210 €",
-        statut: "À réserver le 18 juil. (J-15)",
-        planB: "Vol Chongqing → Pékin matin du 4 août (~240–450 € / 3 pers.)",
+        mode: "Train de nuit",
+        detail: "Chongqing Nord 16h07 (3 août) → Pékin Ouest 10h13 (4 août) · 18 h 06",
+        prix: "358,92 €",
+        statut: "Billets achetés",
+        ref: "1306270357370328",
     },
 ];
 
-/* Échéances de réservation à ne pas manquer (heure de Paris). */
-export const deadlines = [
-    { date: "16 juillet 2026", action: "Réserver le TGV Zhangjiajie → Chongqing" },
+/* Vols internationaux — hors budget Chine (aller, Chine → Corée, retour). */
+export const internationalFlights = [
     {
-        date: "18 juillet 2026, 8h",
-        action: "Réserver le train Z3 Chongqing → Pékin (priorité Soft Sleeper)",
+        trajet: "Paris (CDG) → Chengdu (CTU)",
+        compagnie: "Air China",
+        vols: "CA934, CA4108",
+        detail: "25 juil. 20h20 → 26 juil. 17h15 · 1 escale · 14 h 55 · éco · 3 pers.",
+        statut: "Confirmée",
+        ref: "QVJPXV",
     },
     {
+        trajet: "Pékin (PEK) → Séoul (ICN)",
+        compagnie: "Asiana Airlines",
+        vols: "OZ334",
+        detail: "7 août 15h30 → 18h30 · direct · 2 h · éco · 3 pers.",
+        statut: "Confirmée",
+    },
+    {
+        trajet: "Séoul (ICN) → Paris (CDG)",
+        compagnie: "Asiana Airlines",
+        detail: "15 août 10h05 → 17h20 · direct · 3 pers.",
+        statut: "Confirmée",
+    },
+];
+
+/* Échéances à ne pas manquer (heures de Paris), regroupées par phase. */
+export const deadlines = [
+    {
+        phase: "Pendant le voyage",
         date: "28 juillet 2026, 18h",
         action: "Billets Cité Interdite via WeChat (J-7, minuit heure de Pékin)",
+    },
+    {
+        phase: "Pendant le voyage",
+        date: "4 – 6 août 2026",
+        action: "e-Arrival Card Corée × 3",
     },
 ];
 
@@ -1511,7 +1545,7 @@ export const budgetSummary = {
     total: { min: 2455, max: 2990 },
     parPersonne: { min: 820, max: 995 },
     hotels: { nuits: 11, total: 767 },
-    transportInter: { min: 452, max: 482 },
+    transportInter: { min: 660, max: 660, reel: "659,76 € (3 trajets réservés)" },
     nonInclus: [
         "Vol international vers Chengdu (aller)",
         "Vol Pékin → Séoul (réservé à part)",
